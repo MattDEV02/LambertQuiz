@@ -1,33 +1,22 @@
-import "react-native-gesture-handler";
-import React, { useState, useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import AuthStackNavigator from "./navigators/AuthStackNavigator";
-import auth from "@react-native-firebase/auth";
-import AppStackNavigator from "./navigators/AppStackNavigator";
+import { Dimensions } from "react-native";
+const { width, height } = Dimensions.get("window");
 
-const App = () => {
-	const [currentUser, setCurrentUser] = useState(null);
-	const [isLoading, setIsLoading] = useState(true);
+export const COLORS = {
+	primary: "#4630EB",
+	secondary: "#000020",
 
-	const onAuthStateChanged = async (user) => {
-		await setCurrentUser(user);
-		setIsLoading(false);
-	};
+	success: "#00C851",
+	error: "#ff4444",
 
-	useEffect(() => {
-		const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-		return subscriber;
-	}, []);
+	black: "#171717",
+	white: "#FFFFFF",
 
-	if (isLoading) {
-		return null;
-	}
-
-	return (
-		<NavigationContainer>
-			{currentUser ? <AppStackNavigator /> : <AuthStackNavigator />}
-		</NavigationContainer>
-	);
+	background: "#F4F4F4",
+	border: "#F5F5F7",
 };
 
-export default App;
+export const SIZES = {
+	base: 10,
+	width,
+	height,
+};

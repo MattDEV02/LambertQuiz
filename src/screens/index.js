@@ -1,5 +1,5 @@
-import HomeScreen from "./Home.js";
-import SignInScreen from "./signin.js";
-import SignUpScreen from "./signup.js";
+import HomeScreen from "./Home";
+import SignInScreen from "./Signin";
+import SignUpScreen from "./Signup";
 
 export { HomeScreen, SignInScreen, SignUpScreen };
