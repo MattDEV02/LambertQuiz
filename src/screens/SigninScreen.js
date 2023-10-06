@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
-import { COLORS } from "../constants/theme";
+import { View, Text, SafeAreaView } from "react-native";
+import { COLORS, footerFontSize } from "../constants/theme";
 import FormInput from "../components/shared/FormInput";
 import FormButton from "../components/shared/FormButton";
 
@@ -16,10 +16,8 @@ const SignInScreen = ({ navigation }) => {
 		}
 	};
 
-	const footerFontSize = 15;
-
 	return (
-		<View
+		<SafeAreaView
 			style={{
 				backgroundColor: COLORS.white,
 				flex: 1,
@@ -80,7 +78,7 @@ const SignInScreen = ({ navigation }) => {
 					Create an account
 				</Text>
 			</View>
-		</View>
+		</SafeAreaView>
 	);
 };
 

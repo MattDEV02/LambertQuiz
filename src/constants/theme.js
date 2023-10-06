@@ -15,6 +15,8 @@ export const COLORS = {
 	border: "#F5F5F7",
 };
 
+export const footerFontSize = 14;
+
 export const SIZES = {
 	base: 10,
 	width,
