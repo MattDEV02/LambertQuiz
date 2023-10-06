@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { COLORS } from "../../constants/theme";
 
 const FormButton = ({
 	labelText = "",
@@ -9,11 +10,29 @@ const FormButton = ({
 	...more
 }) => {
 	return (
-		<View>
-			<Text>
-            
-         </Text>
-		</View>
+		<TouchableOpacity
+			style={{
+				paddingVertical: 10,
+				backgroundColor: isPrimary ? COLORS.primary : COLORS.white,
+				borderWidth: 1,
+				borderColor: COLORS.primary,
+				borderRadius: 5,
+				...style,
+			}}
+			onéress={handleOnPress}
+			{...more}
+		>
+			<Text
+				style={{
+					textAlign: "center",
+					fontSize: 19,
+					fontWeight: "bold",
+					color: isPrimary ? COLORS.white : COLORS.primary,
+				}}
+			>
+				{labelText}
+			</Text>
+		</TouchableOpacity>
 	);
 };
 

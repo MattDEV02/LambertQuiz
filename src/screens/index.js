@@ -1,5 +1,5 @@
-import HomeScreen from "./Home";
-import SignInScreen from "./Signin";
-import SignUpScreen from "./Signup";
+import HomeScreen from "./HomeScreen";
+import SignInScreen from "./SigninScreen";
+import SignUpScreen from "./SignupScreen";
 
 export { HomeScreen, SignInScreen, SignUpScreen };

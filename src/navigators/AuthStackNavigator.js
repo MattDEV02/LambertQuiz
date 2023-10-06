@@ -1,9 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "../screens/Home";
-import SignInScreen from "../screens/Signin";
-import SignUpScreen from "../screens/Signup";
-import { Header } from "react-native/Libraries/NewAppScreen";
+import { SignInScreen, SignUpScreen } from "../screens";
 
 const Stack = createStackNavigator();
 
@@ -11,11 +8,11 @@ const AuthStackNavigator = () => {
 	return (
 		<Stack.Navigator
 			screenOptions={{
-				HeaderShown: false,
+				headerShown: true,
 			}}
 		>
-			<Stack.Screen name="SignInScreen" component={SignInScreen} />
-			<Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+			<Stack.Screen name="Sign In page" component={SignInScreen} />
+			<Stack.Screen name="Sign Up page" component={SignUpScreen} />
 		</Stack.Navigator>
 	);
 };

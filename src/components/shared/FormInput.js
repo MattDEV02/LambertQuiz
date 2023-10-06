@@ -21,7 +21,7 @@ const FormInput = ({
 				style={{
 					padding: 10,
 					borderColor: COLORS.black + "20",
-					borderWidth: "",
+					borderWidth: 1,
 					width: "100%",
 					marginTop: 10,
 				}}
