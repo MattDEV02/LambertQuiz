@@ -1,23 +1,26 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { COLORS, footerFontSize } from "../constants/theme";
+import { validateEmail, validatePassword } from "../constants/utils.js";
 import FormInput from "../components/shared/FormInput";
 import FormButton from "../components/shared/FormButton";
+import FormFooter from "../components/shared/FormFooter";
 
 const SignInScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const handleOnSubmit = () => {
-		if (email != "" && password != "") {
-			//ok
-		} else {
-			// no ok
-		}
+	const handleOnPress = () => {
+		if (validateEmail(email)) {
+			if (validatePassword(password)) {
+				// TODO: Login check
+				Alert.alert("Login.");
+			} else Alert.alert("Password not valid, minimum 8 chars.");
+		} else Alert.alert("Email not valid.");
 	};
 
 	return (
-		<SafeAreaView
+		<View
 			style={{
 				backgroundColor: COLORS.white,
 				flex: 1,
@@ -53,32 +56,12 @@ const SignInScreen = ({ navigation }) => {
 			/>
 			<FormButton
 				labelText="Submit"
-				handleOnPress={handleOnSubmit}
+				handleOnPress={handleOnPress}
 				style={{ width: "100%", marginTop: 4 }}
 			/>
 			{/* Footer */}
-			<View
-				style={{
-					flexDirection: "row",
-					alignItems: "center",
-					marginTop: 22,
-				}}
-			>
-				<Text style={{ fontSize: footerFontSize }}>
-					Don't have an account ?
-				</Text>
-				<Text
-					style={{
-						marginLeft: 5,
-						color: COLORS.primary,
-						fontSize: footerFontSize,
-					}}
-					onPress={() => navigation.navigate("Sign Up page")}
-				>
-					Create an account
-				</Text>
-			</View>
-		</SafeAreaView>
+			<FormFooter navigation={navigation} />
+		</View>
 	);
 };
 

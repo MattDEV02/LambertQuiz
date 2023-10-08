@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { COLORS } from "../../constants/theme";
 
 const FormButton = ({
@@ -19,7 +19,7 @@ const FormButton = ({
 				borderRadius: 5,
 				...style,
 			}}
-			onéress={handleOnPress}
+			onPress={handleOnPress}
 			{...more}
 		>
 			<Text
