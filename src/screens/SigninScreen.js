@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Alert } from "react-native";
-import { COLORS, footerFontSize } from "../constants/theme";
+import { COLORS, appName } from "../constants/theme";
 import { validateEmail, validatePassword } from "../constants/utils.js";
 import FormInput from "../components/shared/FormInput";
 import FormButton from "../components/shared/FormButton";
@@ -15,6 +15,7 @@ const SignInScreen = ({ navigation }) => {
 			if (validatePassword(password)) {
 				// TODO: Login check
 				Alert.alert("Login.");
+				navigation.navigate("Home page");
 			} else Alert.alert("Password not valid, minimum 8 chars.");
 		} else Alert.alert("Email not valid.");
 	};
@@ -37,7 +38,7 @@ const SignInScreen = ({ navigation }) => {
 					marginVertical: 28,
 				}}
 			>
-				Login
+				{appName}
 			</Text>
 			<FormInput
 				labelText="Email"
@@ -49,7 +50,7 @@ const SignInScreen = ({ navigation }) => {
 
 			<FormInput
 				labelText="Password"
-				placeholderText="Enter your password"
+				placeholderText="Enter your password (use 8 chars)"
 				onChangeText={(password) => setPassword(password)}
 				value={password}
 				secureTextEntry={true}
@@ -59,7 +60,6 @@ const SignInScreen = ({ navigation }) => {
 				handleOnPress={handleOnPress}
 				style={{ width: "100%", marginTop: 4 }}
 			/>
-			{/* Footer */}
 			<FormFooter navigation={navigation} />
 		</View>
 	);

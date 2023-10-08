@@ -1,12 +1,18 @@
-import { validate } from "email-validator";
+import { validate } from "email-validator"; // alias
+
+const validateString = (string) => {
+	return string !== undefined && string !== null && string !== "";
+};
 
 export const validateEmail = (email) => {
-	return validate(email) && email.length >= 6;
+	return validateString(email) && validate(email) && email.length >= 6;
 };
 export const validatePassword = (password) => {
-	return password.length === 8;
+	return validateString(password) && password.length === 8;
 };
 
 export const validateUsername = (username) => {
-	return username.length >= 3 && username.length <= 8;
+	return (
+		validateString(username) && username.length >= 3 && username.length <= 8
+	);
 };

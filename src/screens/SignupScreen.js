@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Alert } from "react-native";
-import { COLORS } from "../constants/theme";
+import { COLORS, appName } from "../constants/theme";
 import InputScrollView from "react-native-input-scroll-view";
 import FormInput from "../components/shared/FormInput";
 import FormButton from "../components/shared/FormButton";
@@ -18,6 +18,7 @@ const SignUpScreen = ({ navigation }) => {
 	const [confirmPassword, setConfirmPassword] = useState("");
 
 	const handleOnPress = () => {
+		// TODO: email and userame unique.
 		if (validateEmail(email)) {
 			if (validateUsername(username)) {
 				if (validatePassword(password))
@@ -34,16 +35,16 @@ const SignUpScreen = ({ navigation }) => {
 	};
 
 	return (
-		<View
-			style={{
-				backgroundColor: COLORS.white,
-				flex: 1,
-				alignItems: "center",
-				justifyContent: "flex-start",
-				padding: 20,
-			}}
-		>
-			<InputScrollView>
+		<InputScrollView>
+			<View
+				style={{
+					backgroundColor: COLORS.white,
+					flex: 1,
+					alignItems: "center",
+					justifyContent: "flex-start",
+					padding: 20,
+				}}
+			>
 				<Text
 					style={{
 						fontSize: 30,
@@ -52,7 +53,7 @@ const SignUpScreen = ({ navigation }) => {
 						marginVertical: 28,
 					}}
 				>
-					Register
+					{appName}
 				</Text>
 				<FormInput
 					labelText="Email"
@@ -63,13 +64,13 @@ const SignUpScreen = ({ navigation }) => {
 				/>
 				<FormInput
 					labelText="Username"
-					placeholderText="Enter your username (min 3 char and max 8 chars)"
+					placeholderText="Enter your username (between 3 & 8 chars)"
 					onChangeText={(username) => setUsername(username)}
 					value={username}
 				/>
 				<FormInput
 					labelText="Password"
-					placeholderText="Enter your password (use 8 char)"
+					placeholderText="Enter your password (use 8 chars)"
 					onChangeText={(password) => setPassword(password)}
 					value={password}
 					secureTextEntry={true}
@@ -90,8 +91,8 @@ const SignUpScreen = ({ navigation }) => {
 				/>
 				{/* Footer  TODO: footer component*/}
 				<FormFooter isLogin={false} navigation={navigation} />
-			</InputScrollView>
-		</View>
+			</View>
+		</InputScrollView>
 	);
 };
 

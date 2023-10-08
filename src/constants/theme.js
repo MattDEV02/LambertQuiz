@@ -2,7 +2,7 @@ import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 export const COLORS = {
-	primary: "#4630EB",
+	primary: "#007BFF", // 4630EB
 	secondary: "#000020",
 
 	success: "#00C851",
@@ -14,6 +14,8 @@ export const COLORS = {
 	background: "#F4F4F4",
 	border: "#F5F5F7",
 };
+
+export const appName = "LambertQuiz";
 
 export const footerFontSize = 13.5;
 

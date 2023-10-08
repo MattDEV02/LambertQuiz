@@ -13,9 +13,7 @@ const FormFooter = ({ isLogin = true, navigation }) => {
 			}}
 		>
 			<Text style={{ fontSize: footerFontSize }}>
-				{isLogin
-					? "Don't have an account ?"
-					: "Do you have already an account?"}
+				{isLogin ? "Don't have an account ?" : "Do you have an account?"}
 			</Text>
 			<Text
 				style={{
