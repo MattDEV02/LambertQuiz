@@ -1,4 +1,5 @@
 import { validate } from "email-validator"; // alias
+import GetAppName from 'react-native-get-app-name';
 
 const validateString = (string) => {
 	return string !== undefined && string !== null && string !== "";

@@ -1,11 +1,12 @@
 import React from "react";
-import { View, Text, StatusBar } from "react-native";
+import { View, Text, SafeAreaView, StatusBar } from "react-native";
 import { COLORS } from "../constants/theme";
 import FormButton from "../components/shared/FormButton";
 
 const HomeScreen = ({ navigation }) => {
+	const username = "Matteo";
 	return (
-		<View
+		<SafeAreaView
 			style={{
 				flex: 1,
 				backgroundColor: COLORS.background,
@@ -16,19 +17,43 @@ const HomeScreen = ({ navigation }) => {
 			<View
 				style={{
 					flexDirection: "row",
-					alignItems: "right", //
+					alignItems: "right",
 					justifyContent: "flex-end",
 					backgroundColor: COLORS.white,
-					elevation: 5,
 					paddingHorizontal: 20,
-					paddingBottom: 3.5,
+					paddingBottom: 5,
+					borderBottomColor: COLORS.secondary,
+					borderBottomWidth: 0.5,
 				}}
 			>
 				<Text
-					style={{ fontSize: 21, padding: 10, color: COLORS.error }}
+					style={{
+						fontSize: 20.5,
+						padding: 5,
+						color: COLORS.error,
+					}}
 					onPress={() => navigation.navigate("Sign In page")}
 				>
 					Logout
+				</Text>
+			</View>
+			<View
+				style={{
+					backgroundColor: COLORS.white,
+					flex: 1,
+					alignItems: "center",
+					justifyContent: "flex-start",
+				}}
+			>
+				<Text
+					style={{
+						fontSize: 24,
+						color: COLORS.black,
+						fontWeight: "bold",
+						marginVertical: 24,
+					}}
+				>
+					Benvenuto {username} !
 				</Text>
 			</View>
 			<FormButton
@@ -40,9 +65,9 @@ const HomeScreen = ({ navigation }) => {
 					borderRadius: 50,
 					padding: 40,
 				}}
-				handleOnPress={() => navigation.navigate("Sign Up page")}
+				handleOnPress={() => navigation.navigate("Quiz page")}
 			></FormButton>
-		</View>
+		</SafeAreaView>
 	);
 };
 

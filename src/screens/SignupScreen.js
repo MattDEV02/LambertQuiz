@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Alert } from "react-native";
+import { View, Text, SafeAreaView, Alert } from "react-native";
 import { COLORS, appName } from "../constants/theme";
 import InputScrollView from "react-native-input-scroll-view";
 import FormInput from "../components/shared/FormInput";
@@ -35,16 +35,16 @@ const SignUpScreen = ({ navigation }) => {
 	};
 
 	return (
-		<InputScrollView>
-			<View
-				style={{
-					backgroundColor: COLORS.white,
-					flex: 1,
-					alignItems: "center",
-					justifyContent: "flex-start",
-					padding: 20,
-				}}
-			>
+		<SafeAreaView
+			style={{
+				backgroundColor: COLORS.white,
+				flex: 1,
+				alignItems: "center",
+				justifyContent: "flex-start",
+				padding: 20,
+			}}
+		>
+			<InputScrollView>
 				<Text
 					style={{
 						fontSize: 30,
@@ -89,10 +89,9 @@ const SignUpScreen = ({ navigation }) => {
 					handleOnPress={handleOnPress}
 					style={{ width: "100%", marginTop: 4 }}
 				/>
-				{/* Footer  TODO: footer component*/}
 				<FormFooter isLogin={false} navigation={navigation} />
-			</View>
-		</InputScrollView>
+			</InputScrollView>
+		</SafeAreaView>
 	);
 };
 

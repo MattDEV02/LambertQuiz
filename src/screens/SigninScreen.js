@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Alert } from "react-native";
+import { Text, SafeAreaView, Alert } from "react-native";
 import { COLORS, appName } from "../constants/theme";
 import { validateEmail, validatePassword } from "../constants/utils.js";
 import FormInput from "../components/shared/FormInput";
@@ -21,7 +21,7 @@ const SignInScreen = ({ navigation }) => {
 	};
 
 	return (
-		<View
+		<SafeAreaView
 			style={{
 				backgroundColor: COLORS.white,
 				flex: 1,
@@ -47,7 +47,6 @@ const SignInScreen = ({ navigation }) => {
 				value={email}
 				keyboardType="email-address"
 			/>
-
 			<FormInput
 				labelText="Password"
 				placeholderText="Enter your password (use 8 chars)"
@@ -61,7 +60,7 @@ const SignInScreen = ({ navigation }) => {
 				style={{ width: "100%", marginTop: 4 }}
 			/>
 			<FormFooter navigation={navigation} />
-		</View>
+		</SafeAreaView>
 	);
 };
 

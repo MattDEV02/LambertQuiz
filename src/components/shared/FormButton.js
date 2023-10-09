@@ -16,7 +16,7 @@ const FormButton = ({
 				backgroundColor: isPrimary ? COLORS.primary : COLORS.white,
 				borderWidth: 1,
 				borderColor: COLORS.primary,
-				borderRadius: 5,
+				borderRadius: 8,
 				...style,
 			}}
 			onPress={handleOnPress}

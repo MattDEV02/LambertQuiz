@@ -1,5 +1,6 @@
 import HomeScreen from "./HomeScreen";
 import SignInScreen from "./SigninScreen";
 import SignUpScreen from "./SignupScreen";
+import PlayQuizScreen from "./PlayQuizScreen";
 
-export { HomeScreen, SignInScreen, SignUpScreen };
+export { SignInScreen, SignUpScreen, HomeScreen, PlayQuizScreen };
