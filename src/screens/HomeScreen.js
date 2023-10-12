@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, SafeAreaView, StatusBar } from "react-native";
 import { COLORS } from "../constants/theme";
 import FormButton from "../components/shared/FormButton";
+import { signOut } from "../utils/auth";
 
-const HomeScreen = ({ navigation }) => {
-	const username = "Matteo";
+const HomeScreen = ({ session, navigation }) => {
+	//console.log(session.user.email);
+	const username = session.user.email;
 	return (
 		<SafeAreaView
 			style={{
@@ -32,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
 						padding: 5,
 						color: COLORS.error,
 					}}
-					onPress={() => navigation.navigate("Sign In page")}
+					onPress={() => signOut()}
 				>
 					Logout
 				</Text>
@@ -65,7 +67,7 @@ const HomeScreen = ({ navigation }) => {
 					borderRadius: 50,
 					padding: 40,
 				}}
-				handleOnPress={() => navigation.navigate("Quiz page")}
+				handleOnPress={() => navigation.navigate("Play Quiz page")}
 			></FormButton>
 		</SafeAreaView>
 	);

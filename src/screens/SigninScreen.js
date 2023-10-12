@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Text, SafeAreaView, Alert } from "react-native";
 import { COLORS, appName } from "../constants/theme";
-import { validateEmail, validatePassword } from "../constants/utils.js";
+import { validateEmail, validatePassword } from "../utils/validators.js";
 import FormInput from "../components/shared/FormInput";
 import FormButton from "../components/shared/FormButton";
 import FormFooter from "../components/shared/FormFooter";
+import { signIn } from "../utils/auth";
 
 const SignInScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
@@ -12,11 +13,9 @@ const SignInScreen = ({ navigation }) => {
 
 	const handleOnPress = () => {
 		if (validateEmail(email)) {
-			if (validatePassword(password)) {
-				// TODO: Login check
-				Alert.alert("Login.");
-				navigation.navigate("Home page");
-			} else Alert.alert("Password not valid, minimum 8 chars.");
+			validatePassword(password)
+				? signIn(email, password)
+				: Alert.alert("Password not valid, use 8 chars.");
 		} else Alert.alert("Email not valid.");
 	};
 
@@ -35,7 +34,7 @@ const SignInScreen = ({ navigation }) => {
 					fontSize: 30,
 					color: COLORS.black,
 					fontWeight: "bold",
-					marginVertical: 28,
+					marginVertical: 25,
 				}}
 			>
 				{appName}

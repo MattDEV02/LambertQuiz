@@ -1,15 +1,32 @@
-import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
 import "react-native-gesture-handler";
-import { createStackNavigator } from "@react-navigation/stack";
-import AuthStackNavigator from "./navigators/AuthStackNavigator";
 import { NavigationContainer } from "@react-navigation/native";
+import AuthStackNavigator from "./navigators/AuthStackNavigator";
+import { Session } from "@supabase/supabase-js";
+import { supabase } from "./app/lib/supabase-client";
+import { HomeScreen, SignInScreen } from "./screens";
 
-export default App = () => {
+const App = () => {
+	const [session, setSession] = useState(null);
+
+	useEffect(() => {
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			setSession(session);
+		});
+
+		supabase.auth.onAuthStateChange((_event, session) => {
+			setSession(session);
+		});
+	}, []);
 	return (
 		<NavigationContainer>
-			<AuthStackNavigator />
+			{session && session.user ? (
+				<HomeScreen session={session} />
+			) : (
+				<AuthStackNavigator />
+			)}
 		</NavigationContainer>
 	);
 };
+
+export default App;

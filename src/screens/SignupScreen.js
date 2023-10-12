@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, Alert } from "react-native";
+import { Text, SafeAreaView, Alert } from "react-native";
 import { COLORS, appName } from "../constants/theme";
 import InputScrollView from "react-native-input-scroll-view";
 import FormInput from "../components/shared/FormInput";
@@ -9,7 +9,8 @@ import {
 	validateEmail,
 	validatePassword,
 	validateUsername,
-} from "../constants/utils";
+} from "../utils/validators";
+import { signUp } from "../utils/auth";
 
 const SignUpScreen = ({ navigation }) => {
 	const [username, setUsername] = useState("");
@@ -23,7 +24,7 @@ const SignUpScreen = ({ navigation }) => {
 			if (validateUsername(username)) {
 				if (validatePassword(password))
 					password === confirmPassword
-						? navigation.navigate("Home page")
+						? signUp(email, password)
 						: Alert.alert("The password did not match.");
 				else Alert.alert("Password not valid, use 8 chars.");
 			} else {
@@ -50,7 +51,7 @@ const SignUpScreen = ({ navigation }) => {
 						fontSize: 30,
 						color: COLORS.black,
 						fontWeight: "bold",
-						marginVertical: 28,
+						marginVertical: 25,
 					}}
 				>
 					{appName}
