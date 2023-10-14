@@ -1,5 +1,6 @@
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
+import appJson from "../../app.json";
 
 export const COLORS = {
 	primary: "#007BFF", // 4630EB
@@ -15,7 +16,7 @@ export const COLORS = {
 	border: "#F5F5F7",
 };
 
-export const appName = "LambertQuiz";
+export const appName = appJson.expo.name;
 
 export const footerFontSize = 13.5;
 

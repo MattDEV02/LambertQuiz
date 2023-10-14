@@ -17,6 +17,6 @@ export const validateUsername = (username) => {
 	);
 };
 
-export const validateUser = (user) => {
-	return user !== undefined && user !== null;
+export const validateObject = (object) => {
+	return object !== undefined && object !== null;
 };

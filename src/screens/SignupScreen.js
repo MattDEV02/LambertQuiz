@@ -20,6 +20,7 @@ const SignUpScreen = ({ navigation }) => {
 
 	const handleOnPress = () => {
 		// TODO: email and userame unique.
+		// TODO: PASSWORD INVALID CHARS CHECK.
 		if (validateEmail(email)) {
 			if (validateUsername(username)) {
 				if (validatePassword(password))

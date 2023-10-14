@@ -9,7 +9,7 @@ const FormFooter = ({ isLogin = true, navigation }) => {
 			style={{
 				flexDirection: "row",
 				alignItems: "center",
-				marginTop: 22,
+				marginTop: 23,
 			}}
 		>
 			<Text style={{ fontSize: footerFontSize }}>

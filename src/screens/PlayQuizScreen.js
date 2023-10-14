@@ -1,32 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	View,
 	Text,
 	SafeAreaView,
 	StatusBar,
+	FlatList,
+	Image,
 	TouchableOpacity,
 } from "react-native";
-import { COLORS, appName } from "../constants/theme";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { FlatList } from "react-native-gesture-handler";
+import { COLORS, appName } from "../constants/theme";
 import FormButton from "../components/shared/FormButton";
+import { validateObject } from "../utils/validators";
 
 // TODO: QUESTION COMPONENT.
 
 const PlayQuizScreen = () => {
+	const [correctCount, setCorrectCount] = useState(0);
+	const [incorrectCount, setIncorrectCount] = useState(0);
+	const [isResultModalVisible, setIsResultModalVisible] = useState(false);
+	const [questions, setQuestions] = useState([
+		{
+			question: "How much is tall the Eiffel Tower ?",
+			imageUrl:
+				"https://res.cloudinary.com/hello-tickets/image/upload/ar_1:1,c_fill,f_auto,q_auto,w_800/v1645844269/gd99ktjpmrtkwwlyn8hx.jpg",
+			allOptions: ["71 metres", "72 metres", "1 metre", "0 metres"],
+			selectedOption: "C", // qui ci metti null e poi lo modifichi
+			correct_answer: "A",
+		},
+		{
+			question: "How much is large the Giza Sphinx ?",
+			imageUrl: "https://www.focus.it/images/2023/03/14/sfinge-orig.jpg",
+			allOptions: ["10 metres", "72 metres", "1 metre", "100 metres"],
+			selectedOption: "72 metres",
+			correct_answer: "72 metres",
+		},
+		{
+			question: "How much is 3 + 2 ?",
+			imageUrl:
+				"https://t3.ftcdn.net/jpg/04/83/90/18/360_F_483901821_46VsNR67uJC3xIKQN4aaxR6GtAZhx9G8.jpg",
+			allOptions: ["5", "18", "0", "-2"],
+			selectedOption: "D",
+			correct_answer: "5",
+		},
+	]);
 	const getOptionBgColor = (currentQuestion, currentOption) => {
-		if (currentQuestion.selectedOption) {
-			if (currentOption == currentQuestion.selectedOption)
-				return COLORS.success;
-			else return COLORS.error;
+		if (
+			validateObject(currentQuestion) &&
+			validateObject(currentQuestion.selectedOption)
+		) {
+			return currentOption === currentQuestion.selectedOption
+				? COLORS.success
+				: COLORS.error;
 		} else return COLORS.white;
 	};
 
 	const getOptionTextColor = (currentQuestion, currentOption) => {
-		if (currentQuestion.selectedOption) {
-			if (currentOption == currentQuestion.selectedOption)
-				return COLORS.white;
-			else return COLORS.black;
+		if (
+			validateObject(currentQuestion) &&
+			validateObject(currentQuestion.selectedOption)
+		) {
+			return currentOption === currentQuestion.selectedOption
+				? COLORS.white
+				: COLORS.black;
 		} else return COLORS.black;
 	};
 
@@ -43,21 +79,29 @@ const PlayQuizScreen = () => {
 				style={{
 					flexDirection: "row",
 					alignItems: "center",
-					justifyContent: "center",
+					justifyContent: "space-between",
 					paddingVertical: 10,
 					paddingHorizontal: 20,
 					backgroundColor: COLORS.white,
 					elevation: 4,
 				}}
 			>
-				{/* TITLE */}
-				<Text style={{ fontSize: 16, marginLeft: 10 }}>{appName}</Text>
+				<View>
+					{/* TITLE */}
+					<Text
+						style={{
+							fontSize: 17,
+						}}
+					>
+						{appName}
+					</Text>
+				</View>
 				{/* Corret and Incorrect */}
 				<View
 					style={{
 						flexDirection: "row",
-						alignItems: "center",
-						justifyContent: "center",
+						alignItems: "right",
+						justifyContent: "flex-end",
 					}}
 				>
 					{/* Correct */}
@@ -79,9 +123,11 @@ const PlayQuizScreen = () => {
 							style={{ color: COLORS.white }}
 						/>
 						{/* correct count */}
-						<Text style={{ color: COLORS.white, marginLeft: 6 }}>1</Text>
+						<Text style={{ color: COLORS.white, marginLeft: 6 }}>
+							{correctCount}
+						</Text>
 					</View>
-					{/* Correct */}
+					{/* Incorrect */}
 					<View
 						style={{
 							backgroundColor: COLORS.error,
@@ -100,23 +146,38 @@ const PlayQuizScreen = () => {
 							style={{ color: COLORS.white }}
 						/>
 						{/* correct count */}
-						<Text style={{ color: COLORS.white, marginLeft: 6 }}>1</Text>
+						<Text style={{ color: COLORS.white, marginLeft: 6 }}>
+							{incorrectCount}
+						</Text>
 					</View>
 				</View>
 			</View>
 			{/* Questions and Options */}
 			<FlatList
-				data={[]}
+				data={questions}
 				style={{ flex: 1, backgroundColor: COLORS.background }}
 				showsVerticalScrollIndicator={false}
 				keyExtractor={(item) => item.question}
 				renderItem={({ item, index }) => (
-					<View style={{ marginTop: 14, marginHorizontal: 10 }}>
+					<View
+						style={{
+							marginTop: 14,
+							marginHorizontal: 10,
+							backgroundColor: COLORS.white,
+							elevation: 2,
+							borderRadius: 2,
+						}}
+					>
 						<View style={{ padding: 20 }}>
-							<Text>1 {item.question}</Text>
+							<Text>
+								{index + 1}. {item.question}
+							</Text>
+							{/* String validator */}
 							{item.imageUrl != "" ? (
 								<Image
-									source={{ uri: item.imageUrl }}
+									source={{
+										uri: item.imageUrl,
+									}}
 									resizeMode={"contain"}
 									style={{
 										width: "80%",
@@ -137,20 +198,21 @@ const PlayQuizScreen = () => {
 										paddingVertical: 15,
 										paddingHorizontal: 20,
 										borderTopWidth: 1,
-										backgroundColor: getOptionBgColor(item, option),
 										borderColor: COLORS.border,
+										backgroundColor: getOptionBgColor(item, option),
 										flexDirection: "row",
 										alignItems: "center",
 										justifyContent: "flex-start",
 									}}
 									onPress={() => {
+										// ?
 										if (item.selectedOption) {
 											return null;
 										}
 										// increase correct and incorrect count
-										if (option == item.correct_answer) {
-										} else {
-										}
+										option === item.correct_answer
+											? setCorrectCount(correctCount + 1)
+											: setIncorrectCount(correctCount + 1);
 									}}
 								>
 									<Text
@@ -190,6 +252,7 @@ const PlayQuizScreen = () => {
 					></FormButton>;
 				}}
 			/>
+			{/* Result Modal */}
 		</SafeAreaView>
 	);
 };

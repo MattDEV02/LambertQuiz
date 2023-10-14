@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, SafeAreaView, StatusBar } from "react-native";
 import { COLORS } from "../constants/theme";
 import FormButton from "../components/shared/FormButton";
 import { signOut } from "../utils/auth";
 
-const HomeScreen = ({ session, navigation }) => {
-	//console.log(session.user.email);
-	const username = session.user.email;
+const HomeScreen = ({ navigation }) => {
+	const username = "username";
 	return (
 		<SafeAreaView
 			style={{
