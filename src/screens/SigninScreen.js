@@ -12,6 +12,7 @@ const SignInScreen = ({ navigation }) => {
 	const [password, setPassword] = useState("");
 
 	const handleOnPress = () => {
+		console.log(email, password);
 		if (validateEmail(email)) {
 			validatePassword(password)
 				? signIn(email, password)

@@ -3,7 +3,7 @@ const { width, height } = Dimensions.get("window");
 import appJson from "../../app.json";
 
 export const COLORS = {
-	primary: "#007BFF", // 4630EB
+	primary: "#007BFF", // #4630EB
 	secondary: "#000020",
 
 	success: "#00C851",
@@ -18,7 +18,7 @@ export const COLORS = {
 
 export const appName = appJson.expo.name;
 
-export const footerFontSize = 13.5;
+export const footerFontSize = 14.5;
 
 export const SIZES = {
 	base: 10,

@@ -1,6 +1,6 @@
 import { validate as emailValidator } from "email-validator"; // alias
 
-const validateString = (string) => {
+export const validateString = (string) => {
 	return string !== undefined && string !== null && string !== "";
 };
 

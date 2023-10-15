@@ -11,11 +11,12 @@ import {
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { COLORS, appName } from "../constants/theme";
 import FormButton from "../components/shared/FormButton";
-import { validateObject } from "../utils/validators";
+import ResultModal from "../components/PlayQuizScreen/ResultModal";
+import { validateObject, validateString } from "../utils/validators";
 
 // TODO: QUESTION COMPONENT.
 
-const PlayQuizScreen = () => {
+const PlayQuizScreen = ({ navigation }) => {
 	const [correctCount, setCorrectCount] = useState(0);
 	const [incorrectCount, setIncorrectCount] = useState(0);
 	const [isResultModalVisible, setIsResultModalVisible] = useState(false);
@@ -24,32 +25,33 @@ const PlayQuizScreen = () => {
 			question: "How much is tall the Eiffel Tower ?",
 			imageUrl:
 				"https://res.cloudinary.com/hello-tickets/image/upload/ar_1:1,c_fill,f_auto,q_auto,w_800/v1645844269/gd99ktjpmrtkwwlyn8hx.jpg",
-			allOptions: ["71 metres", "72 metres", "1 metre", "0 metres"],
-			selectedOption: "C", // qui ci metti null e poi lo modifichi
-			correct_answer: "A",
+			allOptions: ["71 meters", "72 meters", "1 metre", "0 meters"],
+			selectedOption: null, // qui ci metti null e poi lo modifichi
+			correct_answer: "71 meters",
 		},
 		{
 			question: "How much is large the Giza Sphinx ?",
 			imageUrl: "https://www.focus.it/images/2023/03/14/sfinge-orig.jpg",
-			allOptions: ["10 metres", "72 metres", "1 metre", "100 metres"],
-			selectedOption: "72 metres",
-			correct_answer: "72 metres",
+			allOptions: ["10 meters", "72 meters", "1 metre", "100 meters"],
+			selectedOption: null,
+			correct_answer: "72 meters",
 		},
 		{
 			question: "How much is 3 + 2 ?",
 			imageUrl:
 				"https://t3.ftcdn.net/jpg/04/83/90/18/360_F_483901821_46VsNR67uJC3xIKQN4aaxR6GtAZhx9G8.jpg",
 			allOptions: ["5", "18", "0", "-2"],
-			selectedOption: "D",
+			selectedOption: null,
 			correct_answer: "5",
 		},
 	]);
+
 	const getOptionBgColor = (currentQuestion, currentOption) => {
 		if (
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption)
 		) {
-			return currentOption === currentQuestion.selectedOption
+			return currentQuestion.correct_answer === currentOption
 				? COLORS.success
 				: COLORS.error;
 		} else return COLORS.white;
@@ -60,7 +62,7 @@ const PlayQuizScreen = () => {
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption)
 		) {
-			return currentOption === currentQuestion.selectedOption
+			return currentQuestion.correct_answer === currentOption
 				? COLORS.white
 				: COLORS.black;
 		} else return COLORS.black;
@@ -90,7 +92,7 @@ const PlayQuizScreen = () => {
 					{/* TITLE */}
 					<Text
 						style={{
-							fontSize: 17,
+							fontSize: 17.5,
 						}}
 					>
 						{appName}
@@ -156,7 +158,7 @@ const PlayQuizScreen = () => {
 			<FlatList
 				data={questions}
 				style={{ flex: 1, backgroundColor: COLORS.background }}
-				showsVerticalScrollIndicator={false}
+				showsVerticalScrollIndicator={true}
 				keyExtractor={(item) => item.question}
 				renderItem={({ item, index }) => (
 					<View
@@ -169,11 +171,10 @@ const PlayQuizScreen = () => {
 						}}
 					>
 						<View style={{ padding: 20 }}>
-							<Text>
+							<Text style={{ fontSize: 16 }}>
 								{index + 1}. {item.question}
 							</Text>
-							{/* String validator */}
-							{item.imageUrl != "" ? (
+							{validateString(item.imageUrl) ? (
 								<Image
 									source={{
 										uri: item.imageUrl,
@@ -199,7 +200,11 @@ const PlayQuizScreen = () => {
 										paddingHorizontal: 20,
 										borderTopWidth: 1,
 										borderColor: COLORS.border,
-										backgroundColor: getOptionBgColor(item, option),
+										backgroundColor: getOptionBgColor(
+											item,
+											option,
+											optionIndex,
+										),
 										flexDirection: "row",
 										alignItems: "center",
 										justifyContent: "flex-start",
@@ -212,7 +217,12 @@ const PlayQuizScreen = () => {
 										// increase correct and incorrect count
 										option === item.correct_answer
 											? setCorrectCount(correctCount + 1)
-											: setIncorrectCount(correctCount + 1);
+											: setIncorrectCount(incorrectCount + 1);
+
+										//
+										let tempQuestions = [...questions];
+										tempQuestions[index].selectedOption = option;
+										setQuestions([...tempQuestions]);
 									}}
 								>
 									<Text
@@ -233,6 +243,8 @@ const PlayQuizScreen = () => {
 									<Text
 										style={{
 											color: getOptionTextColor(item, option),
+											marginLeft: 11,
+											fontSize: 14.5,
 										}}
 									>
 										{option}
@@ -242,17 +254,39 @@ const PlayQuizScreen = () => {
 						})}
 					</View>
 				)}
-				ListFooterComponent={() => {
+				ListFooterComponent={() => (
 					<FormButton
 						labelText="Submit"
-						style={{ margin: 10 }}
+						style={{ margin: 12, borderRadius: 14 }}
 						handleOnPress={() => {
-							// show result modal
+							// Show Result modal
+							setIsResultModalVisible(true);
 						}}
-					></FormButton>;
-				}}
+					/>
+				)}
 			/>
 			{/* Result Modal */}
+			<ResultModal
+				isModalVisible={isResultModalVisible}
+				correctCount={correctCount}
+				incorrectCount={incorrectCount}
+				totalCount={questions.length}
+				handleOnClose={() => {
+					setIsResultModalVisible(false);
+				}}
+				handleOnRetry={() => {
+					setCorrectCount(0);
+					setIncorrectCount(0);
+					//getQuizAndQuestionDetails();
+					setIsResultModalVisible(false);
+					navigation.goBack();
+					navigation.navigate("Play Quiz page");
+				}}
+				handleOnGoHome={() => {
+					setIsResultModalVisible(false);
+					navigation.goBack();
+				}}
+			/>
 		</SafeAreaView>
 	);
 };
