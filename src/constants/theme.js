@@ -20,6 +20,8 @@ export const appName = appJson.expo.name;
 
 export const footerFontSize = 14.5;
 
+export const headerShown = true;
+
 export const SIZES = {
 	base: 10,
 	width,

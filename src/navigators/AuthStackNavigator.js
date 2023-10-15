@@ -1,11 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import {
-	SignInScreen,
-	SignUpScreen,
-	HomeScreen,
-	PlayQuizScreen,
-} from "../screens";
+import { SignInScreen, SignUpScreen } from "../screens";
+import { headerShown } from "../constants/theme";
 
 const Stack = createStackNavigator();
 
@@ -13,11 +9,9 @@ const AuthStackNavigator = () => {
 	return (
 		<Stack.Navigator
 			screenOptions={{
-				headerShown: true,
+				headerShown,
 			}}
 		>
-			<Stack.Screen name="Home page" component={HomeScreen} />
-			<Stack.Screen name="Play Quiz page" component={PlayQuizScreen} />
 			<Stack.Screen name="Sign In page" component={SignInScreen} />
 			<Stack.Screen name="Sign Up page" component={SignUpScreen} />
 		</Stack.Navigator>

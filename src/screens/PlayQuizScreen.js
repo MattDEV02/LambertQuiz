@@ -147,7 +147,7 @@ const PlayQuizScreen = ({ navigation }) => {
 							size={14}
 							style={{ color: COLORS.white }}
 						/>
-						{/* correct count */}
+						{/* incorrect count */}
 						<Text style={{ color: COLORS.white, marginLeft: 6 }}>
 							{incorrectCount}
 						</Text>
