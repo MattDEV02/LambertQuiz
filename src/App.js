@@ -4,7 +4,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import AuthStackNavigator from "./navigators/AuthStackNavigator";
 import AppStackNavigator from "./navigators/AppStackNavigator";
 import { supabase } from "./app/lib/supabase-client";
-import { SignInScreen } from "./screens";
 import { validateObject } from "./utils/validators";
 
 const App = () => {

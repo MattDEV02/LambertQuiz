@@ -12,7 +12,12 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { COLORS, appName } from "../constants/theme";
 import FormButton from "../components/shared/FormButton";
 import ResultModal from "../components/PlayQuizScreen/ResultModal";
-import { validateObject, validateString } from "../utils/validators";
+import {
+	validateObject,
+	validateString,
+	validateURL,
+} from "../utils/validators";
+import NoImage from "../components/PlayQuizScreen/NoImage";
 
 // TODO: QUESTION COMPONENT.
 
@@ -174,7 +179,7 @@ const PlayQuizScreen = ({ navigation }) => {
 							<Text style={{ fontSize: 16 }}>
 								{index + 1}. {item.question}
 							</Text>
-							{validateString(item.imageUrl) ? (
+							{validateURL(item.imageUrl) ? (
 								<Image
 									source={{
 										uri: item.imageUrl,
@@ -188,7 +193,9 @@ const PlayQuizScreen = ({ navigation }) => {
 										borderRadius: 5,
 									}}
 								/>
-							) : null}
+							) : (
+								<NoImage />
+							)}
 						</View>
 						{/* Options */}
 						{item.allOptions.map((option, optionIndex) => {

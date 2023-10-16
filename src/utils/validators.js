@@ -1,5 +1,7 @@
 import { validate as emailValidator } from "email-validator"; // alias
 
+// TODO: one-line functions.
+
 export const validateString = (string) => {
 	return string !== undefined && string !== null && string !== "";
 };
@@ -19,4 +21,13 @@ export const validateUsername = (username) => {
 
 export const validateObject = (object) => {
 	return object !== undefined && object !== null;
+};
+
+export const validateURL = (URL) => {
+	return (
+		validateString(URL) &&
+		new RegExp("(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?").test(
+			URL,
+		)
+	);
 };

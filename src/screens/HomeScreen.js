@@ -12,11 +12,16 @@ import { COLORS } from "../constants/theme";
 import FormButton from "../components/shared/FormButton";
 import { signOut } from "../utils/auth";
 import { validateString } from "../utils/validators";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import MaterialIcons from "react-native-vector-icons/FontAwesome";
 
 // TODO: QUIZ COMPONENT.
 
+// TODO: Icon COMPONENT.
+
 const HomeScreen = ({ navigation }) => {
+	const iconsSize = 18,
+		iconsPaddingHorizontal = 11,
+		iconsPaddingVertical = 5;
 	const [quizzes, setQuizzes] = useState([
 		{
 			title: "Egypt",
@@ -66,82 +71,99 @@ const HomeScreen = ({ navigation }) => {
 			}}
 		>
 			<StatusBar backgroundColor={COLORS.white} barStyle={"dark-content"} />
+			{/* TOP BAR */}
 			<View
 				style={{
 					flexDirection: "row",
-					alignItems: "right",
-					justifyContent: "flex-end",
+					alignItems: "center",
+					justifyContent: "space-between",
 					backgroundColor: COLORS.white,
-					paddingHorizontal: 20,
-					paddingBottom: 5,
+					paddingBottom: 6.75,
 					borderBottomColor: COLORS.secondary,
 					borderBottomWidth: 0.5,
 				}}
 			>
+				{/* Account and Stats */}
 				<View
 					style={{
 						flexDirection: "row",
 						alignItems: "center",
-						justifyContent: "space-between",
+						justifyContent: "flex-start",
+						marginLeft: 16.5,
 					}}
 				>
+					{/* account */}
 					<View
 						style={{
-							backgroundColor: COLORS.success,
+							backgroundColor: COLORS.primary,
 							flexDirection: "row",
 							alignItems: "center",
 							justifyContent: "center",
-							paddingHorizontal: 10,
-							paddingVertical: 4,
+							paddingHorizontal: iconsPaddingHorizontal,
+							paddingVertical: iconsPaddingVertical,
 							borderTopLeftRadius: 10,
 							borderBottomLeftRadius: 10,
+							borderWidth: 0.92,
+							borderColor: COLORS.black,
 						}}
 					>
 						<MaterialIcons
-							name="check"
-							size={14}
+							name="user-circle"
+							size={iconsSize}
 							style={{ color: COLORS.white }}
 						/>
-						{/* account */}
 					</View>
-					{/* settings */}
+					{/* stats */}
 					<View
 						style={{
-							backgroundColor: COLORS.error,
+							backgroundColor: "#6C6C6C",
 							flexDirection: "row",
 							alignItems: "center",
 							justifyContent: "center",
-							paddingHorizontal: 10,
-							paddingVertical: 4,
+							paddingHorizontal: iconsPaddingHorizontal,
+							paddingVertical: iconsPaddingVertical,
 							borderTopRightRadius: 10,
 							borderBottomRightRadius: 10,
+							borderWidth: 0.92,
+							borderColor: COLORS.black,
 						}}
 					>
 						<MaterialIcons
-							name="close"
-							size={14}
+							name="bar-chart-o"
+							size={iconsSize}
 							style={{ color: COLORS.white }}
 						/>
 					</View>
-					<View>
-						<Text
-							style={{
-								fontSize: 20.5,
-								padding: 5,
-								color: COLORS.error,
-							}}
-							onPress={() => signOut()}
-						>
-							Logout
-						</Text>
-					</View>
+				</View>
+				{/* Logout */}
+				<View
+					style={{
+						flexDirection: "row",
+						alignItems: "right",
+						justifyContent: "flex-end",
+						marginRight: 18.5,
+					}}
+				>
+					<Text
+						style={{
+							fontSize: 21.5,
+							padding: 5,
+							color: COLORS.error,
+							fontWeight: "500",
+						}}
+						onPress={() => signOut()}
+					>
+						Logout
+					</Text>
 				</View>
 			</View>
 			<View>
+				{/* Welcome title */}
 				<View
 					style={{
+						//flexDirection: "row",
 						alignItems: "center",
-						justifyContent: "flex-start",
+						justifyContent: "space-between",
 					}}
 				>
 					<Text
@@ -169,7 +191,7 @@ const HomeScreen = ({ navigation }) => {
 								style={{
 									padding: 20.5,
 									borderRadius: 17.5,
-									marginVertical: 8.3,
+									marginVertical: 5,
 									marginHorizontal: 10,
 									flexDirection: "row",
 									alignItems: "center",
@@ -194,10 +216,12 @@ const HomeScreen = ({ navigation }) => {
 								</View>
 								<TouchableOpacity
 									style={{
-										paddingVertical: 15,
-										paddingHorizontal: 29,
-										borderRadius: 35,
+										paddingVertical: 13.5,
+										paddingHorizontal: 27,
+										borderRadius: 34,
 										backgroundColor: COLORS.primary,
+										borderWidth: 1,
+										borderColor: COLORS.black,
 									}}
 									onPress={() => {
 										navigation.navigate("Play Quiz page", {
