@@ -51,14 +51,14 @@ const PlayQuizScreen = ({ navigation }) => {
 		},
 	]);
 
-	const getOptionBgColor = (currentQuestion, currentOption) => {
+	const getOptionBackgroundColor = (currentQuestion, currentOption) => {
 		if (
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption)
 		) {
-			return currentQuestion.correct_answer === currentOption
-				? COLORS.success
-				: COLORS.error;
+			if (currentQuestion.correct_answer === currentOption)
+				return COLORS.success;
+			else return COLORS.error;
 		} else return COLORS.white;
 	};
 
@@ -67,10 +67,48 @@ const PlayQuizScreen = ({ navigation }) => {
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption)
 		) {
-			return currentQuestion.correct_answer === currentOption
-				? COLORS.white
-				: COLORS.black;
+			if (currentQuestion.correct_answer === currentOption)
+				return COLORS.white;
+			else return COLORS.black;
 		} else return COLORS.black;
+	};
+
+	const getOptionBorderColor = (currentQuestion, currentOption) => {
+		if (
+			validateObject(currentQuestion) &&
+			validateObject(currentQuestion.selectedOption) &&
+			currentQuestion.selectedOption == currentOption &&
+			currentQuestion.selectedOption == currentQuestion.correct_answer
+		)
+			return COLORS.black;
+		else return COLORS.white;
+	};
+
+	const getOptionBorderWidth = (currentQuestion, currentOption) => {
+		if (
+			validateObject(currentQuestion) &&
+			validateObject(currentQuestion.selectedOption) &&
+			currentQuestion.selectedOption == currentOption &&
+			currentQuestion.selectedOption == currentQuestion.correct_answer
+		)
+			return 2.3;
+		else return 1;
+	};
+
+	const handleOnOptionPress = (item, option, index) => {
+		// ?
+		if (item.selectedOption) {
+			return null;
+		}
+		// increase correct and incorrect count
+		option === item.correct_answer
+			? setCorrectCount(correctCount + 1)
+			: setIncorrectCount(incorrectCount + 1);
+
+		//
+		let tempQuestions = [...questions];
+		tempQuestions[index].selectedOption = option;
+		setQuestions([...tempQuestions]);
 	};
 
 	return (
@@ -205,9 +243,9 @@ const PlayQuizScreen = ({ navigation }) => {
 									style={{
 										paddingVertical: 15,
 										paddingHorizontal: 20,
-										borderTopWidth: 1,
-										borderColor: COLORS.border,
-										backgroundColor: getOptionBgColor(
+										borderWidth: getOptionBorderWidth(item, option),
+										borderColor: getOptionBorderColor(item, option),
+										backgroundColor: getOptionBackgroundColor(
 											item,
 											option,
 											optionIndex,
@@ -216,21 +254,9 @@ const PlayQuizScreen = ({ navigation }) => {
 										alignItems: "center",
 										justifyContent: "flex-start",
 									}}
-									onPress={() => {
-										// ?
-										if (item.selectedOption) {
-											return null;
-										}
-										// increase correct and incorrect count
-										option === item.correct_answer
-											? setCorrectCount(correctCount + 1)
-											: setIncorrectCount(incorrectCount + 1);
-
-										//
-										let tempQuestions = [...questions];
-										tempQuestions[index].selectedOption = option;
-										setQuestions([...tempQuestions]);
-									}}
+									onPress={() =>
+										handleOnOptionPress(item, option, index)
+									}
 								>
 									<Text
 										style={{
@@ -265,10 +291,7 @@ const PlayQuizScreen = ({ navigation }) => {
 					<FormButton
 						labelText="Submit"
 						style={{ margin: 12, borderRadius: 14 }}
-						handleOnPress={() => {
-							// Show Result modal
-							setIsResultModalVisible(true);
-						}}
+						handleOnPress={() => setIsResultModalVisible(true)}
 					/>
 				)}
 			/>
