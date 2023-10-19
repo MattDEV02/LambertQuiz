@@ -2,8 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { COLORS, footerFontSize } from "../../constants/theme";
 
-const FormFooter = ({ isLogin = true, navigation }) => {
-	const navigationPage = isLogin ? "Sign Up page" : "Sign In page";
+const FormFooter = ({ isLogin = true, handleOnPress }) => {
 	return (
 		<View
 			style={{
@@ -21,7 +20,7 @@ const FormFooter = ({ isLogin = true, navigation }) => {
 					color: COLORS.primary,
 					fontSize: footerFontSize,
 				}}
-				onPress={() => navigation.navigate(navigationPage)}
+				onPress={handleOnPress}
 			>
 				{isLogin ? "Create an account" : "Login to your account"}
 			</Text>

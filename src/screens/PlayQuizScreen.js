@@ -14,7 +14,6 @@ import FormButton from "../components/shared/FormButton";
 import ResultModal from "../components/PlayQuizScreen/ResultModal";
 import {
 	validateObject,
-	validateString,
 	validateURL,
 } from "../utils/validators";
 import NoImage from "../components/PlayQuizScreen/NoImage";

@@ -24,9 +24,10 @@ const SignUpScreen = ({ navigation }) => {
 		if (validateEmail(email)) {
 			if (validateUsername(username)) {
 				if (validatePassword(password))
-					password === confirmPassword
-						? signUp(email, password)
-						: Alert.alert("The password did not match.");
+					if (password === confirmPassword) {
+						if (signUp(email, password))
+							navigation.navigate("Sign In page");
+					} else Alert.alert("The password did not match.");
 				else Alert.alert("Password not valid, use 8 chars.");
 			} else {
 				Alert.alert(
@@ -91,7 +92,10 @@ const SignUpScreen = ({ navigation }) => {
 					handleOnPress={handleOnPress}
 					style={{ width: "100%", marginTop: 4 }}
 				/>
-				<FormFooter isLogin={false} navigation={navigation} />
+				<FormFooter
+					isLogin={false}
+					handleOnPress={() => navigation.navigate("Sign In page")}
+				/>
 			</InputScrollView>
 		</SafeAreaView>
 	);

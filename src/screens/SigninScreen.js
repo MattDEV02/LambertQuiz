@@ -11,6 +11,9 @@ const SignInScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	setEmail("");
+	setPassword("");
+
 	const handleOnPress = () => {
 		if (validateEmail(email)) {
 			validatePassword(password)
@@ -58,7 +61,9 @@ const SignInScreen = ({ navigation }) => {
 				handleOnPress={handleOnPress}
 				style={{ width: "100%", marginTop: 4 }}
 			/>
-			<FormFooter navigation={navigation} />
+			<FormFooter
+				handleOnPress={() => navigation.navigate("Sign Up page")}
+			/>
 		</SafeAreaView>
 	);
 };

@@ -19,11 +19,12 @@ export const signUp = async (email, password) => {
 		email,
 		password,
 	});
-
-	console.log(supabase.auth.getUser());
-	if (error) Alert.alert(error.message);
-	else {
+	if (error) {
+		Alert.alert(error.message);
+		return false;
+	} else {
 		ToastAndroid.show("Signed Up", ToastAndroid.SHORT);
+		return true;
 	}
 };
 

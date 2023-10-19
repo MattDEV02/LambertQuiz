@@ -5,13 +5,10 @@ import {
 	SafeAreaView,
 	StatusBar,
 	FlatList,
-	TouchableOpacity,
 	ScrollView,
 } from "react-native";
 import { COLORS } from "../constants/theme";
-import FormButton from "../components/shared/FormButton";
 import { signOut } from "../utils/auth";
-import { validateString } from "../utils/validators";
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import Quiz from "../components/HomeScreen/Quiz";
 
@@ -178,9 +175,9 @@ const HomeScreen = ({ navigation }) => {
 					{/* Welcome title */}
 					<View
 						style={{
-							//flexDirection: "row",
+							flexDirection: "row",
 							alignItems: "center",
-							justifyContent: "space-between",
+							justifyContent: "center",
 							marginVertical: 27,
 						}}
 					>
