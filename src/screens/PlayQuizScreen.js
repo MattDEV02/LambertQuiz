@@ -12,10 +12,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { COLORS, appName } from "../constants/theme";
 import FormButton from "../components/shared/FormButton";
 import ResultModal from "../components/PlayQuizScreen/ResultModal";
-import {
-	validateObject,
-	validateURL,
-} from "../utils/validators";
+import { validateObject, validateURL } from "../utils/validators";
 import NoImage from "../components/PlayQuizScreen/NoImage";
 
 // TODO: QUESTION COMPONENT.
@@ -55,9 +52,11 @@ const PlayQuizScreen = ({ navigation }) => {
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption)
 		) {
-			if (currentQuestion.correct_answer === currentOption)
+			if (currentOption === currentQuestion.correct_answer)
 				return COLORS.success;
-			else return COLORS.error;
+			else if (currentOption === currentQuestion.selectedOption)
+				return COLORS.error;
+			else return COLORS.white;
 		} else return COLORS.white;
 	};
 
@@ -66,7 +65,7 @@ const PlayQuizScreen = ({ navigation }) => {
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption)
 		) {
-			if (currentQuestion.correct_answer === currentOption)
+			if (currentOption === currentQuestion.correct_answer)
 				return COLORS.white;
 			else return COLORS.black;
 		} else return COLORS.black;
@@ -76,8 +75,7 @@ const PlayQuizScreen = ({ navigation }) => {
 		if (
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption) &&
-			currentQuestion.selectedOption == currentOption &&
-			currentQuestion.selectedOption == currentQuestion.correct_answer
+			currentQuestion.selectedOption == currentOption
 		)
 			return COLORS.black;
 		else return COLORS.white;
@@ -87,10 +85,9 @@ const PlayQuizScreen = ({ navigation }) => {
 		if (
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption) &&
-			currentQuestion.selectedOption == currentOption &&
-			currentQuestion.selectedOption == currentQuestion.correct_answer
+			currentQuestion.selectedOption == currentOption
 		)
-			return 2.3;
+			return 2.5;
 		else return 1;
 	};
 
@@ -100,9 +97,11 @@ const PlayQuizScreen = ({ navigation }) => {
 			return null;
 		}
 		// increase correct and incorrect count
-		option === item.correct_answer
-			? setCorrectCount(correctCount + 1)
-			: setIncorrectCount(incorrectCount + 1);
+		if (option === item.correct_answer) {
+			setCorrectCount(correctCount + 1);
+		} else {
+			setIncorrectCount(incorrectCount + 1);
+		}
 
 		//
 		let tempQuestions = [...questions];
@@ -242,12 +241,11 @@ const PlayQuizScreen = ({ navigation }) => {
 									style={{
 										paddingVertical: 15,
 										paddingHorizontal: 20,
-										borderWidth: getOptionBorderWidth(item, option),
-										borderColor: getOptionBorderColor(item, option),
+										borderWidth: 1,
+										borderColor: "#E8E6E6",
 										backgroundColor: getOptionBackgroundColor(
 											item,
 											option,
-											optionIndex,
 										),
 										flexDirection: "row",
 										alignItems: "center",

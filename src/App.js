@@ -5,6 +5,7 @@ import AuthStackNavigator from "./navigators/AuthStackNavigator";
 import AppStackNavigator from "./navigators/AppStackNavigator";
 import { supabase } from "./app/lib/supabase-client";
 import { validateObject } from "./utils/validators";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 const App = () => {
 	const [session, setSession] = useState(null);
@@ -23,13 +24,15 @@ const App = () => {
 		});
 	}, []);
 	return (
-		<NavigationContainer>
-			{validateObject(session) && validateObject(session.user) ? (
-				<AppStackNavigator />
-			) : (
-				<AuthStackNavigator />
-			)}
-		</NavigationContainer>
+		<RootSiblingParent>
+			<NavigationContainer>
+				{validateObject(session) && validateObject(session.user) ? (
+					<AppStackNavigator />
+				) : (
+					<AuthStackNavigator />
+				)}
+			</NavigationContainer>
+		</RootSiblingParent>
 	);
 };
 

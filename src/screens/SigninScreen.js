@@ -11,14 +11,15 @@ const SignInScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	setEmail("");
-	setPassword("");
-
 	const handleOnPress = () => {
 		if (validateEmail(email)) {
 			validatePassword(password)
 				? signIn(email, password)
-				: Alert.alert("Password not valid, use 8 chars.");
+				: Alert.alert(
+						"Password not valid, use minimum 8 chars and maximum 32 chars.",
+				  );
+			setEmail("");
+			setPassword("");
 		} else Alert.alert("Email not valid.");
 	};
 

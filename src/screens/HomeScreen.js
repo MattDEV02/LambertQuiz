@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -11,6 +11,7 @@ import { COLORS } from "../constants/theme";
 import { signOut } from "../utils/auth";
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import Quiz from "../components/HomeScreen/Quiz";
+import { getUsername } from "../utils/database";
 
 // TODO: QUIZ COMPONENT.
 
@@ -20,6 +21,7 @@ const HomeScreen = ({ navigation }) => {
 	const iconsSize = 19,
 		iconsPaddingHorizontal = 11.5,
 		iconsPaddingVertical = 7;
+	const [username, setUsername] = useState("");
 	const [quizzes, setQuizzes] = useState([
 		{
 			title: "Egypt",
@@ -59,7 +61,12 @@ const HomeScreen = ({ navigation }) => {
 	]);
 	const [refreshing, setRefreshing] = useState(false);
 
-	const username = "username";
+	useEffect(() => {
+		setRefreshing(true);
+		setUsername(getUsername("matteolambertucci3@gmail.com"));
+		console.log("ok", getUsername("matteolambertucci3@gmail.com"));
+		setRefreshing(false);
+	}, []);
 
 	const handleOnPlayPress = (quiz) => {
 		navigation.navigate("Play Quiz page", {
@@ -188,7 +195,7 @@ const HomeScreen = ({ navigation }) => {
 								fontWeight: "bold",
 							}}
 						>
-							Benvenuto {username} !
+							Benvenuto {username.toString()} !
 						</Text>
 					</View>
 					{/* Quiz list */}

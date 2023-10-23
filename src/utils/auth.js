@@ -1,20 +1,21 @@
 import { Alert } from "react-native";
-import { ToastAndroid } from "react-native";
+import Toast from "react-native-root-toast";
 import { supabase } from "../app/lib/supabase-client";
+import { existsUser, storeUser } from "./database";
 
 export const signIn = async (email, password) => {
 	const { error } = await supabase.auth.signInWithPassword({
 		email,
 		password,
 	});
-
 	if (error) Alert.alert(error.message);
 	else {
-		ToastAndroid.show("Signed in", ToastAndroid.SHORT);
+		if (existsUser(email)) Toast.show("Signed in");
+		else console.error("NOT EXISTS!" + email);
 	}
 };
 
-export const signUp = async (email, password) => {
+export const signUp = async (email, password, username) => {
 	const { error } = await supabase.auth.signUp({
 		email,
 		password,
@@ -23,16 +24,17 @@ export const signUp = async (email, password) => {
 		Alert.alert(error.message);
 		return false;
 	} else {
-		ToastAndroid.show("Signed Up", ToastAndroid.SHORT);
-		return true;
+		if (storeUser(email, password, username)) {
+			Toast.show("Signed Up", { duration: 200 });
+			return true;
+		} else return false;
 	}
 };
 
 export const signOut = async () => {
 	const { error } = await supabase.auth.signOut();
-
 	if (error) Alert.alert(error.message);
 	else {
-		ToastAndroid.show("Signed Out", ToastAndroid.SHORT);
+		Toast.show("Signed Out");
 	}
 };

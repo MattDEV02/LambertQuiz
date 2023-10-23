@@ -25,10 +25,13 @@ const SignUpScreen = ({ navigation }) => {
 			if (validateUsername(username)) {
 				if (validatePassword(password))
 					if (password === confirmPassword) {
-						if (signUp(email, password))
+						if (signUp(email, password, username))
 							navigation.navigate("Sign In page");
 					} else Alert.alert("The password did not match.");
-				else Alert.alert("Password not valid, use 8 chars.");
+				else
+					Alert.alert(
+						"Password not valid, use minimum 8 chars and maximum 32 chars.",
+					);
 			} else {
 				Alert.alert(
 					"Username not valid, minimum 3 chars and maximum 8 chars.",

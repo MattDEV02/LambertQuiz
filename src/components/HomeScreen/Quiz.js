@@ -8,7 +8,7 @@ const Quiz = ({ quiz, handleOnPlayPress }) => {
 			style={{
 				padding: 20.5,
 				borderRadius: 17.5,
-				marginVertical: 5,
+				marginVertical: 5.2,
 				marginHorizontal: 10,
 				flexDirection: "row",
 				alignItems: "center",
@@ -34,7 +34,7 @@ const Quiz = ({ quiz, handleOnPlayPress }) => {
 			<TouchableOpacity
 				style={{
 					paddingVertical: 13.5,
-					paddingHorizontal: 27,
+					paddingHorizontal: 26,
 					borderRadius: 34,
 					backgroundColor: COLORS.primary,
 					borderWidth: 1,

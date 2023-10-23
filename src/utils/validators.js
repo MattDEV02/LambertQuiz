@@ -9,8 +9,12 @@ export const validateString = (string) => {
 export const validateEmail = (email) => {
 	return validateString(email) && emailValidator(email) && email.length >= 6;
 };
+
 export const validatePassword = (password) => {
-	return validateString(password) && password.length === 8;
+	return (
+		///^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(\W|_)).{5,}$/.test(password) &&
+		password.length >= 8 && password.length <= 32
+	);
 };
 
 export const validateUsername = (username) => {
@@ -21,6 +25,10 @@ export const validateUsername = (username) => {
 
 export const validateObject = (object) => {
 	return object !== undefined && object !== null;
+};
+
+export const validateArray = (array, minLength) => {
+	return validateObject(array) && array.length >= minLength;
 };
 
 export const validateURL = (URL) => {
