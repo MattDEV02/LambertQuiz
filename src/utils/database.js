@@ -31,20 +31,31 @@ export const existsUser = async (email) => {
 	return validateObject(user);
 };
 
-export const getUsername = async (email) => {
-	const { data, error } = await supabase
-		.from("users")
-		.select("username")
-		.eq("email", email); // UNIQUE
-	if (validateObject(error)) {
-		console.log(error);
-		return "";
-	} else {
-		console.log(data);
-		return "ciao";
-	}
-};
+export const getUsername = async (email) => {};
 
 export const updateUser = (email, password, username) => {};
 
 export const deleteUser = (email, password) => {};
+
+export const getQuizzes = async () => {
+	const { data, error } = await supabase.from("quizzes").select();
+	if (validateObject(error)) {
+		console.error(error);
+		return null;
+	}
+	console.log(data);
+	return data;
+};
+
+export const getQuestionsFromQuizId = async (quizId) => {
+	const { data, error } = await supabase
+		.from("questions")
+		.select()
+		.eq("quiz_id", quizId);
+	if (validateObject(error)) {
+		console.error(error);
+		return null;
+	}
+	console.log(data);
+	return data;
+};

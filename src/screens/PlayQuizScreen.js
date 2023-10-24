@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -14,46 +14,43 @@ import FormButton from "../components/shared/FormButton";
 import ResultModal from "../components/PlayQuizScreen/ResultModal";
 import { validateObject, validateURL } from "../utils/validators";
 import NoImage from "../components/PlayQuizScreen/NoImage";
+import { supabase } from "../app/lib/supabase-client";
+import { getQuestionsFromQuizId } from "../utils/database";
 
 // TODO: QUESTION COMPONENT.
 
-const PlayQuizScreen = ({ navigation }) => {
+const PlayQuizScreen = ({ navigation, route }) => {
+	const [refreshing, setRefreshing] = useState(false);
+	const [currentQuizId, setCurrentQuizId] = useState(route.params.quizId);
 	const [correctCount, setCorrectCount] = useState(0);
 	const [incorrectCount, setIncorrectCount] = useState(0);
 	const [isResultModalVisible, setIsResultModalVisible] = useState(false);
-	const [questions, setQuestions] = useState([
-		{
-			question: "How much is tall the Eiffel Tower ?",
-			imageUrl:
-				"https://res.cloudinary.com/hello-tickets/image/upload/ar_1:1,c_fill,f_auto,q_auto,w_800/v1645844269/gd99ktjpmrtkwwlyn8hx.jpg",
-			allOptions: ["71 meters", "72 meters", "1 metre", "0 meters"],
-			selectedOption: null, // qui ci metti null e poi lo modifichi
-			correct_answer: "71 meters",
-		},
-		{
-			question: "How much is large the Giza Sphinx ?",
-			imageUrl: "https://www.focus.it/images/2023/03/14/sfinge-orig.jpg",
-			allOptions: ["10 meters", "72 meters", "1 metre", "100 meters"],
-			selectedOption: null,
-			correct_answer: "72 meters",
-		},
-		{
-			question: "How much is 3 + 2 ?",
-			imageUrl:
-				"https://t3.ftcdn.net/jpg/04/83/90/18/360_F_483901821_46VsNR67uJC3xIKQN4aaxR6GtAZhx9G8.jpg",
-			allOptions: ["5", "18", "0", "-2"],
-			selectedOption: null,
-			correct_answer: "5",
-		},
-	]);
+	const [questions, setQuestions] = useState([]);
+	const [tryAgain, setTryAgain] = useState(false);
+
+	useEffect(() => {
+		const getQuestionsFromQuizId = async (quizId) => {
+			setRefreshing(true);
+			const { data, error } = await supabase
+				.from("questions")
+				.select()
+				.eq("quiz", quizId);
+			if (validateObject(error)) {
+				console.error("oko", error);
+			}
+			setQuestions(data);
+			setRefreshing(false);
+		};
+
+		getQuestionsFromQuizId(currentQuizId);
+	}, [tryAgain]);
 
 	const getOptionBackgroundColor = (currentQuestion, currentOption) => {
 		if (
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption)
 		) {
-			if (currentOption === currentQuestion.correct_answer)
-				return COLORS.success;
+			if (currentOption === currentQuestion.solution) return COLORS.success;
 			else if (currentOption === currentQuestion.selectedOption)
 				return COLORS.error;
 			else return COLORS.white;
@@ -65,30 +62,9 @@ const PlayQuizScreen = ({ navigation }) => {
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption)
 		) {
-			if (currentOption === currentQuestion.correct_answer)
-				return COLORS.white;
+			if (currentOption === currentQuestion.solution) return COLORS.white;
 			else return COLORS.black;
 		} else return COLORS.black;
-	};
-
-	const getOptionBorderColor = (currentQuestion, currentOption) => {
-		if (
-			validateObject(currentQuestion) &&
-			validateObject(currentQuestion.selectedOption) &&
-			currentQuestion.selectedOption == currentOption
-		)
-			return COLORS.black;
-		else return COLORS.white;
-	};
-
-	const getOptionBorderWidth = (currentQuestion, currentOption) => {
-		if (
-			validateObject(currentQuestion) &&
-			validateObject(currentQuestion.selectedOption) &&
-			currentQuestion.selectedOption == currentOption
-		)
-			return 2.5;
-		else return 1;
 	};
 
 	const handleOnOptionPress = (item, option, index) => {
@@ -97,7 +73,7 @@ const PlayQuizScreen = ({ navigation }) => {
 			return null;
 		}
 		// increase correct and incorrect count
-		if (option === item.correct_answer) {
+		if (option === item.solution) {
 			setCorrectCount(correctCount + 1);
 		} else {
 			setIncorrectCount(incorrectCount + 1);
@@ -116,7 +92,7 @@ const PlayQuizScreen = ({ navigation }) => {
 				position: "relative",
 			}}
 		>
-			<StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
+			<StatusBar backgroundColor={COLORS.white} barStyle={"dark-content"} />
 			{/* TOP BAR */}
 			<View
 				style={{
@@ -200,7 +176,7 @@ const PlayQuizScreen = ({ navigation }) => {
 				data={questions}
 				style={{ flex: 1, backgroundColor: COLORS.background }}
 				showsVerticalScrollIndicator={true}
-				keyExtractor={(item) => item.question}
+				keyExtractor={(item) => item.text}
 				renderItem={({ item, index }) => (
 					<View
 						style={{
@@ -213,12 +189,12 @@ const PlayQuizScreen = ({ navigation }) => {
 					>
 						<View style={{ padding: 20 }}>
 							<Text style={{ fontSize: 16 }}>
-								{index + 1}. {item.question}
+								{index + 1}. {item.text}
 							</Text>
-							{validateURL(item.imageUrl) ? (
+							{validateURL(item.imageurl) ? (
 								<Image
 									source={{
-										uri: item.imageUrl,
+										uri: item.imageurl,
 									}}
 									resizeMode={"contain"}
 									style={{
@@ -234,7 +210,7 @@ const PlayQuizScreen = ({ navigation }) => {
 							)}
 						</View>
 						{/* Options */}
-						{item.allOptions.map((option, optionIndex) => {
+						{item.options.map((option, optionIndex) => {
 							return (
 								<TouchableOpacity
 									key={optionIndex}
@@ -304,14 +280,12 @@ const PlayQuizScreen = ({ navigation }) => {
 				handleOnRetry={() => {
 					setCorrectCount(0);
 					setIncorrectCount(0);
-					//getQuizAndQuestionDetails();
 					setIsResultModalVisible(false);
-					navigation.goBack();
-					navigation.navigate("Play Quiz page");
+					setTryAgain(!tryAgain);
 				}}
 				handleOnGoHome={() => {
 					setIsResultModalVisible(false);
-					navigation.goBack();
+					navigation.navigate("Home page");
 				}}
 			/>
 		</SafeAreaView>

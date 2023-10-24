@@ -11,66 +11,52 @@ import { COLORS } from "../constants/theme";
 import { signOut } from "../utils/auth";
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import Quiz from "../components/HomeScreen/Quiz";
-import { getUsername } from "../utils/database";
-
-// TODO: QUIZ COMPONENT.
-
-// TODO: Icon COMPONENT.
+import { supabase } from "../app/lib/supabase-client";
+import { validateObject } from "../utils/validators";
 
 const HomeScreen = ({ navigation }) => {
 	const iconsSize = 19,
 		iconsPaddingHorizontal = 11.5,
 		iconsPaddingVertical = 7;
 	const [username, setUsername] = useState("");
-	const [quizzes, setQuizzes] = useState([
-		{
-			title: "Egypt",
-			description: "Egypt culture quizzz.",
-			id: 1,
-		},
-		{
-			title: "France",
-			description: "France culture quizzz.",
-			id: 2,
-		},
-		{
-			title: "Math",
-			description: "Math culture quizzz.",
-			id: 3,
-		},
-		{
-			title: "Boh",
-			description: "Lorem Ipsum Lorem Ipsum",
-			id: 4,
-		},
-		{
-			title: "Football",
-			description: "Who is the best between Pellegrini and Dybala?",
-			id: 5,
-		},
-		{
-			title: "Computer Science",
-			description: "Who is the best between Windows and Mac?",
-			id: 6,
-		},
-		{
-			title: "Comics",
-			description: "Who is the best between Superman and Batman?",
-			id: 7,
-		},
-	]);
+	const [quizzes, setQuizzes] = useState([]);
 	const [refreshing, setRefreshing] = useState(false);
 
 	useEffect(() => {
-		setRefreshing(true);
-		setUsername(getUsername("matteolambertucci3@gmail.com"));
-		console.log("ok", getUsername("matteolambertucci3@gmail.com"));
-		setRefreshing(false);
+		const getUsernameFromEmail = async (email) => {
+			let tempUsername = "";
+			setRefreshing(true);
+			const { data, error } = await supabase
+				.from("users")
+				.select("username")
+				.eq("email", email); // UNIQUE
+			if (validateObject(error)) {
+				console.error(error);
+			} else {
+				// TODO: CHECK VALID DATA.
+				tempUsername = data[0].username;
+				setUsername(tempUsername);
+				setRefreshing(false);
+			}
+		};
+
+		const getQuizzes = async () => {
+			setRefreshing(true);
+			const { data, error } = await supabase.from("quizzes").select();
+			if (validateObject(error)) {
+				console.error(error);
+			}
+			setQuizzes(data);
+			setRefreshing(false);
+		};
+
+		getUsernameFromEmail("matteolambertucci3@gmail.com");
+		getQuizzes();
 	}, []);
 
 	const handleOnPlayPress = (quiz) => {
 		navigation.navigate("Play Quiz page", {
-			quizId: quiz.id,
+			quizId: quiz.quiz_id,
 		});
 	};
 
@@ -195,7 +181,7 @@ const HomeScreen = ({ navigation }) => {
 								fontWeight: "bold",
 							}}
 						>
-							Benvenuto {username.toString()} !
+							Benvenuto {username} !
 						</Text>
 					</View>
 					{/* Quiz list */}
