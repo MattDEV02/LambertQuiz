@@ -34,7 +34,7 @@ const Quiz = ({ quiz, handleOnPlayPress }) => {
 			<TouchableOpacity
 				style={{
 					paddingVertical: 13.5,
-					paddingHorizontal: 26,
+					paddingHorizontal: 25,
 					borderRadius: 34,
 					backgroundColor: COLORS.primary,
 					borderWidth: 1,

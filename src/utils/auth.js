@@ -2,16 +2,19 @@ import { Alert } from "react-native";
 import Toast from "react-native-root-toast";
 import { supabase } from "../app/lib/supabase-client";
 import { existsUser, storeUser } from "./database";
+import { validateObject } from "./validators";
 
 export const signIn = async (email, password) => {
 	const { error } = await supabase.auth.signInWithPassword({
 		email,
 		password,
 	});
-	if (error) Alert.alert(error.message);
+	if (validateObject(error)) Alert.alert(error.message);
 	else {
-		if (existsUser(email)) Toast.show("Signed in");
-		else console.error("NOT EXISTS!" + email);
+		if (existsUser(email)) Toast.show("Signed In");
+		else {
+			Toast.show("Invalid credentials.");
+		}
 	}
 };
 
@@ -20,14 +23,17 @@ export const signUp = async (email, password, username) => {
 		email,
 		password,
 	});
-	if (error) {
+	if (validateObject(error)) {
 		Alert.alert(error.message);
 		return false;
 	} else {
 		if (storeUser(email, password, username)) {
-			Toast.show("Signed Up", { duration: 200 });
+			Toast.show("Signed Up");
 			return true;
-		} else return false;
+		} else {
+			Toast.show("There was a problem, please try again.");
+			return false;
+		}
 	}
 };
 

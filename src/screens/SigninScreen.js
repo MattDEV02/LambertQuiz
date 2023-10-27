@@ -6,6 +6,7 @@ import FormInput from "../components/shared/FormInput";
 import FormButton from "../components/shared/FormButton";
 import FormFooter from "../components/shared/FormFooter";
 import { signIn } from "../utils/auth";
+import { existsUser } from "../utils/database";
 
 const SignInScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
@@ -52,7 +53,7 @@ const SignInScreen = ({ navigation }) => {
 			/>
 			<FormInput
 				labelText="Password"
-				placeholderText="Enter your password (use 8 chars)"
+				placeholderText="Enter your password"
 				onChangeText={(password) => setPassword(password)}
 				value={password}
 				secureTextEntry={true}

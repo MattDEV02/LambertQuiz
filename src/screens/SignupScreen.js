@@ -76,7 +76,7 @@ const SignUpScreen = ({ navigation }) => {
 				/>
 				<FormInput
 					labelText="Password"
-					placeholderText="Enter your password (use 8 chars)"
+					placeholderText="Enter your password"
 					onChangeText={(password) => setPassword(password)}
 					value={password}
 					secureTextEntry={true}

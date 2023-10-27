@@ -12,7 +12,11 @@ import { signOut } from "../utils/auth";
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import Quiz from "../components/HomeScreen/Quiz";
 import { supabase } from "../app/lib/supabase-client";
-import { validateObject } from "../utils/validators";
+import {
+	validateObject,
+	validateString,
+	validateArray,
+} from "../utils/validators";
 
 const HomeScreen = ({ navigation }) => {
 	const iconsSize = 19,
@@ -23,19 +27,24 @@ const HomeScreen = ({ navigation }) => {
 	const [refreshing, setRefreshing] = useState(false);
 
 	useEffect(() => {
-		const getUsernameFromEmail = async (email) => {
-			let tempUsername = "";
+		const getUsernameFromEmail = async () => {
 			setRefreshing(true);
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
+			const email = user.email;
 			const { data, error } = await supabase
 				.from("users")
 				.select("username")
-				.eq("email", email); // UNIQUE
+				.eq("email", email)
+				.single(); // UNIQUE
 			if (validateObject(error)) {
 				console.error(error);
+				setRefreshing(false);
 			} else {
-				// TODO: CHECK VALID DATA.
-				tempUsername = data[0].username;
-				setUsername(tempUsername);
+				if (validateObject(data) && validateString(data.username))
+					setUsername(data.username);
+				else console.error("Invalid Data!");
 				setRefreshing(false);
 			}
 		};
@@ -45,12 +54,14 @@ const HomeScreen = ({ navigation }) => {
 			const { data, error } = await supabase.from("quizzes").select();
 			if (validateObject(error)) {
 				console.error(error);
+				setRefreshing(false);
 			}
-			setQuizzes(data);
+			if (validateArray(data, 1)) setQuizzes(data);
+			else console.error("Invalid Data!");
 			setRefreshing(false);
 		};
 
-		getUsernameFromEmail("matteolambertucci3@gmail.com");
+		getUsernameFromEmail();
 		getQuizzes();
 	}, []);
 
@@ -171,7 +182,7 @@ const HomeScreen = ({ navigation }) => {
 							flexDirection: "row",
 							alignItems: "center",
 							justifyContent: "center",
-							marginVertical: 27,
+							marginVertical: 27.5,
 						}}
 					>
 						<Text
