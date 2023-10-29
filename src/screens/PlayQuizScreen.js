@@ -36,7 +36,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				.select()
 				.eq("quiz", quizId);
 			if (validateObject(error)) {
-				console.error("oko", error);
+				console.error(error);
 			}
 			setQuestions(data);
 			setRefreshing(false);
@@ -180,7 +180,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				renderItem={({ item, index }) => (
 					<View
 						style={{
-							marginTop: 14,
+							marginTop: 12,
 							marginHorizontal: 10,
 							backgroundColor: COLORS.white,
 							elevation: 2,

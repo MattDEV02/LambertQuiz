@@ -6,6 +6,7 @@ import {
 	StatusBar,
 	FlatList,
 	ScrollView,
+	TouchableOpacity,
 } from "react-native";
 import { COLORS } from "../constants/theme";
 import { signOut } from "../utils/auth";
@@ -22,12 +23,12 @@ const HomeScreen = ({ navigation }) => {
 	const iconsSize = 19,
 		iconsPaddingHorizontal = 11.5,
 		iconsPaddingVertical = 7;
-	const [username, setUsername] = useState("");
+	const [user, setUser] = useState(null);
 	const [quizzes, setQuizzes] = useState([]);
 	const [refreshing, setRefreshing] = useState(false);
 
 	useEffect(() => {
-		const getUsernameFromEmail = async () => {
+		const getUserFromEmail = async () => {
 			setRefreshing(true);
 			const {
 				data: { user },
@@ -35,15 +36,14 @@ const HomeScreen = ({ navigation }) => {
 			const email = user.email;
 			const { data, error } = await supabase
 				.from("users")
-				.select("username")
+				.select("email, username")
 				.eq("email", email)
 				.single(); // UNIQUE
 			if (validateObject(error)) {
 				console.error(error);
 				setRefreshing(false);
 			} else {
-				if (validateObject(data) && validateString(data.username))
-					setUsername(data.username);
+				if (validateObject(data)) setUser(data);
 				else console.error("Invalid Data!");
 				setRefreshing(false);
 			}
@@ -61,7 +61,7 @@ const HomeScreen = ({ navigation }) => {
 			setRefreshing(false);
 		};
 
-		getUsernameFromEmail();
+		getUserFromEmail();
 		getQuizzes();
 	}, []);
 
@@ -126,7 +126,9 @@ const HomeScreen = ({ navigation }) => {
 								name="user-circle"
 								size={iconsSize}
 								style={{ color: COLORS.white }}
-								onPress={() => navigation.navigate("Account page")}
+								onPress={() =>
+									navigation.navigate("Account page", { user })
+								}
 							/>
 						</View>
 						{/* stats */}
@@ -153,19 +155,17 @@ const HomeScreen = ({ navigation }) => {
 						</View>
 					</View>
 					{/* Logout */}
-					<View
+					<TouchableOpacity
 						style={{
 							flexDirection: "row",
 							alignItems: "right",
 							justifyContent: "flex-end",
-							marginRight: 18.5,
-							marginBottom: 1.5,
+							marginRight: 13,
 						}}
 					>
 						<Text
 							style={{
-								fontSize: 21.5,
-								padding: 5,
+								fontSize: 21,
 								color: COLORS.error,
 								fontWeight: "500",
 							}}
@@ -173,7 +173,16 @@ const HomeScreen = ({ navigation }) => {
 						>
 							Logout
 						</Text>
-					</View>
+						<MaterialIcons
+							name="arrow-circle-o-left"
+							size={iconsSize + 6}
+							color={COLORS.error}
+							style={{
+								marginLeft: 6.5,
+								marginTop: 3.5,
+							}}
+						/>
+					</TouchableOpacity>
 				</View>
 				<View>
 					{/* Welcome title */}
@@ -182,17 +191,22 @@ const HomeScreen = ({ navigation }) => {
 							flexDirection: "row",
 							alignItems: "center",
 							justifyContent: "center",
-							marginVertical: 27.5,
+							marginTop: 27.5,
+							marginBottom: 23,
 						}}
 					>
 						<Text
 							style={{
-								fontSize: 24,
+								fontSize: 24.3,
 								color: COLORS.black,
 								fontWeight: "bold",
 							}}
 						>
-							Benvenuto {username} !
+							Benvenuto{" "}
+							{validateObject(user) && validateString(user.username)
+								? user.username
+								: null}{" "}
+							!
 						</Text>
 					</View>
 					{/* Quiz list */}
