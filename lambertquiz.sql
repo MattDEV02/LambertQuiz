@@ -10,7 +10,9 @@ COMMENT ON SCHEMA lambertquiz IS 'LambertQuiz App Schema';
 
 SET SEARCH_PATH TO lambertquiz; 
 
-SET TIME ZONE 'Europe/Rome';
+SELECT CURRENT_DATABASE();
+
+ALTER DATABASE postgres SET TIMEZONE TO 'Europe/Rome';
 
 SELECT NOW();
 
@@ -265,10 +267,7 @@ INSERT INTO lambertquiz.questions (text, category, imageURL, options, solution, 
 SELECT * from lambertquiz.questions;
 
 GRANT usage ON schema "lambertquiz" TO postgres;
-GRANT usage ON schema "lambertquiz" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA "lambertquiz" TO postgres;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA "lambertquiz" TO postgres;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA lambertquiz TO postgres;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA lambertquiz TO postgres;
 
 SELECT * FROM pg_catalog.pg_tables  WHERE schemaname = 'lambertquiz';

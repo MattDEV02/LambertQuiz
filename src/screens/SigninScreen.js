@@ -1,27 +1,39 @@
 import React, { useState } from "react";
-import { Text, SafeAreaView, Alert } from "react-native";
+import { Text, SafeAreaView, Alert as Window } from "react-native";
 import { COLORS, appName } from "../constants/theme";
 import { validateEmail, validatePassword } from "../utils/validators.js";
 import FormInput from "../components/shared/FormInput";
 import FormButton from "../components/shared/FormButton";
 import FormFooter from "../components/shared/FormFooter";
 import { signIn } from "../utils/auth";
-import { existsUser } from "../utils/database";
 
 const SignInScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [emailError, setEmailError] = useState(false);
+	const [passwordError, setPasswordError] = useState(false);
 
 	const handleOnPress = () => {
 		if (validateEmail(email)) {
-			validatePassword(password)
-				? signIn(email, password)
-				: Alert.alert(
-						"Password not valid, use minimum 8 chars and maximum 32 chars.",
-				  );
+			setEmailError(false);
+		} else {
+			setEmailError(true);
+			Window.alert("Email not valid", "Please enter a valid email.");
+		}
+		if (validatePassword(password)) {
+			setPasswordError(false);
+		} else {
+			setPasswordError(true);
+			Window.alert(
+				"Password not valid",
+				"Password not valid, please use minimum 8 chars and maximum 32 chars.",
+			);
+		}
+		if (validateEmail(email) && validatePassword(password)) {
+			signIn(email, password);
 			setEmail("");
 			setPassword("");
-		} else Alert.alert("Email not valid.");
+		}
 	};
 
 	return (
@@ -49,6 +61,7 @@ const SignInScreen = ({ navigation }) => {
 				placeholderText="Enter your email"
 				onChangeText={(value) => setEmail(value)}
 				value={email}
+				inputError={emailError}
 				keyboardType="email-address"
 			/>
 			<FormInput
@@ -56,6 +69,7 @@ const SignInScreen = ({ navigation }) => {
 				placeholderText="Enter your password"
 				onChangeText={(password) => setPassword(password)}
 				value={password}
+				inputError={passwordError}
 				secureTextEntry={true}
 			/>
 			<FormButton

@@ -41,12 +41,8 @@ const HomeScreen = ({ navigation }) => {
 				.single(); // UNIQUE
 			if (validateObject(error)) {
 				console.error(error);
-				setRefreshing(false);
-			} else {
-				if (validateObject(data)) setUser(data);
-				else console.error("Invalid Data!");
-				setRefreshing(false);
-			}
+			} else if (validateObject(data)) setUser(data);
+			setRefreshing(false);
 		};
 
 		const getQuizzes = async () => {
@@ -178,8 +174,8 @@ const HomeScreen = ({ navigation }) => {
 							size={iconsSize + 6}
 							color={COLORS.error}
 							style={{
-								marginLeft: 6.5,
-								marginTop: 3.5,
+								marginLeft: 6.7,
+								marginTop: 4.5,
 							}}
 						/>
 					</TouchableOpacity>

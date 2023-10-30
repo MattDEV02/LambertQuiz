@@ -15,7 +15,6 @@ import ResultModal from "../components/PlayQuizScreen/ResultModal";
 import { validateObject, validateURL } from "../utils/validators";
 import NoImage from "../components/PlayQuizScreen/NoImage";
 import { supabase } from "../app/lib/supabase-client";
-import { getQuestionsFromQuizId } from "../utils/database";
 
 // TODO: QUESTION COMPONENT.
 
@@ -37,8 +36,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				.eq("quiz", quizId);
 			if (validateObject(error)) {
 				console.error(error);
-			}
-			setQuestions(data);
+			} else if (validateArray(data, 1)) setQuestions(data);
 			setRefreshing(false);
 		};
 
@@ -68,8 +66,8 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	};
 
 	const handleOnOptionPress = (item, option, index) => {
-		// ?
-		if (item.selectedOption) {
+		//
+		if (validateObject(item.selectedOption)) {
 			return null;
 		}
 		// increase correct and incorrect count

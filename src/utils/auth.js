@@ -11,7 +11,7 @@ export const signIn = async (email, password) => {
 	});
 	if (validateObject(error)) Alert.alert(error.message);
 	else {
-		if (existsUser(email)) Toast.show("Signed In");
+		if (existsUser(email)) Toast.show("Signed In.");
 		else {
 			Toast.show("Invalid credentials.");
 		}
@@ -28,7 +28,7 @@ export const signUp = async (email, password, username) => {
 		return false;
 	} else {
 		if (storeUser(email, password, username)) {
-			Toast.show("Signed Up");
+			Toast.show("Signed Up, please confirm your email.");
 			return true;
 		} else {
 			Toast.show("There was a problem, please try again.");
@@ -41,6 +41,6 @@ export const signOut = async () => {
 	const { error } = await supabase.auth.signOut();
 	if (error) Alert.alert(error.message);
 	else {
-		Toast.show("Signed Out");
+		Toast.show("Signed Out.");
 	}
 };

@@ -7,8 +7,20 @@ const FormInput = ({
 	placeholderText = "",
 	onChangeText = null,
 	value = null,
+	inputError = false,
 	...more
 }) => {
+	let textErrorStyle = null,
+		textInputErrorStyle = null;
+	if (inputError) {
+		textErrorStyle = {
+			color: COLORS.error,
+		};
+		textInputErrorStyle = {
+			borderColor: COLORS.error,
+			color: COLORS.error,
+		};
+	}
 	return (
 		<View
 			style={{
@@ -16,14 +28,17 @@ const FormInput = ({
 				marginBottom: 20,
 			}}
 		>
-			<Text>{labelText}</Text>
+			<Text style={textErrorStyle}>{labelText}</Text>
 			<TextInput
 				style={{
-					padding: 10,
-					borderColor: COLORS.black + "20",
-					borderWidth: 1,
-					width: "100%",
-					marginTop: 11,
+					...{
+						padding: 10,
+						borderColor: COLORS.black + "20",
+						borderWidth: 1,
+						width: "100%",
+						marginTop: 11,
+					},
+					...textInputErrorStyle,
 				}}
 				placeholder={placeholderText}
 				onChangeText={onChangeText}
