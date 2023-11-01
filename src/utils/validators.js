@@ -19,7 +19,7 @@ export const validatePassword = (password) => {
 
 export const validateUsername = (username) => {
 	return (
-		validateString(username) && username.length >= 3 && username.length <= 8
+		validateString(username) && username.length >= 3 && username.length <= 10
 	);
 };
 

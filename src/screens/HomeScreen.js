@@ -154,8 +154,8 @@ const HomeScreen = ({ navigation }) => {
 					<TouchableOpacity
 						style={{
 							flexDirection: "row",
-							alignItems: "right",
-							justifyContent: "flex-end",
+							alignItems: "center",
+							justifyContent: "center",
 							marginRight: 13,
 						}}
 					>

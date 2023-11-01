@@ -84,7 +84,7 @@ ALTER TABLE lambertquiz.users ADD CONSTRAINT check_users_email_min_length CHECK 
 
 ALTER TABLE lambertquiz.users ADD CONSTRAINT check_users_email_valid CHECK((lambertquiz.users.email ~ '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'::text));
 
---ALTER TABLE lambertquiz.users ADD CONSTRAINT check_users_password_min_length CHECK (LENGTH(lambertquiz.users.password) >= 16);
+ALTER TABLE lambertquiz.users ADD CONSTRAINT check_users_password_min_length CHECK (LENGTH(lambertquiz.users.password) >= 16);
 
 ALTER TABLE lambertquiz.users ADD CONSTRAINT check_users_username_min_length CHECK (LENGTH(lambertquiz.users.username) >= 3);
 

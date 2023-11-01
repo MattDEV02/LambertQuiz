@@ -5,6 +5,7 @@ import {
 	PlayQuizScreen,
 	AccountScreen,
 	StatsScreen,
+	HelpScreen,
 } from "../screens";
 import { headerShown } from "../constants/theme";
 
@@ -21,6 +22,7 @@ const AppStackNavigator = () => {
 			<Stack.Screen name="Account page" component={AccountScreen} />
 			<Stack.Screen name="Stats page" component={StatsScreen} />
 			<Stack.Screen name="Play Quiz page" component={PlayQuizScreen} />
+			<Stack.Screen name="Help page" component={HelpScreen} />
 		</Stack.Navigator>
 	);
 };

@@ -8,6 +8,7 @@ const FormInput = ({
 	onChangeText = null,
 	value = null,
 	inputError = false,
+	style = null,
 	...more
 }) => {
 	let textErrorStyle = null,
@@ -24,8 +25,11 @@ const FormInput = ({
 	return (
 		<View
 			style={{
-				width: "100%",
-				marginBottom: 20,
+				...{
+					width: "100%",
+					marginBottom: 20,
+				},
+				...style,
 			}}
 		>
 			<Text style={textErrorStyle}>{labelText}</Text>

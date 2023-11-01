@@ -1,4 +1,5 @@
-import React, {
+import React, { useState } from "react";
+import {
 	StyleSheet,
 	SafeAreaView,
 	View,
@@ -9,10 +10,30 @@ import React, {
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import { COLORS } from "../constants/theme";
 import { signOut } from "../utils/auth";
+import FormInput from "../components/shared/FormInput";
 
-export const AccountScreen = ({ navigation, route }) => {
+const AccountScreen = ({ navigation, route }) => {
+	const [usernameClicked, setUsernameClicked] = useState(false);
+	const [passwordClicked, setPasswordClicked] = useState(false);
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
+
 	const user = route.params.user;
 	const iconsSize = 26;
+
+	const handleOnPressSetUsername = () => {
+		setUsernameClicked(true);
+
+		setTimeout(() => {}, 2000);
+		console.log("username", usernameClicked);
+	};
+
+	const handleOnPressSetPassword = () => {
+		setPasswordClicked(true);
+		console.log("password", passwordClicked);
+	};
+
 	return (
 		<SafeAreaView
 			style={{
@@ -65,32 +86,70 @@ export const AccountScreen = ({ navigation, route }) => {
 					</Text>
 				</View>
 				<View style={{ marginBottom: 170 }}>
-					<TouchableOpacity
-						style={style.touchableOpacity}
-						onPress={() => console.log(1)}
-					>
-						<Text style={{ ...style.text, ...{ color: COLORS.success } }}>
-							Set username
-						</Text>
-						<MaterialIcons
-							name="edit"
-							size={iconsSize}
-							color={COLORS.success}
+					{usernameClicked ? (
+						<FormInput
+							labelText="Username"
+							placeholderText="Enter your username (between 3 & 8 chars)"
+							//	inputError={usernameError}
+							//value={username}
+							style={{
+								marginBottom: 10,
+							}}
+							maxLength={10}
+							autoComplete={"username"}
+							autoCorrect={true}
+							inputMode={"text"}
+							keyboardType={"default"}
+							//onChangeText={(username) => setUsername(username)}
 						/>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={style.touchableOpacity}
-						onPress={() => console.log(2)}
-					>
-						<Text style={{ ...style.text, ...{ color: COLORS.primary } }}>
-							Set password
-						</Text>
-						<MaterialIcons
-							name="edit"
-							size={iconsSize}
-							color={COLORS.primary}
+					) : (
+						<TouchableOpacity
+							style={style.touchableOpacity}
+							onPress={() => handleOnPressSetUsername()}
+						>
+							<Text
+								style={{ ...style.text, ...{ color: COLORS.success } }}
+							>
+								Set username
+							</Text>
+							<MaterialIcons
+								name="edit"
+								size={iconsSize}
+								color={COLORS.success}
+							/>
+						</TouchableOpacity>
+					)}
+
+					{passwordClicked ? (
+						<FormInput
+							labelText="Password"
+							placeholderText="Enter your password"
+							value={password}
+							//	inputError={passwordError}
+							autoComplete={"off"}
+							autoCorrect={false}
+							style={{}}
+							maxLength={32}
+							secureTextEntry={true}
+							onChangeText={(password) => setPassword(password)}
 						/>
-					</TouchableOpacity>
+					) : (
+						<TouchableOpacity
+							style={style.touchableOpacity}
+							onPress={() => handleOnPressSetPassword()}
+						>
+							<Text
+								style={{ ...style.text, ...{ color: COLORS.primary } }}
+							>
+								Set password
+							</Text>
+							<MaterialIcons
+								name="edit"
+								size={iconsSize}
+								color={COLORS.primary}
+							/>
+						</TouchableOpacity>
+					)}
 					<TouchableOpacity
 						style={style.touchableOpacity}
 						onPress={() => navigation.navigate("Stats page")}
@@ -132,12 +191,12 @@ const style = StyleSheet.create({
 		justifyContent: "center",
 		fontSize: 8,
 		margin: 2,
-		marginTop: 35,
+		marginTop: 34.75,
 	},
 	text: {
 		color: COLORS.secondary,
 		fontSize: 21.5,
-		marginRight: 11.5,
+		marginRight: 10,
 	},
 });
 

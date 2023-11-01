@@ -84,7 +84,7 @@ const SignUpScreen = ({ navigation }) => {
 		} else {
 			Window.alert(
 				"Username not valid",
-				"Username not valid, minimum 3 chars and maximum 8 chars.",
+				"Username not valid, minimum 3 chars and maximum 10 chars.",
 			);
 			setUsernameError(true);
 		}
@@ -160,35 +160,55 @@ const SignUpScreen = ({ navigation }) => {
 				<FormInput
 					labelText="Email"
 					placeholderText="Enter your email"
-					onChangeText={(email) => setEmail(email)}
 					value={email}
 					inputError={emailError}
 					keyboardType="email-address"
+					autoComplete={"off"}
+					autoCorrect={false}
+					maxLength={50}
+					autocapitalize={"none"}
+					spellcheck={false}
+					inputMode={"email"}
+					onChangeText={(email) => setEmail(email)}
+					onEndEditing={(event) =>
+						setEmail(event.nativeEvent.text.toLowerCase())
+					}
 				/>
 				<FormInput
 					labelText="Username"
-					placeholderText="Enter your username (between 3 & 8 chars)"
-					onChangeText={(username) => setUsername(username)}
+					placeholderText="Enter your username (between 3 & 10 chars)"
 					inputError={usernameError}
 					value={username}
+					maxLength={10}
+					autoComplete={"username"}
+					autoCorrect={true}
+					inputMode={"text"}
+					keyboardType={"default"}
+					onChangeText={(username) => setUsername(username)}
 				/>
 				<FormInput
 					labelText="Password"
-					placeholderText="Enter your password"
-					onChangeText={(password) => setPassword(password)}
+					placeholderText="Enter your password (between 3 & 10 chars)"
 					value={password}
 					inputError={passwordError}
+					autoComplete={"off"}
+					autoCorrect={false}
+					maxLength={32}
 					secureTextEntry={true}
+					onChangeText={(password) => setPassword(password)}
 				/>
 				<FormInput
 					labelText="Confirm your Password"
 					placeholderText="Confirm your Password"
+					value={confirmPassword}
+					inputError={confirmPasswordError}
+					autoComplete={"off"}
+					autoCorrect={false}
+					maxLength={32}
+					secureTextEntry={true}
 					onChangeText={(confirmPassword) =>
 						setConfirmPassword(confirmPassword)
 					}
-					value={confirmPassword}
-					inputError={confirmPasswordError}
-					secureTextEntry={true}
 				/>
 				<FormButton
 					labelText="Submit"
