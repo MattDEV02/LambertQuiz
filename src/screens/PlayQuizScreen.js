@@ -12,7 +12,11 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { COLORS, appName } from "../constants/theme";
 import FormButton from "../components/shared/FormButton";
 import ResultModal from "../components/PlayQuizScreen/ResultModal";
-import { validateObject, validateURL } from "../utils/validators";
+import {
+	validateObject,
+	validateURL,
+	validateArray,
+} from "../utils/validators";
 import NoImage from "../components/PlayQuizScreen/NoImage";
 import { supabase } from "../app/lib/supabase-client";
 

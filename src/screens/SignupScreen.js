@@ -83,7 +83,7 @@ const SignUpScreen = ({ navigation }) => {
 			setUsernameError(false);
 		} else {
 			Window.alert(
-				"Username not valid",
+				`Username ${username} not valid`,
 				"Username not valid, minimum 3 chars and maximum 10 chars.",
 			);
 			setUsernameError(true);
@@ -101,7 +101,7 @@ const SignUpScreen = ({ navigation }) => {
 			setConfirmPasswordError(false);
 		} else {
 			setConfirmPasswordError(true);
-			Window.alert("The password did not match.");
+			Window.alert("Please, try again", "The passwords did not match.");
 		}
 		if (
 			validateEmail(email) &&

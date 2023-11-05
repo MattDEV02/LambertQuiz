@@ -36,7 +36,7 @@ const HomeScreen = ({ navigation }) => {
 			const email = user.email;
 			const { data, error } = await supabase
 				.from("users")
-				.select("email, username")
+				.select("email, username, password")
 				.eq("email", email)
 				.single(); // UNIQUE
 			if (validateObject(error)) {

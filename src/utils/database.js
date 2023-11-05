@@ -23,12 +23,46 @@ export const storeUser = async (email, password, username) => {
 	return false;
 };
 
-export const existsUser = (user) => {
+const existsUser = (user) => {
 	return validateObject(user);
 };
 
 export const getUsername = async (email) => {};
 
-export const updateUser = (email, password, username) => {};
+export const updateUserUsername = async (oldUsername, newUsername) => {
+	const { error } = await supabase
+		.from("users")
+		.update({ username: newUsername })
+		.eq("username", oldUsername);
+	if (validateObject(error)) {
+		console.error(error);
+		return false;
+	}
+	console.log("User usermame " + oldUsername + " uptated in " + newUsername);
+	return true;
+};
 
-export const deleteUser = (email, password) => {};
+export const updateUserPassword = async (username, newPassword) => {
+	const { error } = await supabase
+		.from("users")
+		.update({ password: newPassword })
+		.eq("username", username);
+	if (validateObject(error)) {
+		console.error(error);
+		return false;
+	}
+	console.log(
+		"User usermame " + username + " password uptated in " + newPassword,
+	);
+	return true;
+};
+
+export const deleteUser = async (email) => {
+	const { error } = await supabase.from("users").delete().eq("email", email);
+	if (validateObject(error)) {
+		console.error(error);
+		return false;
+	}
+	console.log(email + " deleted.");
+	return true;
+};

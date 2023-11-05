@@ -9,32 +9,22 @@ import {
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import { COLORS } from "../constants/theme";
-import { signOut } from "../utils/auth";
-import FormInput from "../components/shared/FormInput";
+import SetUsernameModal from "../components/AccountScreen/setUsernameModal";
+import SetPasswordModal from "../components/AccountScreen/setPasswordModal";
+import { validateObject } from "../utils/validators";
+
+// TODO: AccountOption component
 
 const AccountScreen = ({ navigation, route }) => {
-	const [usernameClicked, setUsernameClicked] = useState(false);
-	const [passwordClicked, setPasswordClicked] = useState(false);
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
-	const [confirmPassword, setConfirmPassword] = useState("");
-
 	const user = route.params.user;
+	const [username, setUsername] = useState(user.username);
+	const [isSetUsernameModalVisible, setIsSetUsernameModalVisible] =
+		useState(false);
+	const [isSetPasswordModalVisible, setIsSetPasswordModalVisible] =
+		useState(false);
 	const iconsSize = 26;
 
-	const handleOnPressSetUsername = () => {
-		setUsernameClicked(true);
-
-		setTimeout(() => {}, 2000);
-		console.log("username", usernameClicked);
-	};
-
-	const handleOnPressSetPassword = () => {
-		setPasswordClicked(true);
-		console.log("password", passwordClicked);
-	};
-
-	return (
+	return validateObject(user) ? (
 		<SafeAreaView
 			style={{
 				flex: 1,
@@ -73,7 +63,7 @@ const AccountScreen = ({ navigation, route }) => {
 							fontSize: 29,
 						}}
 					>
-						{user.username}
+						{username}
 					</Text>
 					<Text
 						style={{
@@ -86,70 +76,44 @@ const AccountScreen = ({ navigation, route }) => {
 					</Text>
 				</View>
 				<View style={{ marginBottom: 170 }}>
-					{usernameClicked ? (
-						<FormInput
-							labelText="Username"
-							placeholderText="Enter your username (between 3 & 8 chars)"
-							//	inputError={usernameError}
-							//value={username}
-							style={{
-								marginBottom: 10,
-							}}
-							maxLength={10}
-							autoComplete={"username"}
-							autoCorrect={true}
-							inputMode={"text"}
-							keyboardType={"default"}
-							//onChangeText={(username) => setUsername(username)}
+					<TouchableOpacity
+						style={style.touchableOpacity}
+						onPress={() => setIsSetUsernameModalVisible(true)}
+					>
+						<Text style={{ ...style.text, ...{ color: COLORS.success } }}>
+							Set username
+						</Text>
+						<MaterialIcons
+							name="edit"
+							size={iconsSize}
+							color={COLORS.success}
 						/>
-					) : (
-						<TouchableOpacity
-							style={style.touchableOpacity}
-							onPress={() => handleOnPressSetUsername()}
-						>
-							<Text
-								style={{ ...style.text, ...{ color: COLORS.success } }}
-							>
-								Set username
-							</Text>
-							<MaterialIcons
-								name="edit"
-								size={iconsSize}
-								color={COLORS.success}
-							/>
-						</TouchableOpacity>
-					)}
-
-					{passwordClicked ? (
-						<FormInput
-							labelText="Password"
-							placeholderText="Enter your password"
-							value={password}
-							//	inputError={passwordError}
-							autoComplete={"off"}
-							autoCorrect={false}
-							style={{}}
-							maxLength={32}
-							secureTextEntry={true}
-							onChangeText={(password) => setPassword(password)}
+					</TouchableOpacity>
+					<SetUsernameModal
+						isModalVisible={isSetUsernameModalVisible}
+						setIsModalVisible={setIsSetUsernameModalVisible}
+						oldUsername={user.username}
+						setUsername={setUsername}
+					/>
+					<SetPasswordModal
+						isModalVisible={isSetPasswordModalVisible}
+						setIsModalVisible={setIsSetPasswordModalVisible}
+						oldPassword={user.password}
+						username={username}
+					/>
+					<TouchableOpacity
+						style={style.touchableOpacity}
+						onPress={() => setIsSetPasswordModalVisible(true)}
+					>
+						<Text style={{ ...style.text, ...{ color: COLORS.primary } }}>
+							Set password
+						</Text>
+						<MaterialIcons
+							name="edit"
+							size={iconsSize}
+							color={COLORS.primary}
 						/>
-					) : (
-						<TouchableOpacity
-							style={style.touchableOpacity}
-							onPress={() => handleOnPressSetPassword()}
-						>
-							<Text
-								style={{ ...style.text, ...{ color: COLORS.primary } }}
-							>
-								Set password
-							</Text>
-							<MaterialIcons
-								name="edit"
-								size={iconsSize}
-								color={COLORS.primary}
-							/>
-						</TouchableOpacity>
-					)}
+					</TouchableOpacity>
 					<TouchableOpacity
 						style={style.touchableOpacity}
 						onPress={() => navigation.navigate("Stats page")}
@@ -167,13 +131,13 @@ const AccountScreen = ({ navigation, route }) => {
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={style.touchableOpacity}
-						onPress={() => signOut()}
+						onPress={() => deleteUser()}
 					>
 						<Text style={{ ...style.text, ...{ color: COLORS.error } }}>
-							Logout
+							Delete account
 						</Text>
 						<MaterialIcons
-							name="arrow-circle-o-left"
+							name="close"
 							size={iconsSize}
 							color={COLORS.error}
 						/>
@@ -181,7 +145,7 @@ const AccountScreen = ({ navigation, route }) => {
 				</View>
 			</View>
 		</SafeAreaView>
-	);
+	) : null;
 };
 
 const style = StyleSheet.create({
