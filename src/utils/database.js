@@ -23,7 +23,7 @@ export const storeUser = async (email, password, username) => {
 	return false;
 };
 
-const existsUser = (user) => {
+export const existsUser = (user) => {
 	return validateObject(user);
 };
 

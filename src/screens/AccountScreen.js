@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	StyleSheet,
 	SafeAreaView,
@@ -6,23 +6,75 @@ import {
 	Text,
 	TouchableOpacity,
 	Image,
+	Alert as Window,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import { COLORS } from "../constants/theme";
 import SetUsernameModal from "../components/AccountScreen/setUsernameModal";
 import SetPasswordModal from "../components/AccountScreen/setPasswordModal";
-import { validateObject } from "../utils/validators";
+import { validateObject, validateString } from "../utils/validators";
+import { removeUser } from "../utils/auth";
+import { supabase } from "../app/lib/supabase-client";
 
 // TODO: AccountOption component
 
 const AccountScreen = ({ navigation, route }) => {
-	const user = route.params.user;
-	const [username, setUsername] = useState(user.username);
+	const [user, setUser] = useState(route.params.user);
+	const [username, setUsername] = useState("");
 	const [isSetUsernameModalVisible, setIsSetUsernameModalVisible] =
 		useState(false);
 	const [isSetPasswordModalVisible, setIsSetPasswordModalVisible] =
 		useState(false);
+
+	useEffect(() => {
+		const getUserUsernameAndPasswordFromEmail = async (email) => {
+			const { data, error } = await supabase
+				.from("users")
+				.select("username, password")
+				.eq("email", email)
+				.single(); // UNIQUE
+			if (validateObject(error)) {
+				console.error(error);
+			} else if (validateObject(data)) {
+				const tempUser = user;
+				tempUser.username = data.username;
+				tempUser.password = data.password;
+				setUser(tempUser);
+				setUsername(user.username);
+			}
+		};
+		getUserUsernameAndPasswordFromEmail(user.email);
+	}, []);
+
 	const iconsSize = 26;
+
+	const handleOnDeleteUserPress = () => {
+		Window.alert(
+			"Are your sure?",
+			`Are you sure you want to deleted your account with this email: ${user.email} ?`,
+			[
+				{
+					text: "Yes",
+					onPress: () => {
+						Window.alert(
+							"Account deleted successfully",
+							`Your account is deleted.`,
+						);
+						removeUser(user);
+					},
+				},
+				{
+					text: "No",
+					onPress: () => {
+						Window.alert(
+							"Account not deleted",
+							`You can continue to play with us.`,
+						);
+					},
+				},
+			],
+		);
+	};
 
 	return validateObject(user) ? (
 		<SafeAreaView
@@ -63,7 +115,7 @@ const AccountScreen = ({ navigation, route }) => {
 							fontSize: 29,
 						}}
 					>
-						{username}
+						{validateString(username) ? username : null}
 					</Text>
 					<Text
 						style={{
@@ -72,7 +124,7 @@ const AccountScreen = ({ navigation, route }) => {
 							fontSize: 15,
 						}}
 					>
-						{user.email}
+						{validateString(user.email) ? user.email : null}
 					</Text>
 				</View>
 				<View style={{ marginBottom: 170 }}>
@@ -131,7 +183,7 @@ const AccountScreen = ({ navigation, route }) => {
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={style.touchableOpacity}
-						onPress={() => deleteUser()}
+						onPress={() => handleOnDeleteUserPress()}
 					>
 						<Text style={{ ...style.text, ...{ color: COLORS.error } }}>
 							Delete account
@@ -145,7 +197,9 @@ const AccountScreen = ({ navigation, route }) => {
 				</View>
 			</View>
 		</SafeAreaView>
-	) : null;
+	) : (
+		<Text>...</Text>
+	);
 };
 
 const style = StyleSheet.create({

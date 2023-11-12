@@ -24,12 +24,13 @@ import { supabase } from "../app/lib/supabase-client";
 
 const PlayQuizScreen = ({ navigation, route }) => {
 	const [refreshing, setRefreshing] = useState(false);
-	const [currentQuizId, setCurrentQuizId] = useState(route.params.quizId);
 	const [correctCount, setCorrectCount] = useState(0);
 	const [incorrectCount, setIncorrectCount] = useState(0);
 	const [isResultModalVisible, setIsResultModalVisible] = useState(false);
 	const [questions, setQuestions] = useState([]);
 	const [tryAgain, setTryAgain] = useState(false);
+
+	const quizId = route.params.quizId;
 
 	useEffect(() => {
 		const getQuestionsFromQuizId = async (quizId) => {
@@ -44,8 +45,8 @@ const PlayQuizScreen = ({ navigation, route }) => {
 			setRefreshing(false);
 		};
 
-		getQuestionsFromQuizId(currentQuizId);
-	}, [tryAgain]);
+		getQuestionsFromQuizId(quizId);
+	}, [tryAgain, quizId]);
 
 	const getOptionBackgroundColor = (currentQuestion, currentOption) => {
 		if (
@@ -178,6 +179,8 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				data={questions}
 				style={{ flex: 1, backgroundColor: COLORS.background }}
 				showsVerticalScrollIndicator={true}
+				onRefresh={() => undefined}
+				refreshing={refreshing}
 				keyExtractor={(item) => item.text}
 				renderItem={({ item, index }) => (
 					<View

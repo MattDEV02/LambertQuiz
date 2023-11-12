@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -9,7 +9,12 @@ import {
 import { COLORS } from "../../constants/theme";
 import FormInput from "../shared/FormInput";
 import { updateUserUsername } from "../../utils/database";
-import { validateUsername } from "../../utils/validators";
+import {
+	validateUsername,
+	validateArray,
+	validateObject,
+} from "../../utils/validators";
+import { supabase } from "../../app/lib/supabase-client";
 
 const SetUsernameModal = ({
 	isModalVisible = false,
@@ -19,44 +24,82 @@ const SetUsernameModal = ({
 }) => {
 	const [newUsername, setNewUsername] = useState(oldUsername);
 	const [usernameError, setUsernameError] = useState(false);
+	const [refreshing, setRefreshing] = useState(false);
+	const [usersUsername, setUsersUsername] = useState([]);
+
+	useEffect(() => {
+		const getUsersUsername = async () => {
+			setRefreshing(true);
+			const { data, error } = await supabase
+				.from("users")
+				.select("username");
+			if (validateObject(error)) {
+				console.error(error);
+			} else if (validateObject(data)) {
+				let tempUsersUsername = getUsernamesFromUsers(data);
+				setUsersUsername(tempUsersUsername);
+				setUsersUsername(
+					usersUsername.splice(usersUsername.indexOf(oldUsername), 1),
+				);
+				setRefreshing(false);
+			}
+		};
+		getUsersUsername();
+	}, []);
+
+	const getUsernamesFromUsers = (users) => {
+		let usernames = [];
+		if (validateArray(users, 0)) {
+			users.map((user) => {
+				if (validateObject(user) && validateUsername(user.username))
+					usernames.push(user.username);
+			});
+		}
+		return usernames;
+	};
 
 	const handleOnPress = () => {
-		// TODO: username unique.
 		if (validateUsername(newUsername)) {
-			if (oldUsername !== newUsername) {
-				Window.alert(
-					"Are your sure?",
-					`Are you sure you want to set your username in ${newUsername} ?`,
-					[
-						{
-							text: "Yes",
-							onPress: () => {
-								if (updateUserUsername(oldUsername, newUsername)) {
-									setUsername(newUsername);
-									setUsernameError(false);
+			if (!usersUsername.includes(newUsername)) {
+				if (oldUsername !== newUsername) {
+					Window.alert(
+						"Are your sure?",
+						`Are you sure you want to set your username in ${newUsername} ?`,
+						[
+							{
+								text: "Yes",
+								onPress: () => {
+									if (updateUserUsername(oldUsername, newUsername)) {
+										setUsername(newUsername);
+										setUsernameError(false);
+										Window.alert(
+											"Username updated",
+											`Now your username is ${newUsername}.`,
+										);
+									}
+									setIsModalVisible(false);
+								},
+							},
+							{
+								text: "No",
+								onPress: () => {
 									Window.alert(
-										"Username updated",
-										`Now your username is ${newUsername}.`,
+										"Username not updated",
+										`Your username is still ${oldUsername}.`,
 									);
-								}
-								setIsModalVisible(false);
+									setIsModalVisible(false);
+								},
 							},
-						},
-						{
-							text: "No",
-							onPress: () => {
-								Window.alert(
-									"Username not updated",
-									`Your username is still ${oldUsername}.`,
-								);
-								setIsModalVisible(false);
-							},
-						},
-					],
-				);
+						],
+					);
+				} else
+					Window.alert(
+						"Old and new username are equals",
+						"Please, choose a new usermame.",
+					);
 			} else
 				Window.alert(
-					"Old and new username are equals.",
+					"Username already used",
 					"Please, choose a new usermame.",
 				);
 		} else {

@@ -18,16 +18,35 @@ const App = () => {
 			})
 			.catch((error) => console.error(error));
 
-		supabase.auth.onAuthStateChange((_event, session) => {
+		supabase.auth.onAuthStateChange(async (_event, session) => {
 			console.log(_event); //  INITIAL_SESSION / SIGNED_IN / SIGNED_OUT
 			setSession(session);
+			/*
+			if (validateObject(session) && validateObject(session.user)) {
+				setUser(session.user);
+				const email = session.user.email;
+				const { data, error } = await supabase
+					.from("users")
+					.select("username, password")
+					.eq("email", email)
+					.single(); // UNIQUE
+				if (validateObject(error)) {
+					console.error(error);
+				} else if (validateObject(data)) {
+					session.user.username = data.username;
+					session.user.password = data.password;
+					setUser(session.user);
+					console.log(user);
+				}
+			}
+			*/
 		});
 	}, []);
 	return (
 		<RootSiblingParent>
 			<NavigationContainer>
 				{validateObject(session) && validateObject(session.user) ? (
-					<AppStackNavigator />
+					<AppStackNavigator user={session.user} />
 				) : (
 					<AuthStackNavigator />
 				)}

@@ -17,9 +17,11 @@ const SetPasswordModal = ({
 	oldPassword,
 	username,
 }) => {
+	const [_oldPassword, _setOldPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
-	const [passwordError, setPasswordError] = useState(false);
 	const [newConfirmPassword, setNewConfirmPassword] = useState("");
+	const [oldPasswordError, setOldPasswordError] = useState(false);
+	const [newPasswordError, setNewPasswordError] = useState(false);
 	const [confirmpasswordError, setConfirmPasswordError] = useState(false);
 
 	const handleOnPress = () => {
@@ -35,7 +37,7 @@ const SetPasswordModal = ({
 								text: "Yes",
 								onPress: () => {
 									if (updateUserPassword(username, newPassword)) {
-										setPasswordError(false);
+										setNewPasswordError(false);
 										Window.alert(
 											"We have sented an email confirmation to you.",
 											"Please check your email checkbox.",
@@ -67,7 +69,7 @@ const SetPasswordModal = ({
 				`Password not valid.`,
 				"Password not valid, minimum 8 chars and maximum 32 chars.",
 			);
-			setPasswordError(true);
+			setNewPasswordError(true);
 		}
 	};
 
@@ -105,10 +107,21 @@ const SetPasswordModal = ({
 						Set your password
 					</Text>
 					<FormInput
-						labelText="Password"
-						placeholderText="Enter your password"
+						labelText="Old Password"
+						placeholderText="Enter your old password"
+						value={_oldPassword}
+						inputError={oldPasswordError}
+						autoComplete={"off"}
+						autoCorrect={false}
+						maxLength={32}
+						secureTextEntry={true}
+						onChangeText={(_oldPassword) => _setOldPassword(_oldPassword)}
+					/>
+					<FormInput
+						labelText="New Password"
+						placeholderText="Enter your new password"
 						value={newPassword}
-						inputError={passwordError}
+						inputError={newPasswordError}
 						autoComplete={"off"}
 						autoCorrect={false}
 						maxLength={32}
@@ -116,8 +129,8 @@ const SetPasswordModal = ({
 						onChangeText={(password) => setNewPassword(password)}
 					/>
 					<FormInput
-						labelText="Confirm your Password"
-						placeholderText="Confirm your Password"
+						labelText="Confirm new Password"
+						placeholderText="Confirm your new Password"
 						value={newConfirmPassword}
 						inputError={confirmpasswordError}
 						autoComplete={"off"}

@@ -4,7 +4,7 @@ import SignUpScreen from "./SignupScreen";
 import PlayQuizScreen from "./PlayQuizScreen";
 import AccountScreen from "./AccountScreen";
 import StatsScreen from "./StatsScreen";
-import HelpScreen from "./helpScreen";
+import HelpScreen from "./HelpScreen";
 
 export {
 	SignInScreen,

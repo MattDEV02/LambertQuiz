@@ -9,8 +9,6 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import { COLORS } from "../constants/theme";
-import { signOut } from "../utils/auth";
-import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import Quiz from "../components/HomeScreen/Quiz";
 import { supabase } from "../app/lib/supabase-client";
 import {
@@ -19,32 +17,13 @@ import {
 	validateArray,
 } from "../utils/validators";
 
-const HomeScreen = ({ navigation }) => {
-	const iconsSize = 19,
-		iconsPaddingHorizontal = 11.5,
-		iconsPaddingVertical = 7;
-	const [user, setUser] = useState(null);
+const HomeScreen = ({ navigation, route }) => {
+	//console.log("User from app.js: ", route.params.user);
+	const [user, setUser] = useState(route.params.user);
 	const [quizzes, setQuizzes] = useState([]);
 	const [refreshing, setRefreshing] = useState(false);
 
 	useEffect(() => {
-		const getUserFromEmail = async () => {
-			setRefreshing(true);
-			const {
-				data: { user },
-			} = await supabase.auth.getUser();
-			const email = user.email;
-			const { data, error } = await supabase
-				.from("users")
-				.select("email, username, password")
-				.eq("email", email)
-				.single(); // UNIQUE
-			if (validateObject(error)) {
-				console.error(error);
-			} else if (validateObject(data)) setUser(data);
-			setRefreshing(false);
-		};
-
 		const getQuizzes = async () => {
 			setRefreshing(true);
 			const { data, error } = await supabase.from("quizzes").select();
@@ -57,13 +36,28 @@ const HomeScreen = ({ navigation }) => {
 			setRefreshing(false);
 		};
 
-		getUserFromEmail();
+		const getUserUsernameFromEmail = async (email) => {
+			const { data, error } = await supabase
+				.from("users")
+				.select("username")
+				.eq("email", email)
+				.single(); // UNIQUE
+			if (validateObject(error)) {
+				console.error(error);
+			} else if (validateObject(data)) {
+				const tempUser = data;
+				tempUser.username = data.username;
+				setUser(tempUser);
+			}
+		};
+		getUserUsernameFromEmail(user.email);
 		getQuizzes();
 	}, []);
 
-	const handleOnPlayPress = (quiz) => {
+	const handleOnPlayPress = (quiz_id) => {
+		navigation.setParams({ quizId: quiz_id });
 		navigation.navigate("Play Quiz page", {
-			quizId: quiz.quiz_id,
+			quizId: quiz_id,
 		});
 	};
 
@@ -82,104 +76,6 @@ const HomeScreen = ({ navigation }) => {
 					marginBottom: 6.75,
 				}}
 			>
-				<View
-					style={{
-						flexDirection: "row",
-						alignItems: "center",
-						justifyContent: "space-between",
-						backgroundColor: COLORS.white,
-						paddingBottom: 6.75,
-						borderBottomColor: COLORS.secondary,
-						borderBottomWidth: 0.5,
-					}}
-				>
-					{/* Account and Stats */}
-					<View
-						style={{
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "flex-start",
-							marginLeft: 16.5,
-							marginBottom: 1.5,
-						}}
-					>
-						{/* account */}
-						<View
-							style={{
-								backgroundColor: COLORS.primary,
-								flexDirection: "row",
-								alignItems: "center",
-								justifyContent: "center",
-								paddingHorizontal: iconsPaddingHorizontal,
-								paddingVertical: iconsPaddingVertical,
-								borderTopLeftRadius: 10,
-								borderBottomLeftRadius: 10,
-								borderWidth: 0.92,
-								borderColor: COLORS.black,
-							}}
-						>
-							<MaterialIcons
-								name="user-circle"
-								size={iconsSize}
-								style={{ color: COLORS.white }}
-								onPress={() =>
-									navigation.navigate("Account page", { user })
-								}
-							/>
-						</View>
-						{/* stats */}
-						<View
-							style={{
-								backgroundColor: "#79828A",
-								flexDirection: "row",
-								alignItems: "center",
-								justifyContent: "center",
-								paddingHorizontal: iconsPaddingHorizontal,
-								paddingVertical: iconsPaddingVertical,
-								borderTopRightRadius: 10,
-								borderBottomRightRadius: 10,
-								borderWidth: 0.92,
-								borderColor: COLORS.black,
-							}}
-						>
-							<MaterialIcons
-								name="bar-chart-o"
-								size={iconsSize}
-								style={{ color: COLORS.white }}
-								onPress={() => navigation.navigate("Stats page")}
-							/>
-						</View>
-					</View>
-					{/* Logout */}
-					<TouchableOpacity
-						style={{
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "center",
-							marginRight: 13,
-						}}
-					>
-						<Text
-							style={{
-								fontSize: 21,
-								color: COLORS.error,
-								fontWeight: "500",
-							}}
-							onPress={() => signOut()}
-						>
-							Logout
-						</Text>
-						<MaterialIcons
-							name="arrow-circle-o-left"
-							size={iconsSize + 6}
-							color={COLORS.error}
-							style={{
-								marginLeft: 6.7,
-								marginTop: 4.5,
-							}}
-						/>
-					</TouchableOpacity>
-				</View>
 				<View>
 					{/* Welcome title */}
 					<View
@@ -216,7 +112,9 @@ const HomeScreen = ({ navigation }) => {
 						renderItem={({ item: quiz }) => (
 							<Quiz
 								quiz={quiz}
-								handleOnPlayPress={() => handleOnPlayPress(quiz)}
+								handleOnPlayPress={() =>
+									handleOnPlayPress(quiz.quiz_id)
+								}
 							/>
 						)}
 					/>

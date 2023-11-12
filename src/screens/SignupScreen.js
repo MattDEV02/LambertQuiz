@@ -17,7 +17,6 @@ import {
 	validateUsername,
 	validateObject,
 	validateArray,
-	validateString,
 } from "../utils/validators";
 import { signUp } from "../utils/auth";
 import { supabase } from "../app/lib/supabase-client";
