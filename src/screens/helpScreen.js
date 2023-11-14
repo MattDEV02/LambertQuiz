@@ -5,7 +5,7 @@ const HelpScreen = ({ navigation }) => {
 	return (
 		<SafeAreaView>
 			<View>
-				<Text>HelpScreen</Text>
+				<Text></Text>
 			</View>
 		</SafeAreaView>
 	);

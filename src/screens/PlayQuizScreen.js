@@ -30,23 +30,31 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	const [questions, setQuestions] = useState([]);
 	const [tryAgain, setTryAgain] = useState(false);
 
-	const quizId = route.params.quizId;
+	const quizId = route.params.quizId,
+		openedQuiz = route.params.openedQuiz;
 
 	useEffect(() => {
 		const getQuestionsFromQuizId = async (quizId) => {
 			setRefreshing(true);
-			const { data, error } = await supabase
-				.from("questions")
-				.select()
-				.eq("quiz", quizId);
+			const { data, error } = await supabase.rpc("get_random_questions", {
+				quiz_id: quizId,
+			});
 			if (validateObject(error)) {
 				console.error(error);
-			} else if (validateArray(data, 1)) setQuestions(data);
+			} else if (validateArray(data, 5)) setQuestions(data);
 			setRefreshing(false);
 		};
-
 		getQuestionsFromQuizId(quizId);
-	}, [tryAgain, quizId]);
+	}, [openedQuiz, tryAgain]);
+
+	navigation.addListener("focus", () => {
+		setQuestions([]);
+	});
+
+	navigation.addListener("blur", () => {
+		setQuestions([]);
+		navigation.setParams({ openedQuiz: false });
+	});
 
 	const getOptionBackgroundColor = (currentQuestion, currentOption) => {
 		if (
@@ -285,11 +293,13 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				handleOnRetry={() => {
 					setCorrectCount(0);
 					setIncorrectCount(0);
+					console.log(questions.length);
 					setIsResultModalVisible(false);
 					setTryAgain(!tryAgain);
 				}}
 				handleOnGoHome={() => {
 					setIsResultModalVisible(false);
+					setQuestions([]);
 					navigation.navigate("Home page");
 				}}
 			/>

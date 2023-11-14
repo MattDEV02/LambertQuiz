@@ -77,7 +77,7 @@ const AppStackNavigator = ({ user }) => {
 						fontSize: labelFontSize,
 					},
 				}}
-				initialParams={{ user: user }}
+				initialParams={{ user }}
 			/>
 			<Drawer.Screen
 				name="Account page"

@@ -6,7 +6,6 @@ import {
 	StatusBar,
 	FlatList,
 	ScrollView,
-	TouchableOpacity,
 } from "react-native";
 import { COLORS } from "../constants/theme";
 import Quiz from "../components/HomeScreen/Quiz";
@@ -18,7 +17,6 @@ import {
 } from "../utils/validators";
 
 const HomeScreen = ({ navigation, route }) => {
-	//console.log("User from app.js: ", route.params.user);
 	const [user, setUser] = useState(route.params.user);
 	const [quizzes, setQuizzes] = useState([]);
 	const [refreshing, setRefreshing] = useState(false);
@@ -55,7 +53,7 @@ const HomeScreen = ({ navigation, route }) => {
 	}, []);
 
 	const handleOnPlayPress = (quiz_id) => {
-		navigation.setParams({ quizId: quiz_id });
+		navigation.setParams({ quizId: quiz_id, openedQuiz: true });
 		navigation.navigate("Play Quiz page", {
 			quizId: quiz_id,
 		});
