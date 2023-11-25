@@ -1,0 +1,44 @@
+import React, { useState } from "react";
+import { View, Text, SafeAreaView } from "react-native";
+import { ListItem } from "@rneui/themed";
+import MaterialIcons from "react-native-vector-icons/FontAwesome";
+import { COLORS } from "../../constants/theme";
+
+const AccordionItem = ({ question, response }) => {
+	const [expanded, setExpanded] = useState(false);
+	return (
+		<ListItem.Accordion
+			content={
+				<>
+					<MaterialIcons
+						name="question"
+						size={30}
+						color={COLORS.primary}
+					/>
+					<ListItem.Content>
+						<ListItem.Title
+							style={{
+								marginLeft: 19,
+								fontSize: 19,
+							}}
+						>
+							{question}
+						</ListItem.Title>
+					</ListItem.Content>
+				</>
+			}
+			isExpanded={expanded}
+			onPress={() => {
+				setExpanded(!expanded);
+			}}
+		>
+			<ListItem key={question} bottomDivider>
+				<ListItem.Content>
+					<ListItem.Title>{response}</ListItem.Title>
+				</ListItem.Content>
+			</ListItem>
+		</ListItem.Accordion>
+	);
+};
+
+export default AccordionItem;

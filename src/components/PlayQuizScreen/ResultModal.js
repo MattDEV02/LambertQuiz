@@ -8,6 +8,7 @@ const ResultModal = ({
 	correctCount,
 	incorrectCount,
 	totalCount,
+	totalSeconds,
 	handleOnClose,
 	handleOnRetry,
 	handleOnGoHome,
@@ -95,8 +96,10 @@ const ResultModal = ({
 						{totalCount - (incorrectCount + correctCount)} Unattempted /{" "}
 						{totalCount} Total
 					</Text>
-
-					{/* Try agian */}
+					<Text style={{ opacity: 0.8, fontSize: 15 }}>
+						in {totalSeconds} seconds
+					</Text>
+					{/* Try again */}
 					<TouchableOpacity
 						style={{
 							flexDirection: "row",

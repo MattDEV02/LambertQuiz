@@ -15,6 +15,7 @@ import {
 	validateString,
 	validateArray,
 } from "../utils/validators";
+import { Audio } from "expo-av";
 
 const HomeScreen = ({ navigation, route }) => {
 	const [user, setUser] = useState(route.params.user);
@@ -52,7 +53,15 @@ const HomeScreen = ({ navigation, route }) => {
 		getQuizzes();
 	}, []);
 
-	const handleOnPlayPress = (quiz_id) => {
+	async function playClickSound() {
+		const { sound } = await Audio.Sound.createAsync(
+			require("../../assets/sounds/click_sound.mp3"),
+		);
+		await sound.playAsync();
+	}
+
+	const handleOnPlayPress = async (quiz_id) => {
+		await playClickSound();
 		navigation.setParams({ quizId: quiz_id, openedQuiz: true });
 		navigation.navigate("Play Quiz page", {
 			quizId: quiz_id,
@@ -87,12 +96,12 @@ const HomeScreen = ({ navigation, route }) => {
 					>
 						<Text
 							style={{
-								fontSize: 24.3,
+								fontSize: 25,
 								color: COLORS.black,
 								fontWeight: "bold",
 							}}
 						>
-							Benvenuto{" "}
+							Welcome{" "}
 							{validateObject(user) && validateString(user.username)
 								? user.username
 								: null}{" "}

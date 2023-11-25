@@ -19,6 +19,7 @@ import {
 } from "../utils/validators";
 import NoImage from "../components/PlayQuizScreen/NoImage";
 import { supabase } from "../app/lib/supabase-client";
+import { Audio } from "expo-av";
 
 // TODO: QUESTION COMPONENT.
 
@@ -41,9 +42,12 @@ const PlayQuizScreen = ({ navigation, route }) => {
 			});
 			if (validateObject(error)) {
 				console.error(error);
-			} else if (validateArray(data, 5)) setQuestions(data);
+			} else if (validateArray(data, 5)) {
+				setQuestions(data);
+			}
 			setRefreshing(false);
 		};
+
 		getQuestionsFromQuizId(quizId);
 	}, [openedQuiz, tryAgain]);
 
@@ -78,7 +82,28 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		} else return COLORS.black;
 	};
 
-	const handleOnOptionPress = (item, option, index) => {
+	async function playCorrectAnswerSound() {
+		const { sound } = await Audio.Sound.createAsync(
+			require("../../assets/sounds/correct_answer_sound.mp3"),
+		);
+		await sound.playAsync();
+	}
+
+	async function playIncorrectAnswerSound() {
+		const { sound } = await Audio.Sound.createAsync(
+			require("../../assets/sounds/incorrect_answer_sound.mp3"),
+		);
+		await sound.playAsync();
+	}
+
+	async function playSubmitSound() {
+		const { sound } = await Audio.Sound.createAsync(
+			require("../../assets/sounds/submit_sound.mp3"),
+		);
+		await sound.playAsync();
+	}
+
+	const handleOnOptionPress = async (item, option, index) => {
 		//
 		if (validateObject(item.selectedOption)) {
 			return null;
@@ -86,14 +111,21 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		// increase correct and incorrect count
 		if (option === item.solution) {
 			setCorrectCount(correctCount + 1);
+			await playCorrectAnswerSound();
 		} else {
 			setIncorrectCount(incorrectCount + 1);
+			await playIncorrectAnswerSound();
 		}
 
 		//
 		let tempQuestions = [...questions];
 		tempQuestions[index].selectedOption = option;
 		setQuestions([...tempQuestions]);
+	};
+
+	const handleOnSubmit = async () => {
+		await playSubmitSound();
+		setIsResultModalVisible(true);
 	};
 
 	return (
@@ -124,6 +156,22 @@ const PlayQuizScreen = ({ navigation, route }) => {
 						}}
 					>
 						{appName}
+					</Text>
+				</View>
+				<View
+					style={{
+						flexDirection: "row",
+						alignItems: "right",
+						justifyContent: "flex-end",
+					}}
+				>
+					<Text
+						style={{
+							fontSize: 18,
+							fontWeight: "bold",
+						}}
+					>
+						60
 					</Text>
 				</View>
 				{/* Corret and Incorrect */}
@@ -277,7 +325,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 					<FormButton
 						labelText="Submit"
 						style={{ margin: 12, borderRadius: 14 }}
-						handleOnPress={() => setIsResultModalVisible(true)}
+						handleOnPress={() => handleOnSubmit()}
 					/>
 				)}
 			/>
@@ -287,19 +335,22 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				correctCount={correctCount}
 				incorrectCount={incorrectCount}
 				totalCount={questions.length}
+				totalSeconds={60}
 				handleOnClose={() => {
+					setCorrectCount(0);
+					setIncorrectCount(0);
 					setIsResultModalVisible(false);
 				}}
 				handleOnRetry={() => {
 					setCorrectCount(0);
 					setIncorrectCount(0);
-					console.log(questions.length);
 					setIsResultModalVisible(false);
 					setTryAgain(!tryAgain);
 				}}
 				handleOnGoHome={() => {
+					setCorrectCount(0);
+					setIncorrectCount(0);
 					setIsResultModalVisible(false);
-					setQuestions([]);
 					navigation.navigate("Home page");
 				}}
 			/>
