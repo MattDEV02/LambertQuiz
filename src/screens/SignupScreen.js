@@ -6,7 +6,7 @@ import {
 	Alert as Window,
 	StatusBar,
 } from "react-native";
-import { COLORS, appName } from "../constants/theme";
+import { supabase } from "../app/lib/supabase-client";
 import InputScrollView from "react-native-input-scroll-view";
 import FormInput from "../components/shared/FormInput";
 import FormButton from "../components/shared/FormButton";
@@ -19,10 +19,9 @@ import {
 	validateArray,
 } from "../utils/validators";
 import { signUp } from "../utils/auth";
-import { supabase } from "../app/lib/supabase-client";
+import { COLORS, appName } from "../constants/theme";
 
 const SignUpScreen = ({ navigation }) => {
-	const [refreshing, setRefreshing] = useState(false);
 	const [users, setUsers] = useState([]);
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
@@ -35,7 +34,6 @@ const SignUpScreen = ({ navigation }) => {
 
 	useEffect(() => {
 		const getUsersEmailAndUsername = async () => {
-			setRefreshing(true);
 			const { data, error } = await supabase
 				.from("users")
 				.select("email, username");
@@ -43,7 +41,6 @@ const SignUpScreen = ({ navigation }) => {
 				console.error(error);
 			} else if (validateObject(data)) {
 				setUsers(data);
-				setRefreshing(false);
 			}
 		};
 		getUsersEmailAndUsername();
@@ -211,7 +208,7 @@ const SignUpScreen = ({ navigation }) => {
 				/>
 				<FormButton
 					labelText="Submit"
-					handleOnPress={handleOnPress}
+					handleOnPress={() => handleOnPress()}
 					style={{ width: "100%", marginTop: 4 }}
 				/>
 				<FormFooter

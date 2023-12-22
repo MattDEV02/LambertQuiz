@@ -6,15 +6,15 @@ import {
 	TouchableOpacity,
 	Alert as Window,
 } from "react-native";
-import { COLORS } from "../../constants/theme";
-import FormInput from "../shared/FormInput";
-import { updateUserUsername } from "../../utils/database";
+import { supabase } from "../../../app/lib/supabase-client";
+import FormInput from "../../shared/FormInput";
+import { COLORS } from "../../../constants/theme";
+import { updateUserUsername } from "../../../utils/database";
 import {
 	validateUsername,
 	validateArray,
 	validateObject,
-} from "../../utils/validators";
-import { supabase } from "../../app/lib/supabase-client";
+} from "../../../utils/validators";
 
 const SetUsernameModal = ({
 	isModalVisible = false,

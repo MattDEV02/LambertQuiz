@@ -8,17 +8,19 @@ import {
 	Image,
 	Alert as Window,
 } from "react-native";
+import { supabase } from "../app/lib/supabase-client";
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
-import { COLORS } from "../constants/theme";
-import SetUsernameModal from "../components/AccountScreen/setUsernameModal";
-import SetPasswordModal from "../components/AccountScreen/setPasswordModal";
+import SetUsernameModal from "../components/screens/AccountScreen/setUsernameModal";
+import SetPasswordModal from "../components/screens/AccountScreen/setPasswordModal";
 import { validateObject, validateString } from "../utils/validators";
 import { removeUser } from "../utils/auth";
-import { supabase } from "../app/lib/supabase-client";
+import { COLORS } from "../constants/theme";
+
 
 // TODO: AccountOption component
 
 const AccountScreen = ({ navigation, route }) => {
+
 	const [user, setUser] = useState(route.params.user);
 	const [username, setUsername] = useState("");
 	const [isSetUsernameModalVisible, setIsSetUsernameModalVisible] =
@@ -90,12 +92,13 @@ const AccountScreen = ({ navigation, route }) => {
 					justifyContent: "center",
 				}}
 			>
+				{/* LOGO */}
 				<Image
-					source={{ uri: "https://source.unsplash.com/random" }}
+					source={require("../../assets/images/logo.png")}
 					resizeMode={"contain"}
 					style={{
-						width: "33.33%",
-						height: 135,
+						width: "43.5%",
+						height: "22.5%",
 						marginTop: 40,
 						borderRadius: 100,
 					}}
@@ -150,7 +153,6 @@ const AccountScreen = ({ navigation, route }) => {
 					<SetPasswordModal
 						isModalVisible={isSetPasswordModalVisible}
 						setIsModalVisible={setIsSetPasswordModalVisible}
-						oldPassword={user.password}
 						username={username}
 					/>
 					<TouchableOpacity

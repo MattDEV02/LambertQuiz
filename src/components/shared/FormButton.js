@@ -19,7 +19,7 @@ const FormButton = ({
 				borderRadius: 8,
 				...style,
 			}}
-			onPress={handleOnPress}
+			onPress={() => handleOnPress()}
 			{...more}
 		>
 			<Text

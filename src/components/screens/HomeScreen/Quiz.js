@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { COLORS } from "../../constants/theme";
+import { View, Text, TouchableOpacity } from "react-native";
+import { COLORS } from "../../../constants/theme";
 
 const Quiz = ({ quiz, handleOnPlayPress }) => {
 	return (
@@ -40,7 +40,7 @@ const Quiz = ({ quiz, handleOnPlayPress }) => {
 					borderWidth: 1,
 					borderColor: COLORS.black,
 				}}
-				onPress={handleOnPlayPress}
+				onPress={() => handleOnPlayPress()}
 			>
 				<Text
 					style={{

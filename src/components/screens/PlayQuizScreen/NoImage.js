@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView, View, Text } from "react-native";
-import { COLORS } from "../../constants/theme";
+import { COLORS } from "../../../constants/theme";
 
 const NoImage = () => {
 	return (
@@ -27,5 +27,5 @@ const NoImage = () => {
 	);
 };
 
-//
+
 export default NoImage;

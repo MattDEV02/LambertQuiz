@@ -22,6 +22,8 @@ export const appName = APP_NAME;
 
 export const footerFontSize = 14.5;
 
+export const questionNumber = 5;
+
 export const headerShown = true;
 
 export const SIZES = {
@@ -30,16 +32,3 @@ export const SIZES = {
 	height,
 };
 
-/*
-const shuffle = (array) => { 
-  for (let i = array.length - 1; i > 0; i--) { 
-    const j = Math.floor(Math.random() * (i + 1)); 
-    [array[i], array[j]] = [array[j], array[i]]; 
-  } 
-  return array; 
-}; 
-
-a = [{id: 1, n: 'a'}, {id: 2, n: 'b'}, {id: 3, n: 'c'}, {id: 4, n: 'd'}, {id: 5, n: 'e'}];
-
-console.log(shuffle(a).splice(0, 3));
-*/

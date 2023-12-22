@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import {
 	HomeScreen,
@@ -7,47 +7,34 @@ import {
 	StatsScreen,
 	HelpScreen,
 } from "../screens";
+import DrawerIcon from "../components/navigators/AppStackNavigator/DrawerIcon";
 import { COLORS, headerShown } from "../constants/theme";
-import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import { signOut } from "../utils/auth";
 
 const Drawer = createDrawerNavigator();
 
-// TODO: drawer icon component.
-// TODO: label drawer color.
-
-const iconsSize = 30;
-
 const HomeIcon = () => (
-	<MaterialIcons name="home" size={iconsSize + 1.5} color={COLORS.primary} />
+	<DrawerIcon name="home" deltaIconSize={1.5} color={COLORS.primary} />
 );
 const AccountIcon = () => (
-	<MaterialIcons
-		name="user-circle"
-		size={iconsSize - 1}
-		color={COLORS.primary}
-	/>
+	<DrawerIcon name="user-circle" deltaIconSize={-1} color={COLORS.primary} />
 );
 const StatsIcon = () => (
-	<MaterialIcons
+	<DrawerIcon
 		name="bar-chart-o"
-		size={iconsSize - 4.5}
+		deltaIconSize={-4.5}
 		color={COLORS.secondary}
 	/>
 );
 
 const HelpIcon = () => (
-	<MaterialIcons
-		name="info-circle"
-		size={iconsSize + 3}
-		color={COLORS.primary}
-	/>
+	<DrawerIcon name="info-circle" deltaIconSize={3} color={COLORS.primary} />
 );
 
 const LogoutIcon = () => (
-	<MaterialIcons
+	<DrawerIcon
 		name="arrow-circle-o-left"
-		size={iconsSize + 3}
+		deltaIconSize={3}
 		color={COLORS.error}
 	/>
 );

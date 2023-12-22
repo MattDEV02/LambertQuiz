@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	View,
 	Text,
@@ -8,57 +8,92 @@ import {
 	Image,
 	TouchableOpacity,
 } from "react-native";
+import { supabase } from "../app/lib/supabase-client";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { COLORS, appName } from "../constants/theme";
 import FormButton from "../components/shared/FormButton";
-import ResultModal from "../components/PlayQuizScreen/ResultModal";
+import ResultModal from "../components/screens/PlayQuizScreen/ResultModal";
+import NoImage from "../components/screens/PlayQuizScreen/NoImage";
 import {
 	validateObject,
 	validateURL,
 	validateArray,
 } from "../utils/validators";
-import NoImage from "../components/PlayQuizScreen/NoImage";
-import { supabase } from "../app/lib/supabase-client";
-import { Audio } from "expo-av";
+import {
+	playCorrectAnswerSound,
+	playIncorrectAnswerSound,
+	playOpenSound,
+} from "../utils/sounds";
+import { COLORS, appName, questionNumber } from "../constants/theme";
 
 // TODO: QUESTION COMPONENT.
 
 const PlayQuizScreen = ({ navigation, route }) => {
-	const [refreshing, setRefreshing] = useState(false);
-	const [correctCount, setCorrectCount] = useState(0);
-	const [incorrectCount, setIncorrectCount] = useState(0);
-	const [isResultModalVisible, setIsResultModalVisible] = useState(false);
-	const [questions, setQuestions] = useState([]);
-	const [tryAgain, setTryAgain] = useState(false);
-
 	const quizId = route.params.quizId,
 		openedQuiz = route.params.openedQuiz;
 
+	const [refreshing, setRefreshing] = useState(false);
+	const [isResultModalVisible, setIsResultModalVisible] = useState(false);
+	const [tryAgain, setTryAgain] = useState(false);
+	const [gameFinished, setGameFinished] = useState(false);
+	const [correctCount, setCorrectCount] = useState(0);
+	const [incorrectCount, setIncorrectCount] = useState(0);
+	const [questions, setQuestions] = useState([]);
+
+	const flatListRef = useRef(null);
+
+	const scrollToTop = () => {
+		if (validateObject(flatListRef.current))
+			flatListRef.current.scrollToIndex({ index: 0 });
+	};
+
 	useEffect(() => {
 		const getQuestionsFromQuizId = async (quizId) => {
-			setRefreshing(true);
-			const { data, error } = await supabase.rpc("get_random_questions", {
-				quiz_id: quizId,
-			});
-			if (validateObject(error)) {
-				console.error(error);
-			} else if (validateArray(data, 5)) {
-				setQuestions(data);
+			if (openedQuiz && !gameFinished) {
+				setRefreshing(true);
+				await playOpenSound();
+				const { data, error } = await supabase.rpc("get_random_questions", {
+					quiz_id: quizId,
+				});
+				if (validateObject(error)) {
+					console.error(error);
+				} else if (validateArray(data, questionNumber)) {
+					setQuestions(data);
+					scrollToTop();
+				}
+				setRefreshing(false);
 			}
-			setRefreshing(false);
 		};
+		console.log(
+			"openedQuiz: " +
+				openedQuiz +
+				" gameFinished: " +
+				gameFinished +
+				" tryAgain: " +
+				tryAgain +
+				" isResultModalVisible: " +
+				isResultModalVisible,
+		);
 
 		getQuestionsFromQuizId(quizId);
 	}, [openedQuiz, tryAgain]);
 
-	navigation.addListener("focus", () => {
+	navigation.addListener("blur", () => {
+		navigation.setParams({ openedQuiz: false });
+		setTryAgain(false);
 		setQuestions([]);
 	});
 
-	navigation.addListener("blur", () => {
-		setQuestions([]);
-		navigation.setParams({ openedQuiz: false });
-	});
+	const handleOnSubmit = () => {
+		setGameFinished(true);
+		setIsResultModalVisible(true);
+	};
+
+	const handleOnModalClose = () => {
+		setIsResultModalVisible(false);
+		setCorrectCount(0);
+		setIncorrectCount(0);
+		setGameFinished(false);
+	};
 
 	const getOptionBackgroundColor = (currentQuestion, currentOption) => {
 		if (
@@ -82,27 +117,6 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		} else return COLORS.black;
 	};
 
-	async function playCorrectAnswerSound() {
-		const { sound } = await Audio.Sound.createAsync(
-			require("../../assets/sounds/correct_answer_sound.mp3"),
-		);
-		await sound.playAsync();
-	}
-
-	async function playIncorrectAnswerSound() {
-		const { sound } = await Audio.Sound.createAsync(
-			require("../../assets/sounds/incorrect_answer_sound.mp3"),
-		);
-		await sound.playAsync();
-	}
-
-	async function playSubmitSound() {
-		const { sound } = await Audio.Sound.createAsync(
-			require("../../assets/sounds/submit_sound.mp3"),
-		);
-		await sound.playAsync();
-	}
-
 	const handleOnOptionPress = async (item, option, index) => {
 		//
 		if (validateObject(item.selectedOption)) {
@@ -121,11 +135,6 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		let tempQuestions = [...questions];
 		tempQuestions[index].selectedOption = option;
 		setQuestions([...tempQuestions]);
-	};
-
-	const handleOnSubmit = async () => {
-		await playSubmitSound();
-		setIsResultModalVisible(true);
 	};
 
 	return (
@@ -171,7 +180,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 							fontWeight: "bold",
 						}}
 					>
-						60
+						{validateArray(questions, questionNumber) ? questions[0].category : null}
 					</Text>
 				</View>
 				{/* Corret and Incorrect */}
@@ -232,6 +241,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 			</View>
 			{/* Questions and Options */}
 			<FlatList
+				ref={flatListRef}
 				data={questions}
 				style={{ flex: 1, backgroundColor: COLORS.background }}
 				showsVerticalScrollIndicator={true}
@@ -335,22 +345,19 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				correctCount={correctCount}
 				incorrectCount={incorrectCount}
 				totalCount={questions.length}
-				totalSeconds={60}
+				seconds={60}
 				handleOnClose={() => {
-					setCorrectCount(0);
-					setIncorrectCount(0);
-					setIsResultModalVisible(false);
+					handleOnModalClose();
+					navigation.setParams({ openedQuiz: false });
+					navigation.navigate("Home page");
 				}}
 				handleOnRetry={() => {
-					setCorrectCount(0);
-					setIncorrectCount(0);
-					setIsResultModalVisible(false);
-					setTryAgain(!tryAgain);
+					handleOnModalClose();
+					setTryAgain(true);
 				}}
 				handleOnGoHome={() => {
-					setCorrectCount(0);
-					setIncorrectCount(0);
-					setIsResultModalVisible(false);
+					handleOnModalClose();
+					navigation.setParams({ openedQuiz: false });
 					navigation.navigate("Home page");
 				}}
 			/>

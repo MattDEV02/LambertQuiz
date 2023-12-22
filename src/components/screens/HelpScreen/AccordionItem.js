@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView } from "react-native";
-import { ListItem } from "@rneui/themed";
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
-import { COLORS } from "../../constants/theme";
+import { ListItem } from "@rneui/themed";
+import { COLORS } from "../../../constants/theme";
 
-const AccordionItem = ({ question, response }) => {
+const AccordionItem = ({ question, response, index }) => {
 	const [expanded, setExpanded] = useState(false);
 	return (
 		<ListItem.Accordion
+			key={index}
 			content={
 				<>
 					<MaterialIcons
@@ -32,7 +32,7 @@ const AccordionItem = ({ question, response }) => {
 				setExpanded(!expanded);
 			}}
 		>
-			<ListItem key={question} bottomDivider>
+			<ListItem key={index} bottomDivider>
 				<ListItem.Content>
 					<ListItem.Title>{response}</ListItem.Title>
 				</ListItem.Content>

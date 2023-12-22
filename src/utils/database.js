@@ -1,8 +1,9 @@
 import { supabase } from "../app/lib/supabase-client";
-import { validateObject, validateArray } from "./validators";
+import { validateObject } from "./validators";
+
+const tableName = "users";
 
 export const storeUser = async (email, password, username) => {
-	const tableName = "users";
 	const { data } = await supabase
 		.from(tableName)
 		.select()
@@ -26,8 +27,6 @@ export const storeUser = async (email, password, username) => {
 export const existsUser = (user) => {
 	return validateObject(user);
 };
-
-export const getUsername = async (email) => {};
 
 export const updateUserUsername = async (oldUsername, newUsername) => {
 	const { error } = await supabase

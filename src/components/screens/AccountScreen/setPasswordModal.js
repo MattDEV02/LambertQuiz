@@ -6,21 +6,18 @@ import {
 	TouchableOpacity,
 	Alert as Window,
 } from "react-native";
-import { COLORS } from "../../constants/theme";
-import FormInput from "../shared/FormInput";
-import { validatePassword } from "../../utils/validators";
-import { updateUserPassword } from "../../utils/database";
+import { COLORS } from "../../../constants/theme";
+import FormInput from "../../shared/FormInput";
+import { validatePassword } from "../../../utils/validators";
+import { updateUserPassword } from "../../../utils/database";
 
 const SetPasswordModal = ({
 	isModalVisible = false,
 	setIsModalVisible,
-	oldPassword,
 	username,
 }) => {
-	const [_oldPassword, _setOldPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [newConfirmPassword, setNewConfirmPassword] = useState("");
-	const [oldPasswordError, setOldPasswordError] = useState(false);
 	const [newPasswordError, setNewPasswordError] = useState(false);
 	const [confirmpasswordError, setConfirmPasswordError] = useState(false);
 
@@ -28,38 +25,32 @@ const SetPasswordModal = ({
 		if (validatePassword(newPassword)) {
 			if (newPassword === newConfirmPassword) {
 				setConfirmPasswordError(false);
-				if (oldPassword !== newPassword) {
-					Window.alert(
-						"Are your sure?",
-						"Are you sure you want to set your password ?",
-						[
-							{
-								text: "Yes",
-								onPress: () => {
-									if (updateUserPassword(username, newPassword)) {
-										setNewPasswordError(false);
-										Window.alert(
-											"We have sented an email confirmation to you.",
-											"Please check your email checkbox.",
-										);
-									}
-									setIsModalVisible(false);
-								},
+				Window.alert(
+					"Are your sure?",
+					"Are you sure you want to set your password ?",
+					[
+						{
+							text: "Yes",
+							onPress: () => {
+								if (updateUserPassword(username, newPassword)) {
+									setNewPasswordError(false);
+									Window.alert(
+										"We have sented an email confirmation to you.",
+										"Please check your email checkbox.",
+									);
+								}
+								setIsModalVisible(false);
 							},
-							{
-								text: "No",
-								onPress: () => {
-									Window.alert("Password not updated");
-									setIsModalVisible(false);
-								},
+						},
+						{
+							text: "No",
+							onPress: () => {
+								Window.alert("Password not updated");
+								setIsModalVisible(false);
 							},
-						],
-					);
-				} else
-					Window.alert(
-						"Old and new password are equals.",
-						"Please, choose a new password.",
-					);
+						},
+					],
+				);
 			} else {
 				setConfirmPasswordError(true);
 				Window.alert("Please, try again.", "The passwords did not match.");
@@ -106,17 +97,6 @@ const SetPasswordModal = ({
 					>
 						Set your password
 					</Text>
-					<FormInput
-						labelText="Old Password"
-						placeholderText="Enter your old password"
-						value={_oldPassword}
-						inputError={oldPasswordError}
-						autoComplete={"off"}
-						autoCorrect={false}
-						maxLength={32}
-						secureTextEntry={true}
-						onChangeText={(_oldPassword) => _setOldPassword(_oldPassword)}
-					/>
 					<FormInput
 						labelText="New Password"
 						placeholderText="Enter your new password"

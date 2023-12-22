@@ -20,7 +20,7 @@ const FormFooter = ({ isLogin = true, handleOnPress }) => {
 					color: COLORS.primary,
 					fontSize: footerFontSize,
 				}}
-				onPress={handleOnPress}
+				onPress={() => handleOnPress()}
 			>
 				{isLogin ? "Create an account" : "Login to your account"}
 			</Text>

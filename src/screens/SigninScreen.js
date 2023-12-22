@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { Text, SafeAreaView, Alert as Window } from "react-native";
-import { COLORS, appName } from "../constants/theme";
-import { validateEmail, validatePassword } from "../utils/validators.js";
 import FormInput from "../components/shared/FormInput";
 import FormButton from "../components/shared/FormButton";
 import FormFooter from "../components/shared/FormFooter";
 import { signIn } from "../utils/auth";
+import { COLORS, appName } from "../constants/theme";
+import { validateEmail, validatePassword } from "../utils/validators.js";
 
 const SignInScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [emailError, setEmailError] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
+
+	const fieldsReset = () => {
+		setEmail("");
+		setPassword("");
+	};
 
 	const handleOnPress = () => {
 		if (validateEmail(email)) {
@@ -31,8 +36,7 @@ const SignInScreen = ({ navigation }) => {
 		}
 		if (validateEmail(email) && validatePassword(password)) {
 			signIn(email, password);
-			setEmail("");
-			setPassword("");
+			fieldsReset();
 		}
 	};
 
@@ -86,7 +90,7 @@ const SignInScreen = ({ navigation }) => {
 			/>
 			<FormButton
 				labelText="Submit"
-				handleOnPress={handleOnPress}
+				handleOnPress={() => handleOnPress()}
 				style={{ width: "100%", marginTop: 4 }}
 			/>
 			<FormFooter

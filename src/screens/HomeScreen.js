@@ -7,15 +7,15 @@ import {
 	FlatList,
 	ScrollView,
 } from "react-native";
-import { COLORS } from "../constants/theme";
-import Quiz from "../components/HomeScreen/Quiz";
 import { supabase } from "../app/lib/supabase-client";
+import Quiz from "../components/screens/HomeScreen/Quiz";
+import { COLORS } from "../constants/theme";
 import {
 	validateObject,
 	validateString,
 	validateArray,
 } from "../utils/validators";
-import { Audio } from "expo-av";
+import { playClickSound } from "../utils/sounds";
 
 const HomeScreen = ({ navigation, route }) => {
 	const [user, setUser] = useState(route.params.user);
@@ -53,18 +53,12 @@ const HomeScreen = ({ navigation, route }) => {
 		getQuizzes();
 	}, []);
 
-	async function playClickSound() {
-		const { sound } = await Audio.Sound.createAsync(
-			require("../../assets/sounds/click_sound.mp3"),
-		);
-		await sound.playAsync();
-	}
-
 	const handleOnPlayPress = async (quiz_id) => {
 		await playClickSound();
-		navigation.setParams({ quizId: quiz_id, openedQuiz: true });
+		navigation.setParams({ quizId: quiz_id });
 		navigation.navigate("Play Quiz page", {
 			quizId: quiz_id,
+			openedQuiz: true
 		});
 	};
 

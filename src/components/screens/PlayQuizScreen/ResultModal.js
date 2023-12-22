@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Modal, TouchableOpacity } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { COLORS } from "../../constants/theme";
+import { COLORS } from "../../../constants/theme";
+import { playSuccessSound, playFailSound } from "../../../utils/sounds";
 
 const ResultModal = ({
 	isModalVisible,
 	correctCount,
 	incorrectCount,
 	totalCount,
-	totalSeconds,
+	seconds,
 	handleOnClose,
 	handleOnRetry,
 	handleOnGoHome,
@@ -21,6 +22,15 @@ const ResultModal = ({
 		buttonsTextFontSize = 15,
 		buttonsTextFontWeight = "500",
 		iconsSize = 21;
+
+	useEffect(() => {
+		if (isModalVisible) {
+			correctCount >= Math.round(totalCount / 2)
+				? playSuccessSound()
+				: playFailSound();
+		}
+	}, [isModalVisible]);
+
 	return (
 		<Modal
 			animationType={"slide"}
@@ -97,7 +107,7 @@ const ResultModal = ({
 						{totalCount} Total
 					</Text>
 					<Text style={{ opacity: 0.8, fontSize: 15 }}>
-						in {totalSeconds} seconds
+						in {seconds} seconds
 					</Text>
 					{/* Try again */}
 					<TouchableOpacity
@@ -111,7 +121,7 @@ const ResultModal = ({
 							marginTop: 20,
 							borderRadius: 50,
 						}}
-						onPress={handleOnRetry}
+						onPress={() => handleOnRetry()}
 					>
 						<MaterialIcons
 							name="replay"
@@ -142,7 +152,7 @@ const ResultModal = ({
 							marginTop: 20,
 							borderRadius: 50,
 						}}
-						onPress={handleOnGoHome}
+						onPress={() => handleOnGoHome()}
 					>
 						<MaterialIcons
 							name="home"
