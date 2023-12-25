@@ -14,12 +14,18 @@ import FormFooter from "../components/shared/FormFooter";
 import {
 	validateEmail,
 	validatePassword,
+	validateConfirmPassword,
 	validateUsername,
 	validateObject,
 	validateArray,
 } from "../utils/validators";
 import { signUp } from "../utils/auth";
 import { COLORS, appName } from "../constants/theme";
+import {
+	emailMaxLength,
+	passwordMaxLength,
+	usernameMaxLength,
+} from "../constants/fieldsConstants";
 
 const SignUpScreen = ({ navigation }) => {
 	const [users, setUsers] = useState([]);
@@ -31,6 +37,10 @@ const SignUpScreen = ({ navigation }) => {
 	const [usernameError, setUsernameError] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
 	const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+	const [emailSuccess, setEmailSuccess] = useState(false);
+	const [usernameSuccess, setUsernameSuccess] = useState(false);
+	const [passwordSuccess, setPasswordSuccess] = useState(false);
+	const [confirmPasswordSuccess, setConfirmPasswordSuccess] = useState(false);
 
 	useEffect(() => {
 		const getUsersEmailAndUsername = async () => {
@@ -68,36 +78,83 @@ const SignUpScreen = ({ navigation }) => {
 		return usernames;
 	};
 
+	const fieldsReset = () => {
+		setEmail("");
+		setPassword("");
+		setConfirmPassword("");
+		setUsername("");
+	};
+
+	const emailFieldError = () => {
+		setEmailError(true);
+		setEmailSuccess(false);
+	};
+
+	const emailFieldSuccess = () => {
+		setEmailError(false);
+		setEmailSuccess(true);
+	};
+
+	const passwordFieldError = () => {
+		setPasswordError(true);
+		setPasswordSuccess(false);
+	};
+
+	const passwordFieldSuccess = () => {
+		setPasswordError(false);
+		setPasswordSuccess(true);
+	};
+
+	const confirmPasswordFieldError = () => {
+		setConfirmPasswordError(true);
+		setConfirmPasswordSuccess(false);
+	};
+
+	const confirmPasswordFieldSuccess = () => {
+		setConfirmPasswordError(false);
+		setConfirmPasswordSuccess(true);
+	};
+
+	const usernameFieldError = () => {
+		setUsernameError(true);
+		setUsernameSuccess(false);
+	};
+
+	const usernameFieldSuccess = () => {
+		setUsernameError(false);
+		setUsernameSuccess(true);
+	};
+
 	const handleOnPress = () => {
 		if (validateEmail(email)) {
-			setEmailError(false);
+			emailFieldSuccess();
 		} else {
-			setEmailError(true);
+			emailFieldError();
 			Window.alert("Email not valid.", "Please enter a valid email.");
 		}
 		if (validateUsername(username)) {
-			setUsernameError(false);
+			usernameFieldSuccess();
 		} else {
 			Window.alert(
 				`Username ${username} not valid`,
 				"Username not valid, minimum 3 chars and maximum 10 chars.",
 			);
-			setUsernameError(true);
+			usernameFieldError();
 		}
 		if (validatePassword(password)) {
-			setPasswordError(false);
+			passwordFieldSuccess();
 		} else {
-			setPasswordError(true);
+			passwordFieldError();
 			Window.alert(
 				"Password not valid",
-				"Password not valid, use minimum 8 chars and maximum 32 chars.",
+				"Password not valid, use minimum 8 chars with numbers, lowercase and uppercase letters.",
 			);
 		}
-		if (validatePassword(confirmPassword) && confirmPassword === password) {
-			setConfirmPasswordError(false);
+		if (validateConfirmPassword(confirmPassword)) {
+			confirmPasswordFieldSuccess();
 		} else {
-			setConfirmPasswordError(true);
-			Window.alert("Please, try again", "The passwords did not match.");
+			confirmPasswordFieldError();
+			Window.alert("Please, try again", "The passwords did not match or Password not valid.");
 		}
 		if (
 			validateEmail(email) &&
@@ -117,8 +174,10 @@ const SignUpScreen = ({ navigation }) => {
 						"This username is already used.",
 						"Please use another email.",
 					);
-				else if (signUp(email, password, username))
+				else if (signUp(email, password, username)) {
 					navigation.navigate("Sign In page");
+					fieldsReset();
+				}
 			} else Window.alert("The password did not match.");
 		}
 	};
@@ -158,10 +217,11 @@ const SignUpScreen = ({ navigation }) => {
 					placeholderText="Enter your email"
 					value={email}
 					inputError={emailError}
+					inputSuccess={emailSuccess}
 					keyboardType="email-address"
 					autoComplete={"off"}
 					autoCorrect={false}
-					maxLength={50}
+					maxLength={emailMaxLength}
 					autocapitalize={"none"}
 					spellcheck={false}
 					inputMode={"email"}
@@ -174,8 +234,9 @@ const SignUpScreen = ({ navigation }) => {
 					labelText="Username"
 					placeholderText="Enter your username (between 3 & 10 chars)"
 					inputError={usernameError}
+					inputSuccess={usernameSuccess}
 					value={username}
-					maxLength={10}
+					maxLength={usernameMaxLength}
 					autoComplete={"username"}
 					autoCorrect={true}
 					inputMode={"text"}
@@ -184,12 +245,13 @@ const SignUpScreen = ({ navigation }) => {
 				/>
 				<FormInput
 					labelText="Password"
-					placeholderText="Enter your password (between 3 & 10 chars)"
+					placeholderText="Enter your password (8 chars)"
 					value={password}
 					inputError={passwordError}
+					inputSuccess={passwordSuccess}
 					autoComplete={"off"}
 					autoCorrect={false}
-					maxLength={32}
+					maxLength={passwordMaxLength}
 					secureTextEntry={true}
 					onChangeText={(password) => setPassword(password)}
 				/>
@@ -198,9 +260,10 @@ const SignUpScreen = ({ navigation }) => {
 					placeholderText="Confirm your Password"
 					value={confirmPassword}
 					inputError={confirmPasswordError}
+					inputSuccess={confirmPasswordSuccess}
 					autoComplete={"off"}
 					autoCorrect={false}
-					maxLength={32}
+					maxLength={passwordMaxLength}
 					secureTextEntry={true}
 					onChangeText={(confirmPassword) =>
 						setConfirmPassword(confirmPassword)

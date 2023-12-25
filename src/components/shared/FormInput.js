@@ -8,11 +8,14 @@ const FormInput = ({
 	onChangeText = null,
 	value = null,
 	inputError = false,
+	inputSuccess = false,
 	style = null,
 	...more
 }) => {
 	let textErrorStyle = null,
 		textInputErrorStyle = null;
+	let textSuccessStyle = null,
+		textInputSuccessStyle = null;
 	if (inputError) {
 		textErrorStyle = {
 			color: COLORS.error,
@@ -21,7 +24,16 @@ const FormInput = ({
 			borderColor: COLORS.error,
 			color: COLORS.error,
 		};
+	} else if (inputSuccess) {
+		textSuccessStyle = {
+			color: COLORS.success,
+		};
+		textInputSuccessStyle = {
+			borderColor: COLORS.success,
+			color: COLORS.success,
+		};
 	}
+
 	return (
 		<View
 			style={{
@@ -32,7 +44,9 @@ const FormInput = ({
 				...style,
 			}}
 		>
-			<Text style={textErrorStyle}>{labelText}</Text>
+			<Text style={{ ...textErrorStyle, ...textSuccessStyle }}>
+				{labelText}
+			</Text>
 			<TextInput
 				style={{
 					...{
@@ -43,6 +57,7 @@ const FormInput = ({
 						marginTop: 11,
 					},
 					...textInputErrorStyle,
+					...textInputSuccessStyle,
 				}}
 				placeholder={placeholderText}
 				onChangeText={onChangeText}

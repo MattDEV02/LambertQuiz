@@ -9,6 +9,7 @@ import {
 import { supabase } from "../../../app/lib/supabase-client";
 import FormInput from "../../shared/FormInput";
 import { COLORS } from "../../../constants/theme";
+import { usernameMaxLength } from "../../../constants/fieldsConstants";
 import { updateUserUsername } from "../../../utils/database";
 import {
 	validateUsername,
@@ -24,12 +25,11 @@ const SetUsernameModal = ({
 }) => {
 	const [newUsername, setNewUsername] = useState(oldUsername);
 	const [usernameError, setUsernameError] = useState(false);
-	const [refreshing, setRefreshing] = useState(false);
+	const [usernameSuccess, setUsernameSuccess] = useState(false);
 	const [usersUsername, setUsersUsername] = useState([]);
 
 	useEffect(() => {
 		const getUsersUsername = async () => {
-			setRefreshing(true);
 			const { data, error } = await supabase
 				.from("users")
 				.select("username");
@@ -41,7 +41,6 @@ const SetUsernameModal = ({
 				setUsersUsername(
 					usersUsername.splice(usersUsername.indexOf(oldUsername), 1),
 				);
-				setRefreshing(false);
 			}
 		};
 		getUsersUsername();
@@ -72,6 +71,7 @@ const SetUsernameModal = ({
 									if (updateUserUsername(oldUsername, newUsername)) {
 										setUsername(newUsername);
 										setUsernameError(false);
+										setUsernameSuccess(true);
 										Window.alert(
 											"Username updated",
 											`Now your username is ${newUsername}.`,
@@ -108,6 +108,7 @@ const SetUsernameModal = ({
 				"Username not valid, minimum 3 chars and maximum 10 chars.",
 			);
 			setUsernameError(true);
+			setUsernameSuccess(false);
 		}
 	};
 
@@ -148,8 +149,9 @@ const SetUsernameModal = ({
 						labelText="Username"
 						placeholderText="Enter your new username"
 						inputError={usernameError}
+						inputSuccess={usernameSuccess}
 						value={newUsername}
-						maxLength={10}
+						maxLength={usernameMaxLength}
 						autoComplete={"username"}
 						autoCorrect={true}
 						inputMode={"text"}

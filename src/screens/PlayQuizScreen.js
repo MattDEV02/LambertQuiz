@@ -23,7 +23,7 @@ import {
 	playIncorrectAnswerSound,
 	playOpenSound,
 } from "../utils/sounds";
-import { COLORS, appName, questionNumber } from "../constants/theme";
+import { COLORS, appName, questionsNumber } from "../constants/theme";
 
 // TODO: QUESTION COMPONENT.
 
@@ -38,6 +38,13 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	const [correctCount, setCorrectCount] = useState(0);
 	const [incorrectCount, setIncorrectCount] = useState(0);
 	const [questions, setQuestions] = useState([]);
+	const [imagesError, setImagesError] = useState([
+		false,
+		false,
+		false,
+		false,
+		false,
+	]);
 
 	const flatListRef = useRef(null);
 
@@ -56,23 +63,13 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				});
 				if (validateObject(error)) {
 					console.error(error);
-				} else if (validateArray(data, questionNumber)) {
+				} else if (validateArray(data, questionsNumber)) {
 					setQuestions(data);
 					scrollToTop();
 				}
 				setRefreshing(false);
 			}
 		};
-		console.log(
-			"openedQuiz: " +
-				openedQuiz +
-				" gameFinished: " +
-				gameFinished +
-				" tryAgain: " +
-				tryAgain +
-				" isResultModalVisible: " +
-				isResultModalVisible,
-		);
 
 		getQuestionsFromQuizId(quizId);
 	}, [openedQuiz, tryAgain]);
@@ -131,10 +128,15 @@ const PlayQuizScreen = ({ navigation, route }) => {
 			await playIncorrectAnswerSound();
 		}
 
-		//
 		let tempQuestions = [...questions];
 		tempQuestions[index].selectedOption = option;
 		setQuestions([...tempQuestions]);
+	};
+
+	const handleImageError = (index) => {
+		const updatedErrors = [...imagesError];
+		updatedErrors[index] = true;
+		setImagesError(updatedErrors);
 	};
 
 	return (
@@ -180,7 +182,9 @@ const PlayQuizScreen = ({ navigation, route }) => {
 							fontWeight: "bold",
 						}}
 					>
-						{validateArray(questions, questionNumber) ? questions[0].category : null}
+						{validateArray(questions, questionsNumber)
+							? questions[0].category
+							: null}
 					</Text>
 				</View>
 				{/* Corret and Incorrect */}
@@ -262,12 +266,14 @@ const PlayQuizScreen = ({ navigation, route }) => {
 							<Text style={{ fontSize: 16 }}>
 								{index + 1}. {item.text}
 							</Text>
-							{validateURL(item.imageurl) ? (
+							{validateURL(item.imageurl) && !imagesError[index] ? (
 								<Image
 									source={{
 										uri: item.imageurl,
 									}}
 									resizeMode={"contain"}
+									alt={"Questio Image"}
+									onError={() => handleImageError(index)}
 									style={{
 										width: "80%",
 										height: 150,

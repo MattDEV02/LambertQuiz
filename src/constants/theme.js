@@ -1,5 +1,4 @@
 import { Dimensions } from "react-native";
-const { width, height } = Dimensions.get("window");
 import { APP_NAME } from "@env";
 
 export const COLORS = {
@@ -7,7 +6,7 @@ export const COLORS = {
 	secondary: "#000020",
 
 	success: "#00C851",
-	warning: "#f0f007",
+	warning: "#F0F007",
 	error: "#FF4444",
 	orange: "#EF7009",
 
@@ -18,17 +17,18 @@ export const COLORS = {
 	border: "#F5F5F7",
 };
 
-export const appName = APP_NAME;
-
-export const footerFontSize = 14.5;
-
-export const questionNumber = 5;
-
-export const headerShown = true;
+const { width, height } = Dimensions.get("window");
 
 export const SIZES = {
 	base: 10,
 	width,
 	height,
 };
+
+export const appName = APP_NAME;
+
+export const headerShown = true;
+
+export const questionsNumber = 5;
+
 

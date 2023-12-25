@@ -5,6 +5,10 @@ import FormButton from "../components/shared/FormButton";
 import FormFooter from "../components/shared/FormFooter";
 import { signIn } from "../utils/auth";
 import { COLORS, appName } from "../constants/theme";
+import {
+	emailMaxLength,
+	passwordMaxLength,
+} from "../constants/fieldsConstants";
 import { validateEmail, validatePassword } from "../utils/validators.js";
 
 const SignInScreen = ({ navigation }) => {
@@ -12,33 +16,69 @@ const SignInScreen = ({ navigation }) => {
 	const [password, setPassword] = useState("");
 	const [emailError, setEmailError] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
+	const [emailSuccess, setEmailSuccess] = useState(false);
+	const [passwordSuccess, setPasswordSuccess] = useState(false);
 
 	const fieldsReset = () => {
 		setEmail("");
 		setPassword("");
+		setEmailError(false);
+		setEmailSuccess(false);
+		setPasswordError(false);
+		setPasswordSuccess(false);
+	};
+
+	const emailFieldError = () => {
+		setEmailError(true);
+		setEmailSuccess(false);
+	};
+
+	const emailFieldSuccess = () => {
+		setEmailError(false);
+		setEmailSuccess(true);
+	};
+
+	const passwordFieldError = () => {
+		setPasswordError(true);
+		setPasswordSuccess(false);
+	};
+
+	const passwordFieldSuccess = () => {
+		setPasswordError(false);
+		setPasswordSuccess(true);
 	};
 
 	const handleOnPress = () => {
 		if (validateEmail(email)) {
-			setEmailError(false);
+			emailFieldSuccess();
 		} else {
-			setEmailError(true);
+			emailFieldError();
 			Window.alert("Email not valid", "Please enter a valid email.");
 		}
 		if (validatePassword(password)) {
-			setPasswordError(false);
+			passwordFieldSuccess();
 		} else {
-			setPasswordError(true);
+			passwordFieldError();
 			Window.alert(
 				"Password not valid",
-				"Password not valid, please use minimum 8 chars and maximum 32 chars.",
+				"Password not valid, use minimum 8 chars with numbers, lowercase and uppercase letters.",
 			);
 		}
 		if (validateEmail(email) && validatePassword(password)) {
-			signIn(email, password);
+			if (signIn(email, password)) {
+				emailFieldSuccess();
+				passwordFieldSuccess();
+			} else {
+				emailFieldError();
+				passwordFieldError();
+			}
 			fieldsReset();
-		}
+		} 
 	};
+
+	navigation.addListener("blur", () => {
+		fieldsReset();
+	});
 
 	return (
 		<SafeAreaView
@@ -65,10 +105,11 @@ const SignInScreen = ({ navigation }) => {
 				placeholderText="Enter your email"
 				value={email}
 				inputError={emailError}
+				inputSuccess={emailSuccess}
 				keyboardType="email-address"
 				autoComplete={"off"}
 				autoCorrect={false}
-				maxLength={50}
+				maxLength={emailMaxLength}
 				autocapitalize={"none"}
 				spellcheck={false}
 				inputMode={"email"}
@@ -79,12 +120,13 @@ const SignInScreen = ({ navigation }) => {
 			/>
 			<FormInput
 				labelText="Password"
-				placeholderText="Enter your password (between 3 & 10 chars)"
+				placeholderText="Enter your password (8 chars)"
 				value={password}
 				inputError={passwordError}
+				inputSuccess={passwordSuccess}
 				autoComplete={"off"}
 				autoCorrect={false}
-				maxLength={32}
+				maxLength={passwordMaxLength}
 				secureTextEntry={true}
 				onChangeText={(password) => setPassword(password)}
 			/>

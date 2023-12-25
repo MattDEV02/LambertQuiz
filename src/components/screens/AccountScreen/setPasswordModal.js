@@ -6,8 +6,11 @@ import {
 	TouchableOpacity,
 	Alert as Window,
 } from "react-native";
-import { COLORS } from "../../../constants/theme";
 import FormInput from "../../shared/FormInput";
+import { COLORS } from "../../../constants/theme";
+import {
+	passwordMaxLength,
+} from "../../../constants/fieldsConstants";
 import { validatePassword } from "../../../utils/validators";
 import { updateUserPassword } from "../../../utils/database";
 
@@ -20,11 +23,14 @@ const SetPasswordModal = ({
 	const [newConfirmPassword, setNewConfirmPassword] = useState("");
 	const [newPasswordError, setNewPasswordError] = useState(false);
 	const [confirmpasswordError, setConfirmPasswordError] = useState(false);
+	const [newPasswordSuccess, setNewPasswordSuccess] = useState(false);
+	const [confirmpasswordSuccess, setConfirmPasswordSuccess] = useState(false);
 
 	const handleOnPress = () => {
 		if (validatePassword(newPassword)) {
 			if (newPassword === newConfirmPassword) {
 				setConfirmPasswordError(false);
+				setConfirmPasswordSuccess(true);
 				Window.alert(
 					"Are your sure?",
 					"Are you sure you want to set your password ?",
@@ -34,6 +40,7 @@ const SetPasswordModal = ({
 							onPress: () => {
 								if (updateUserPassword(username, newPassword)) {
 									setNewPasswordError(false);
+									setNewPasswordSuccess(true);
 									Window.alert(
 										"We have sented an email confirmation to you.",
 										"Please check your email checkbox.",
@@ -53,14 +60,16 @@ const SetPasswordModal = ({
 				);
 			} else {
 				setConfirmPasswordError(true);
+				setConfirmPasswordSuccess(false);
 				Window.alert("Please, try again.", "The passwords did not match.");
 			}
 		} else {
 			Window.alert(
 				`Password not valid.`,
-				"Password not valid, minimum 8 chars and maximum 32 chars.",
+				"Password not valid, use minimum 8 chars with numbers, lowercase and uppercase letters.",
 			);
 			setNewPasswordError(true);
+			setNewPasswordSuccess(false);
 		}
 	};
 
@@ -99,12 +108,13 @@ const SetPasswordModal = ({
 					</Text>
 					<FormInput
 						labelText="New Password"
-						placeholderText="Enter your new password"
+						placeholderText="Enter your new password (8 chars)"
 						value={newPassword}
 						inputError={newPasswordError}
+						inputSuccess={newPasswordSuccess}
 						autoComplete={"off"}
 						autoCorrect={false}
-						maxLength={32}
+						maxLength={passwordMaxLength}
 						secureTextEntry={true}
 						onChangeText={(password) => setNewPassword(password)}
 					/>
@@ -113,9 +123,10 @@ const SetPasswordModal = ({
 						placeholderText="Confirm your new Password"
 						value={newConfirmPassword}
 						inputError={confirmpasswordError}
+						inputSuccess={confirmpasswordSuccess}
 						autoComplete={"off"}
 						autoCorrect={false}
-						maxLength={32}
+						maxLength={passwordMaxLength}
 						secureTextEntry={true}
 						onChangeText={(confirmPassword) =>
 							setNewConfirmPassword(confirmPassword)

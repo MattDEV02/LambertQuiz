@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import AccordionItem from "../components/screens/HelpScreen/AccordionItem";
-import { COLORS, questionNumber } from "../constants/theme";
+import { COLORS, questionsNumber } from "../constants/theme";
 
 const HelpScreen = () => {
 	const accordionList = [
@@ -32,7 +32,7 @@ const HelpScreen = () => {
 		},
 		{
 			question: `How many questions has a Quiz?`,
-			response: `Any Quiz category has ${questionNumber} questions.`,
+			response: `Any Quiz category has ${questionsNumber} questions.`,
 			index: 6,
 		},
 		{
@@ -59,6 +59,7 @@ const HelpScreen = () => {
 						question={item.question}
 						response={item.response}
 						index={item.index}
+						key={item.index}
 					/>
 				))}
 				<View

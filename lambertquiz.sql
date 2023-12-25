@@ -7,7 +7,7 @@ DROP SCHEMA IF EXISTS lambertquiz CASCADE;
 CREATE SCHEMA IF NOT EXISTS lambertquiz AUTHORIZATION postgres;
 
 COMMENT ON SCHEMA lambertquiz IS 'LambertQuiz App Schema';
-
+	
 SET SEARCH_PATH TO lambertquiz; 
 
 SELECT CURRENT_DATABASE();
@@ -31,11 +31,13 @@ DROP TABLE IF EXISTS lambertquiz.users;
 
 CREATE TABLE IF NOT EXISTS lambertquiz.users (
 	user_id SERIAL NOT NULL PRIMARY KEY,
-  email VARCHAR ( 40 ) UNIQUE NOT NULL,
+  email VARCHAR ( 40 ) NOT NULL,
 	password VARCHAR ( 72 ) NOT NULL,
-  username VARCHAR ( 10 ) UNIQUE NOT NULL,
-	inserted_at timestamp WITH time zone DEFAULT TIMEZONE('UTC'::text, NOW() + INTERVAL '+2 hours') NOT NULL,
-  updated_at timestamp WITH time zone DEFAULT TIMEZONE('UTC'::text, NOW() + INTERVAL '+2 hours') NOT NULL
+  username VARCHAR ( 10 ) NOT NULL,
+	inserted_at TIMESTAMP WITH time zone DEFAULT TIMEZONE('UTC'::text, NOW() + INTERVAL '+1 hours') NOT NULL,
+  updated_at TIMESTAMP WITH time zone DEFAULT TIMEZONE('UTC'::text, NOW() + INTERVAL '+1 hours') NOT NULL,
+  CONSTRAINT users_email_unique UNIQUE(email),
+  CONSTRAINT users_username_unique UNIQUE(username)
 );
 
 COMMENT ON COLUMN lambertquiz.users.user_id IS 'The integer incremental User ID.';
@@ -46,37 +48,11 @@ COMMENT ON COLUMN lambertquiz.users.password IS 'The non-unique User account pas
 
 COMMENT ON COLUMN lambertquiz.users.username IS 'The unique User account username.';
 
-COMMENT ON COLUMN lambertquiz.users.inserted_at IS 'The timestamp date and time when the record was inserted.';
+COMMENT ON COLUMN lambertquiz.users.inserted_at IS 'The TIMESTAMP date and time when the record was inserted.';
 
-COMMENT ON COLUMN lambertquiz.users.updated_at IS 'The timestamp date and time when the record was updated.';
+COMMENT ON COLUMN lambertquiz.users.updated_at IS 'The TIMESTAMP date and time when the record was updated.';
 
-COMMENT ON TABLE lambertquiz.users IS 'lambertquiz app Users table.';
-
-CREATE OR REPLACE FUNCTION user_updated_at_set_timestamp()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = NOW() + INTERVAL '+2 hours';
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE TRIGGER trigger_user_updated_at_set_timestamp
-BEFORE UPDATE ON lambertquiz.users
-FOR EACH ROW
-EXECUTE FUNCTION user_updated_at_set_timestamp();
-
-CREATE OR REPLACE FUNCTION password_crypt_on_user_insert()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.password = CRYPT(NEW.password, GEN_SALT('BF'));
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE TRIGGER trigger_password_crypt_on_user_insert
-BEFORE INSERT ON lambertquiz.users
-FOR EACH ROW
-EXECUTE FUNCTION password_crypt_on_user_insert();
+COMMENT ON TABLE lambertquiz.users IS 'LambertQuiz app Users table.';
 
 ALTER TABLE lambertquiz.users ADD CONSTRAINT check_users_unsigned_user_id CHECK (lambertquiz.users.user_id > 0);
 
@@ -90,9 +66,40 @@ ALTER TABLE lambertquiz.users ADD CONSTRAINT check_users_username_min_length CHE
 
 ALTER TABLE lambertquiz.users ADD CONSTRAINT check_users_inserted_at_updated_at CHECK (lambertquiz.users.inserted_at <= users.updated_at);
 
---INSERT INTO lambertquiz.users (email, password, username) VALUES ('matteolambertucci3@gmail.com', CRYPT('12345678', GEN_SALT('BF')), 'Matt');
+CREATE OR REPLACE FUNCTION user_updated_at_set_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW() + INTERVAL '+1 hours';
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
---('gattoyu@gmail.com', CRYPT('12345678', GEN_SALT('BF')), 'Gattissimo');
+CREATE OR REPLACE TRIGGER trigger_user_updated_at_set_timestamp
+BEFORE UPDATE ON lambertquiz.users
+FOR EACH ROW
+EXECUTE FUNCTION user_updated_at_set_timestamp();
+
+CREATE OR REPLACE FUNCTION crypt_user_password()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.password = CRYPT(NEW.password, GEN_SALT('BF'));
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER trigger_password_crypt_on_user_insert
+BEFORE INSERT ON lambertquiz.users
+FOR EACH ROW
+EXECUTE FUNCTION crypt_user_password();
+
+CREATE OR REPLACE TRIGGER trigger_password_crypt_on_user_update
+BEFORE UPDATE ON lambertquiz.users
+FOR EACH ROW
+EXECUTE FUNCTION crypt_user_password();
+
+
+INSERT INTO lambertquiz.users (email, password, username) VALUES ('matteolambertucci3@gmail.com', '12345678', 'Matt');
+
 
 SELECT * FROM lambertquiz.users;
 
@@ -104,9 +111,10 @@ DROP TABLE IF EXISTS lambertquiz.quizzes;
 
 CREATE TABLE IF NOT EXISTS lambertquiz.quizzes (
   quiz_id SERIAL NOT NULL PRIMARY KEY,
-  title TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
   description TEXT NOT NULL,
-  category categories NOT NULL
+  category categories NOT NULL,
+  CONSTRAINT quizzes_title_unique UNIQUE(title)
 );
 
 COMMENT ON COLUMN lambertquiz.quizzes.quiz_id IS 'The integer incremental Quiz ID.';
@@ -117,7 +125,7 @@ COMMENT ON COLUMN lambertquiz.quizzes.title IS 'The Quiz description.';
 
 COMMENT ON COLUMN lambertquiz.quizzes.category IS 'The Quiz category in categories ENUM.';
 
-COMMENT ON TABLE lambertquiz.quizzes IS 'lambertquiz app Quizzes with questions and responses.';
+COMMENT ON TABLE lambertquiz.quizzes IS 'LambertQuiz app Quizzes with questions and responses.';
 
 ALTER TABLE lambertquiz.quizzes ADD CONSTRAINT check_quizzes_unsigned_quiz_id CHECK (lambertquiz.quizzes.quiz_id > 0);
 
@@ -142,7 +150,8 @@ AFTER UPDATE ON lambertquiz.quizzes
 FOR EACH ROW
 EXECUTE FUNCTION quiz_question_category();
 
-INSERT INTO lambertquiz.quizzes (title, description, category) VALUES ('France culture Quiz', 'Simple Quiz on the France culture', 'France'), ('Egypt culture Quiz', 'Simple Quiz on the Egypt culture', 'Egypt'),  ('Math Quiz', 'Simple Math Quiz with simple calculations.', 'Math');
+
+INSERT INTO lambertquiz.quizzes (title, description, category) VALUES ('France culture Quiz', 'Simple Quiz on the France culture.', 'France'), ('Egypt culture Quiz', 'Simple Quiz on the Egypt culture.', 'Egypt'),  ('Math Quiz', 'Simple Math Quiz with simple calculations.', 'Math');
 
 
 SELECT * FROM lambertquiz.quizzes;
@@ -161,8 +170,8 @@ CREATE TABLE IF NOT EXISTS lambertquiz.questions (
   options text ARRAY[4] NOT NULL,
   solution text NOT NULL,
   quiz integer NOT NULL,
-  UNIQUE(text, category),
-  UNIQUE(imageURL, options, solution, quiz),
+  CONSTRAINT questions_text_category_unique UNIQUE(text, category),
+  CONSTRAINT questions_imageURL_options_solution_quiz_unique UNIQUE(imageURL, options, solution, quiz),
   CONSTRAINT question_quiz_fk FOREIGN KEY(quiz) REFERENCES lambertquiz.quizzes(quiz_id) ON DELETE CASCADE
 );
 
@@ -172,13 +181,15 @@ COMMENT ON COLUMN lambertquiz.questions.text IS 'The quiz Question text.';
 
 COMMENT ON COLUMN lambertquiz.questions.category IS 'The quiz Question category in categories ENUM.';
 
-COMMENT ON COLUMN lambertquiz.questions.imageURL IS 'The quiz Question image URL.';
+COMMENT ON COLUMN lambertquiz.questions.imageURL IS 'The quiz Question image URL (stored in my SUPABASE Storage).';
 
 COMMENT ON COLUMN lambertquiz.questions.options IS 'The four quiz Question Options.';
 
 COMMENT ON COLUMN lambertquiz.questions.solution IS 'The quiz Question response solution in options array.';
 
-COMMENT ON TABLE lambertquiz.questions IS 'lambertquiz app Questions with responses.';
+COMMENT ON COLUMN lambertquiz.questions.quiz IS 'The quiz Question foreign key.';
+
+COMMENT ON TABLE lambertquiz.questions IS 'LambertQuiz app Questions with responses.';
 
 ALTER TABLE lambertquiz.questions ADD CONSTRAINT check_questions_unsigned_question_id CHECK (lambertquiz.questions.question_id > 0);
 
@@ -256,18 +267,84 @@ AFTER UPDATE ON lambertquiz.questions
 FOR EACH ROW
 EXECUTE FUNCTION quiz_question_category();
 
+CREATE OR REPLACE FUNCTION get_random_questions(IN quiz_id INTEGER)
+RETURNS SETOF questions
+LANGUAGE SQL
+AS $$
+   SELECT * 
+   FROM questions
+   WHERE 
+    quiz = quiz_id 
+   ORDER BY RANDOM() ASC
+   LIMIT 5;
+$$;
+
 
 INSERT INTO lambertquiz.questions (text, category, imageURL, options, solution, quiz) VALUES 
-('How much is tall the Eiffel Tower ?', 'France', 'https://res.cloudinary.com/hello-tickets/image/upload/ar_1:1,c_fill,f_auto,q_auto,w_800/v1645844269/gd99ktjpmrtkwwlyn8hx.jpg', '{"324 m", "72 m", "200 m", "100 m"}', '324 m', 1), ('What is the capital of the France ?', 'France', 'https://cdn.studenti.stbm.it/images/2018/10/15/parigi-orig.jpeg', '{"Rome", "Garbatella", "Chicago", "Paris"}', 'Paris', 1), ('What is the second city of the France ?', 'France', 'https://www.franciaturismo.net/wp-content/uploads/sites/4/lione-cattedrale.jpg', '{"Paris", "Tolosa", "Lione", "Nizza"}', 'Lione', 1), ('In what year was the Eiffel Tower built?', 'France', 'https://res.cloudinary.com/hello-tickets/image/upload/ar_1:1,c_fill,f_auto,q_auto,w_800/v1645844269/gd99ktjpmrtkwwlyn8hx.jpg','{"1889", "2024", "0", "1911"}', '1889', 1), ('What is the French surface area?', 'France', 'https://ichef.bbci.co.uk/news/1024/branded_news/5BA5/production/_128316432_bbcmp_france.png', '{"851500 km^2", "551500 km^2", "0 km^2", "6001500 km^2"}', '551500 km^2', 1),
-('How much is large the Giza Sphinx ?', 'Egypt', 'https://www.guidaconsumatore.com/wp-content/uploads/2022/06/mistero_sfinge-scaled.jpeg', '{"10 m", "6 m", "1 m", "324 m"}', '6 m', 2),  ('What is the capital of Egypt', 'Egypt', 'https://www.egittosharmelsheikh.it/wp-content/uploads/2021/05/ll-Cairo-Egitto.jpg',  '{"Il Cairo", "Piramide", "Luxor", "Giza"}', 'Il Cairo', 2), ('What is the Egypt surface area?', 'Egypt', 'https://us.123rf.com/450wm/harvepino/harvepino1611/harvepino161100200/66303868-mappa-dell-egitto-con-bandiera-incorporata-sulla-superficie-del-pianeta-illustrazione-3d.jpg', '{"1002000 km^2", "551500 km^2", "0 km^2", "-6001500 km^2"}', '1002000 km^2', 2), ('When did ancient Egypt originate?', 'Egypt', 'https://www.aristidegabelli.edu.it/wp-content/uploads/archivio-images/egitto1.jpg', '{"3900 AC", "3942 AC", "0", "342 DC"}', '3900 AC', 2), ('How many colors does the Egyptian flag have?', 'Egypt', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Flag_of_Egypt.svg/2000px-Flag_of_Egypt.svg.png', '{"1", "2", "3", "4"}', '4', 2),
-('How much is 2 + 3 ?', 'Math', 'https://t3.ftcdn.net/jpg/04/83/90/18/360_F_483901821_46VsNR67uJC3xIKQN4aaxR6GtAZhx9G8.jpg', '{"5", "18", "0", "-2"}', '5', 3), ('10 minus 4 is equals to', 'Math', 'https://thumbs.dreamstime.com/z/matematica-con-moltiplicazione-di-sottrazione-e-simboli-divisione-bianco-sfondo-immagine-illustrazione-della-generata-da-225369255.jpg', '{"6", "-6", "5", "0"}', '6', 3), ('60 times of 8 equals to', 'Math', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Basic_arithmetic_operators.svg/440px-Basic_arithmetic_operators.svg.png', '{"6", "0", "-3", "480"}', '480', 3), ('121 Divided by 11 is equals to', 'Math', 'https://modo3.com/thumbs/fit630x300/253965/1629615873/%D9%83%D8%AA%D8%A7%D8%A8%D8%A9_%D9%85%D8%B9%D8%A7%D8%AF%D9%84%D8%A7%D8%AA_%D8%A7%D9%84%D8%AC%D9%85%D8%B9_%D9%88%D8%A7%D9%84%D8%B7%D8%B1%D8%AD_%D9%88%D8%AD%D9%84%D9%91%D9%87%D8%A7.jpg', '{"10", "18", "-3", "11"}', '11', 3),
-('3 raised to the 3 is equals to', 'Math', 'https://www.laboo.biz/articoli/potenza-di-potenza.gif', '{"3", "1", "27", "0"}', '27', 3);
+('How much is tall the Eiffel Tower ?', 'France', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/France/torre_eiffel.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9GcmFuY2UvdG9ycmVfZWlmZmVsLmpwZyIsImlhdCI6MTcwMjQxNTgxNSwiZXhwIjoxNzMzOTUxODE1fQ.5wYS0MP1lI-aVpscVg3Wv0TVPlWuhifEd2pQAfpTUIc&t=2023-12-12T21%3A16%3A57.369Z', '{"324 m", "72 m", "200 m", "100 m"}', '324 m', 1), ('What is the capital of the France ?', 'France', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/France/parigi-orig.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9GcmFuY2UvcGFyaWdpLW9yaWcuanBlZyIsImlhdCI6MTcwMjQxNTkxMywiZXhwIjoxNzMzOTUxOTEzfQ.e6yxVwOxNOHzoKu3AHQ-8A9Hg3HM8RYyOvUvwUERnyg&t=2023-12-12T21%3A18%3A34.638Z', '{"Rome", "Garbatella", "Chicago", "Paris"}', 'Paris', 1), ('What is the second city of the France ?', 'France', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/France/lione-cattedrale.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9GcmFuY2UvbGlvbmUtY2F0dGVkcmFsZS5qcGciLCJpYXQiOjE3MDI0MTU5NjksImV4cCI6MTczMzk1MTk2OX0.D6ZKWEay8ale7fAski9hsIYpHz3CIWLUoS4QrG6vZJo&t=2023-12-12T21%3A19%3A31.183Z', '{"Paris", "Tolosa", "Lione", "Nizza"}', 'Lione', 1), ('In what year was the Eiffel Tower built?', 'France', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/France/torre_eiffel.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9GcmFuY2UvdG9ycmVfZWlmZmVsLmpwZyIsImlhdCI6MTcwMjQxNTgxNSwiZXhwIjoxNzMzOTUxODE1fQ.5wYS0MP1lI-aVpscVg3Wv0TVPlWuhifEd2pQAfpTUIc&t=2023-12-12T21%3A16%3A57.369Z','{"1889", "2024", "0", "1911"}', '1889', 1), ('What is the French surface area?', 'France', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/France/_128316432_bbcmp_france.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9GcmFuY2UvXzEyODMxNjQzMl9iYmNtcF9mcmFuY2UucG5nIiwiaWF0IjoxNzAyNDE1OTkzLCJleHAiOjE3MzM5NTE5OTN9.Ee-dGxpJEmblQyf1VZrUkkdogi4mLP6zK8kPtZgLANg&t=2023-12-12T21%3A19%3A54.655Z', '{"851500 km^2", "551500 km^2", "0 km^2", "6001500 km^2"}', '551500 km^2', 1),
+('How much is large the Giza Sphinx ?', 'Egypt', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Egypt/mistero_sfinge-scaled.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9FZ3lwdC9taXN0ZXJvX3NmaW5nZS1zY2FsZWQuanBlZyIsImlhdCI6MTcwMjQxNjI5MCwiZXhwIjoxNzMzOTUyMjkwfQ.xlr4WnV95OWE84Sk3U_UaB4ympVj50MjBZsiRE_zU9o&t=2023-12-12T21%3A24%3A52.090Z', '{"10 m", "6 m", "1 m", "324 m"}', '6 m', 2),  ('What is the capital of Egypt', 'Egypt', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Egypt/ll-Cairo-Egitto.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9FZ3lwdC9sbC1DYWlyby1FZ2l0dG8uanBnIiwiaWF0IjoxNzAyNDE2MjQ1LCJleHAiOjE3MzM5NTIyNDV9.GFmljKoy-yd-jUDZwvjhM67YlN2Ln8_qH60aIetaD4M&t=2023-12-12T21%3A24%3A07.374Z',  '{"Il Cairo", "Piramide", "Luxor", "Giza"}', 'Il Cairo', 2), ('What is the Egypt surface area?', 'Egypt', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Egypt/mappa_egitto.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9FZ3lwdC9tYXBwYV9lZ2l0dG8uanBnIiwiaWF0IjoxNzAyNDE2MjY2LCJleHAiOjE3MzM5NTIyNjZ9.xU8f3G_OH55vxKhN53HHypTP-ax_ABxcg3lzUVpMOhA&t=2023-12-12T21%3A24%3A27.749Z', '{"1002000 km^2", "551500 km^2", "0 km^2", "6001500 km^2"}', '1002000 km^2', 2), ('When did ancient Egypt originate?', 'Egypt', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Egypt/antico_egitto.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9FZ3lwdC9hbnRpY29fZWdpdHRvLmpwZyIsImlhdCI6MTcwMjQxNjE3MywiZXhwIjoxNzMzOTUyMTczfQ.2rMtK9j8ASy0OCENTtVH2WWKmDWgP-2CWS0BY1b11Is&t=2023-12-12T21%3A22%3A55.243Z', '{"3900 AC", "3942 AC", "0", "342 DC"}', '3900 AC', 2), ('How many colors does the Egyptian flag have?', 'Egypt', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Egypt/bandiera_egitto.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9FZ3lwdC9iYW5kaWVyYV9lZ2l0dG8ucG5nIiwiaWF0IjoxNzAyNDE2MjA2LCJleHAiOjE3MzM5NTIyMDZ9.-kg1La3IlUng4EzehoX3SJU9XvHMPizuslOsYs-2rWU&t=2023-12-12T21%3A23%3A27.569Z', '{"1", "2", "3", "4"}', '4', 2),
+('How much is 2 plus 3 ?', 'Math', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/algebra.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL2FsZ2VicmEuanBnIiwiaWF0IjoxNzAyNDE2MzMxLCJleHAiOjE3MzM5NTIzMzF9.bKJaGd-lO9n_CtZkXiReBedGji3iiEptsEyWoHtdI9U&t=2023-12-12T21%3A25%3A33.008Z', '{"5", "18", "0", "-2"}', '5', 3), ('10 minus 4 is equals to', 'Math', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/simboli.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3NpbWJvbGkuanBnIiwiaWF0IjoxNzAyNDE2MzYyLCJleHAiOjE3MzM5NTIzNjJ9.-a1oeLGZvtVqPhFw6jUKCDmS7Gi3NW3zcDZA1ShaUpg&t=2023-12-12T21%3A26%3A04.180Z', '{"6", "-6", "5", "0"}', '6', 3), ('60 times of 8 equals to', 'Math', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/simboli2.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3NpbWJvbGkyLnBuZyIsImlhdCI6MTcwMjU3NzQwMCwiZXhwIjoxNzM0MTEzNDAwfQ.-RGeX9w3ZGlR9GNK6wy2Qjce4wUndvGN4ma07DxG6ag&t=2023-12-14T18%3A10%3A00.948Z', '{"6", "0", "-3", "480"}', '480', 3), ('121 Divided by 11 is equals to', 'Math', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/simboli3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3NpbWJvbGkzLmpwZyIsImlhdCI6MTcwMjU3NzQzMSwiZXhwIjoxNzM0MTEzNDMxfQ.62f75RCfrex2s8TJnPCEuI_g-yoUlMCXn_M1XIGyx6Q&t=2023-12-14T18%3A10%3A32.063Z', '{"10", "18", "-3", "11"}', '11', 3),
+('3 raised to the 3 is equals to', 'Math', 'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/potenza.gif?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3BvdGVuemEuZ2lmIiwiaWF0IjoxNzAyNTA0NzkxLCJleHAiOjE3MzQwNDA3OTF9.b0QrIDSLFLqP6boYfGWnzukgDixznsEJZ82SsBkLR00&t=2023-12-13T21%3A59%3A53.286Z', '{"3", "1", "27", "0"}', '27', 3);
 
 
 SELECT * from lambertquiz.questions;
+
+
+--- Progresses
+
+CREATE TABLE IF NOT EXISTS lambertquiz.progresses (
+  progresses_id SERIAL NOT NULL PRIMARY KEY,
+  _user INTEGER NOT NULL,
+  quiz INTEGER NOT NULL,
+  quiz_started_at TIMESTAMP NOT NULL,
+  inserted_at TIMESTAMP WITH time zone DEFAULT TIMEZONE('UTC'::text, NOW() + INTERVAL '+1 hours') NOT NULL,
+  updated_at TIMESTAMP WITH time zone DEFAULT TIMEZONE('UTC'::text, NOW() + INTERVAL '+1 hours') NOT NULL,
+  CONSTRAINT progresses__user_quiz_unique UNIQUE(_user, quiz),
+  CONSTRAINT progresses_user_fk FOREIGN KEY(_user) REFERENCES lambertquiz.users(user_id) ON DELETE CASCADE,
+  CONSTRAINT progresses_quiz_fk FOREIGN KEY(quiz) REFERENCES lambertquiz.quizzes(quiz_id) ON DELETE CASCADE
+);
+
+COMMENT ON COLUMN lambertquiz.progresses.progresses_id IS 'The integer incremental progresses ID.';
+
+COMMENT ON COLUMN lambertquiz.progresses._user IS 'The user quiz question foreign key.';
+
+COMMENT ON COLUMN lambertquiz.progresses.quiz IS 'The quiz question foreign key.';
+
+COMMENT ON COLUMN lambertquiz.progresses.quiz_started_at IS 'The quiz start timestamp.';
+
+COMMENT ON COLUMN lambertquiz.progresses.inserted_at IS 'The TIMESTAMP date and time when the record was inserted.';
+
+COMMENT ON COLUMN lambertquiz.progresses.updated_at IS 'The TIMESTAMP date and time when the record was updated.';
+
+COMMENT ON TABLE lambertquiz.progresses IS 'LambertQuiz app table that rappresents the quizzes played by a specific user, used for statistics.';
+
+ALTER TABLE lambertquiz.progresses ADD CONSTRAINT check_progresses_unsigned_progresses_id CHECK (lambertquiz.progresses.progresses_id > 0);
+
+ALTER TABLE lambertquiz.progresses ADD CONSTRAINT check_progresses_started_at_inserted_at_updated_at CHECK (lambertquiz.progresses.quiz_started_at < progresses.inserted_at AND lambertquiz.progresses.quiz_started_at < progresses.updated_at);
+
+ALTER TABLE lambertquiz.progresses ADD CONSTRAINT check_progresses_inserted_at_updated_at CHECK (lambertquiz.progresses.inserted_at <= progresses.updated_at);
+
+CREATE OR REPLACE FUNCTION progresses_updated_at_set_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW() + INTERVAL '+1 hours';
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER trigger_progresses_updated_at_set_timestamp
+BEFORE UPDATE ON lambertquiz.progresses
+FOR EACH ROW
+EXECUTE FUNCTION progresses_updated_at_set_timestamp();
+
+INSERT INTO progresses (_user, quiz, quiz_started_at) VALUES (1, 1, '2023-12-23 10:23:54');
+
+SELECT * FROM progresses;
 
 GRANT usage ON schema "lambertquiz" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA "lambertquiz" TO postgres;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA lambertquiz TO postgres;
 
 SELECT * FROM pg_catalog.pg_tables  WHERE schemaname = 'lambertquiz';
+
+-- Example query:

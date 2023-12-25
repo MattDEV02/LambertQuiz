@@ -56,12 +56,12 @@ export const updateUserPassword = async (username, newPassword) => {
 	return true;
 };
 
-export const deleteUser = async (email) => {
-	const { error } = await supabase.from("users").delete().eq("email", email);
+export const deleteUser = async (user_id) => {
+	const { error } = await supabase.from("users").delete().eq("user_id", user_id);
 	if (validateObject(error)) {
 		console.error(error);
 		return false;
 	}
-	console.log(email + " deleted.");
+	console.log("User_id " + user_id + " deleted.");
 	return true;
 };

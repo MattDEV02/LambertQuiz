@@ -21,6 +21,7 @@ const AccordionItem = ({ question, response, index }) => {
 								marginLeft: 19,
 								fontSize: 19,
 							}}
+							key={index}
 						>
 							{question}
 						</ListItem.Title>
@@ -32,9 +33,9 @@ const AccordionItem = ({ question, response, index }) => {
 				setExpanded(!expanded);
 			}}
 		>
-			<ListItem key={index} bottomDivider>
-				<ListItem.Content>
-					<ListItem.Title>{response}</ListItem.Title>
+			<ListItem key={index} bottomDivider topDivider>
+				<ListItem.Content key={index} >
+					<ListItem.Title key={index} >{response}</ListItem.Title>
 				</ListItem.Content>
 			</ListItem>
 		</ListItem.Accordion>

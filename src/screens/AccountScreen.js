@@ -16,11 +16,9 @@ import { validateObject, validateString } from "../utils/validators";
 import { removeUser } from "../utils/auth";
 import { COLORS } from "../constants/theme";
 
-
 // TODO: AccountOption component
 
 const AccountScreen = ({ navigation, route }) => {
-
 	const [user, setUser] = useState(route.params.user);
 	const [username, setUsername] = useState("");
 	const [isSetUsernameModalVisible, setIsSetUsernameModalVisible] =
@@ -32,13 +30,14 @@ const AccountScreen = ({ navigation, route }) => {
 		const getUserUsernameAndPasswordFromEmail = async (email) => {
 			const { data, error } = await supabase
 				.from("users")
-				.select("username, password")
+				.select("user_id, username, password")
 				.eq("email", email)
 				.single(); // UNIQUE
 			if (validateObject(error)) {
 				console.error(error);
 			} else if (validateObject(data)) {
 				const tempUser = user;
+				tempUser.user_id = data.user_id;
 				tempUser.username = data.username;
 				tempUser.password = data.password;
 				setUser(tempUser);
@@ -96,11 +95,11 @@ const AccountScreen = ({ navigation, route }) => {
 				<Image
 					source={require("../../assets/images/logo.png")}
 					resizeMode={"contain"}
+					alt={"Logo"}
 					style={{
-						width: "43.5%",
-						height: "22.5%",
-						marginTop: 40,
-						borderRadius: 100,
+						width: "35%",
+						height: "21.5%",
+						marginTop: 35,
 					}}
 				/>
 				<View
@@ -108,7 +107,8 @@ const AccountScreen = ({ navigation, route }) => {
 						flex: 1,
 						justifyContent: "center",
 						alignItems: "center",
-						marginBottom: 30.5,
+						marginTop: 13,
+						marginBottom: 5,
 					}}
 				>
 					<Text
@@ -123,14 +123,14 @@ const AccountScreen = ({ navigation, route }) => {
 					<Text
 						style={{
 							color: COLORS.secondary,
-							marginTop: 9,
+							marginTop: 7,
 							fontSize: 15,
 						}}
 					>
 						{validateString(user.email) ? user.email : null}
 					</Text>
 				</View>
-				<View style={{ marginBottom: 170 }}>
+				<View style={{ marginBottom: 150 }}>
 					<TouchableOpacity
 						style={style.touchableOpacity}
 						onPress={() => setIsSetUsernameModalVisible(true)}
@@ -199,9 +199,7 @@ const AccountScreen = ({ navigation, route }) => {
 				</View>
 			</View>
 		</SafeAreaView>
-	) : (
-		<Text>...</Text>
-	);
+	) : null;
 };
 
 const style = StyleSheet.create({
