@@ -1,5 +1,9 @@
 # LambertQuiz
 
+<p align="center">
+<img title="Logo" alt="Logo" width="18%" src="https://matteolambertucci.altervista.org/logo.png">
+</p>
+
 LambertQuiz is a React Native-based and cross-platform mobile app that offers an interactive quiz on various topics.
 
 ## Key Features
@@ -10,7 +14,9 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 
 ## Screenshots
 
-[Insert any images or GIFs demonstrating the app's look and functionality.]
+
+<img title="LambertQuiz screenshoot" alt="LambertQuiz screenshoot" src="https://matteolambertucci.altervista.org/almbertquiz_screenshoot.jpeg">
+
 
 ## Installation
 
