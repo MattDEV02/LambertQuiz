@@ -1,7 +1,8 @@
+
 # LambertQuiz
 
 <p align="center">
-<img title="Logo" alt="Logo" width="18%" src="https://matteolambertucci.altervista.org/logo.png">
+<img title="LambertQuiz Logo" alt="LambertQuiz Logo" width="19.5%" src="https://matteolambertucci.altervista.org/lambertquiz/logo.png">
 </p>
 
 LambertQuiz is a React Native-based and cross-platform mobile app that offers an interactive quiz on various topics.
@@ -14,11 +15,27 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 
 ## Screenshots
 
+<p align="center">
+<img title="LambertQuiz LoginScreen screenshoot 1" alt="LambertQuiz LoginScreen screenshoot 1" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/loginscreen1.jpeg" width="35%">
+<img title="LambertQuiz LoginScreen screenshoot 2" alt="LambertQuiz LoginScreen screenshoot 2" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/loginscreen2.jpeg" width="35%">
+<img title="LambertQuiz RegScreen screenshoot 1" alt="LambertQuiz RegScreen screenshoot 1" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/regscreen1.jpeg" width="35%"><br />
+<img title="LambertQuiz RegScreen screenshoot 2" alt="LambertQuiz RegScreen screenshoot 2" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/regscreen2.jpeg" width="35%">
+<img title="LambertQuiz RegScreen screenshoot 3" alt="LambertQuiz RegScreen screenshoot 3" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/regscreen3.jpeg" width="35%">
+	<img title="LambertQuiz HomeScreen screenshoot 1" alt="LambertQuiz HomeScreen screenshoot 1" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/homescreen1.jpeg" width="35%">
+	<img title="LambertQuiz HomeScreen screenshoot 2" alt="LambertQuiz HomeScreen screenshoot 2" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/homescreen2.jpeg" width="35%">
+	<img title="LambertQuiz PlayQuizScreen screenshoot" alt="LambertQuiz PlayQuizScreen screenshoot" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquizscreen1.jpeg" width="35%">
+	<img title="LambertQuiz PlayQuizScreen screenshoot" alt="LambertQuiz PlayQuizScreen screenshoot" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquizscreen2.jpeg" width="35%">
+		<img title="LambertQuiz PlayQuizScreen screenshoot" alt="LambertQuiz PlayQuizScreen screenshoot" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquizscreen3.jpeg" width="35%"><br />
+		<img title="LambertQuiz AccountScreen screenshoot 1" alt="LambertQuiz AccountScreen screenshoot 1" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/accountscreen1.jpeg" width="35%">
+		<img title="LambertQuiz AccountScreen screenshoot 2" alt="LambertQuiz AccountScreen screenshoot 2" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/accountscreen2.jpeg" width="35%">
+		<img title="LambertQuiz AccountScreen screenshoot 3" alt="LambertQuiz AccountScreen screenshoot 3" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/accountscreen3.jpeg" width="35%">
+		<img title="LambertQuiz AccountScreen screenshoot 4" alt="LambertQuiz AccountScreen screenshoot 4" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/accountscreen4.jpeg" width="35%">
+		<img title="LambertQuiz AccountScreen screenshoot 5" alt="LambertQuiz AccountScreen screenshoot 5" src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/helpscreen.jpeg" width="35%">
+</p>
 
-<img title="LambertQuiz screenshoot" alt="LambertQuiz screenshoot" src="https://matteolambertucci.altervista.org/almbertquiz_screenshoot.jpeg">
 
 
-## Installation
+## Installation and usage
 
 ### Requirements
 
@@ -73,6 +90,17 @@ I am the only Author of this beatiful app.
 - **PostgreSQL 16.0**
 - **Visual Studio Code 1.85**
 - **Supabase 1.0**
+- **Altervista hosting**
+- **Bootstrap 5**
+- **HTML 5**
+- **CSS 4.15**
+- **Windows 11**
+
+## ER Model
+
+
+## Relational model
+
 
 ## License
 
