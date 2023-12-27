@@ -297,9 +297,10 @@ CREATE TABLE IF NOT EXISTS lambertquiz.progresses (
   _user INTEGER NOT NULL,
   quiz INTEGER NOT NULL,
   quiz_started_at TIMESTAMP NOT NULL,
+  quiz_finished_at TIMESTAMP NOT NULL,
   inserted_at TIMESTAMP WITH time zone DEFAULT TIMEZONE('UTC'::text, NOW() + INTERVAL '+1 hours') NOT NULL,
   updated_at TIMESTAMP WITH time zone DEFAULT TIMEZONE('UTC'::text, NOW() + INTERVAL '+1 hours') NOT NULL,
-  CONSTRAINT progresses__user_quiz_unique UNIQUE(_user, quiz),
+  CONSTRAINT progresses__user_quiz_unique UNIQUE(_user, quiz, quiz_started_at),
   CONSTRAINT progresses_user_fk FOREIGN KEY(_user) REFERENCES lambertquiz.users(user_id) ON DELETE CASCADE,
   CONSTRAINT progresses_quiz_fk FOREIGN KEY(quiz) REFERENCES lambertquiz.quizzes(quiz_id) ON DELETE CASCADE
 );
@@ -312,13 +313,17 @@ COMMENT ON COLUMN lambertquiz.progresses.quiz IS 'The quiz question foreign key.
 
 COMMENT ON COLUMN lambertquiz.progresses.quiz_started_at IS 'The quiz start timestamp.';
 
+COMMENT ON COLUMN public.progresses.quiz_finished_at IS 'The quiz end timestamp.';
+
 COMMENT ON COLUMN lambertquiz.progresses.inserted_at IS 'The TIMESTAMP date and time when the record was inserted.';
 
 COMMENT ON COLUMN lambertquiz.progresses.updated_at IS 'The TIMESTAMP date and time when the record was updated.';
 
 COMMENT ON TABLE lambertquiz.progresses IS 'LambertQuiz app table that rappresents the quizzes played by a specific user, used for statistics.';
 
-ALTER TABLE lambertquiz.progresses ADD CONSTRAINT check_progresses_unsigned_progresses_id CHECK (lambertquiz.progresses.progresses_id > 0);
+ALTER TABLE public.progresses ADD CONSTRAINT check_progresses_started_at_inserted_at_updated_at CHECK (public.progresses.quiz_started_at < progresses.inserted_at AND public.progresses.quiz_started_at < progresses.updated_at AND public.progresses.quiz_started_at < public.progresses.quiz_finished_at);
+
+ALTER TABLE public.progresses ADD CONSTRAINT check_progresses_finished_at_inserted_at_updated_at CHECK (public.progresses.quiz_finished_at < progresses.inserted_at AND public.progresses.quiz_started_at < progresses.updated_at AND public.progresses.quiz_finished_at > public.progresses.quiz_started_at);
 
 ALTER TABLE lambertquiz.progresses ADD CONSTRAINT check_progresses_started_at_inserted_at_updated_at CHECK (lambertquiz.progresses.quiz_started_at < progresses.inserted_at AND lambertquiz.progresses.quiz_started_at < progresses.updated_at);
 
@@ -337,13 +342,26 @@ BEFORE UPDATE ON lambertquiz.progresses
 FOR EACH ROW
 EXECUTE FUNCTION progresses_updated_at_set_timestamp();
 
-INSERT INTO progresses (_user, quiz, quiz_started_at) VALUES (1, 1, '2023-12-23 10:23:54');
+INSERT INTO progresses (_user, quiz, quiz_started_at, quiz_finished_at) VALUES (1, 1, '2023-12-23 10:23:54', '2023-12-23 10:24:32');
 
 SELECT * FROM progresses;
 
 GRANT usage ON schema "lambertquiz" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA "lambertquiz" TO postgres;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA lambertquiz TO postgres;
+
+
+--- You must have the auth schema:
+
+CREATE OR REPLACE FUNCTION delete_user()
+RETURNS VOID
+LANGUAGE SQL SECURITY DEFINER 
+AS $$
+  DELETE FROM auth.users 
+  WHERE id = auth.UID();
+$$;
+
+
 
 SELECT * FROM pg_catalog.pg_tables  WHERE schemaname = 'lambertquiz';
 

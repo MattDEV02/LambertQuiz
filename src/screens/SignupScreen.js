@@ -4,7 +4,6 @@ import {
 	SafeAreaView,
 	View,
 	Alert as Window,
-	StatusBar,
 } from "react-native";
 import { supabase } from "../app/lib/supabase-client";
 import InputScrollView from "react-native-input-scroll-view";
@@ -164,21 +163,25 @@ const SignUpScreen = ({ navigation }) => {
 			if (password === confirmPassword) {
 				const emails = getEmailsFromUsers(users),
 					usernames = getUsernamesFromUsers(users);
-				if (emails.includes(email))
+				if (emails.includes(email)) {
 					Window.alert(
 						"This email is already used.",
 						"Please use another email.",
 					);
-				else if (usernames.includes(username))
+				}
+				else if (usernames.includes(username)) {
 					Window.alert(
 						"This username is already used.",
 						"Please use another email.",
 					);
+				}
 				else if (signUp(email, password, username)) {
 					navigation.navigate("Sign In page");
 					fieldsReset();
 				}
-			} else Window.alert("The password did not match.");
+			} else {
+				Window.alert("The password did not match.");
+			}
 		}
 	};
 
@@ -192,7 +195,6 @@ const SignUpScreen = ({ navigation }) => {
 				padding: 11,
 			}}
 		>
-			<StatusBar backgroundColor={COLORS.white} barStyle={"dark-content"} />
 			<InputScrollView>
 				<View
 					style={{

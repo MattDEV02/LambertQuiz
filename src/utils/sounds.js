@@ -1,52 +1,40 @@
 import { Audio } from "expo-av";
 
-const playCorrectAnswerSound = async () => {
-	const { sound } = await Audio.Sound.createAsync(
-		require("../../assets/sounds/correct_answer_sound.mp3"),
-	);
+const base = "../../",
+	path = "assets/sounds/",
+	extension = ".mp3";
+
+const playSound = async (requiredFile) => {
+	const { sound } = await Audio.Sound.createAsync(requiredFile);
 	await sound.playAsync();
+};
+
+const playCorrectAnswerSound = async () => {
+	playSound(require("../../assets/sounds/correct_answer_sound.mp3"));
 };
 
 const playIncorrectAnswerSound = async () => {
-	const { sound } = await Audio.Sound.createAsync(
-		require("../../assets/sounds/incorrect_answer_sound.mp3"),
-	);
-	await sound.playAsync();
+	playSound(require("../../assets/sounds/incorrect_answer_sound.mp3"));
 };
 
 const playSubmitSound = async () => {
-	const { sound } = await Audio.Sound.createAsync(
-		require("../../assets/sounds/submit_sound.mp3"),
-	);
-	await sound.playAsync();
+	playSound(require("../../assets/sounds/submit_sound.mp3"));
 };
 
 const playClickSound = async () => {
-	const { sound } = await Audio.Sound.createAsync(
-		require("../../assets/sounds/click_sound.mp3"),
-	);
-	await sound.playAsync();
+	playSound(require("../../assets/sounds/click_sound.mp3"));
 };
 
 const playSuccessSound = async () => {
-	const { sound } = await Audio.Sound.createAsync(
-		require("../../assets/sounds/success_sound.mp3"),
-	);
-	await sound.playAsync();
+	playSound(require("../../assets/sounds/success_sound.mp3"));
 };
 
 const playFailSound = async () => {
-	const { sound } = await Audio.Sound.createAsync(
-		require("../../assets/sounds/fail_sound.mp3"),
-	);
-	await sound.playAsync();
+	playSound(require("../../assets/sounds/fail_sound.mp3"));
 };
 
 const playOpenSound = async () => {
-	const { sound } = await Audio.Sound.createAsync(
-		require("../../assets/sounds/open_sound.mp3"),
-	);
-	await sound.playAsync();
+	playSound(require("../../assets/sounds/open_sound.mp3"));
 };
 
 export {

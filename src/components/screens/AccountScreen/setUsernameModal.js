@@ -3,11 +3,12 @@ import {
 	View,
 	Text,
 	Modal,
-	TouchableOpacity,
 	Alert as Window,
+	StyleSheet
 } from "react-native";
 import { supabase } from "../../../app/lib/supabase-client";
 import FormInput from "../../shared/FormInput";
+import FormButton from "../../shared/FormButton";
 import { COLORS } from "../../../constants/theme";
 import { usernameMaxLength } from "../../../constants/fieldsConstants";
 import { updateUserUsername } from "../../../utils/database";
@@ -92,16 +93,18 @@ const SetUsernameModal = ({
 							},
 						],
 					);
-				} else
+				} else {
 					Window.alert(
 						"Old and new username are equals",
 						"Please, choose a new usermame.",
 					);
-			} else
+				}
+			} else {
 				Window.alert(
 					"Username already used",
 					"Please, choose a new usermame.",
 				);
+			}
 		} else {
 			Window.alert(
 				`Username ${newUsername} not valid.`,
@@ -123,8 +126,7 @@ const SetUsernameModal = ({
 				style={{
 					flex: 1,
 					backgroundColor: COLORS.black + "90",
-					justifyContent: "center",
-					alignItems: "center",
+					...style.centeredContainer,
 				}}
 			>
 				<View
@@ -158,35 +160,30 @@ const SetUsernameModal = ({
 						keyboardType={"default"}
 						onChangeText={(username) => setNewUsername(username)}
 					/>
-					<TouchableOpacity
+					<FormButton
+						labelText="Submit"
+						handleOnPress={() => handleOnPress()}
 						style={{
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "center",
+							...style.centeredContainer,
 							paddingVertical: 11,
 							width: "100%",
 							backgroundColor: COLORS.primary,
-							marginTop: 15,
+							marginTop: 12,
 							borderRadius: 40,
 						}}
-						onPress={() => handleOnPress()}
-					>
-						<Text
-							style={{
-								textAlign: "center",
-								color: COLORS.white,
-								marginLeft: 10,
-								fontSize: 19,
-								fontWeight: "500",
-							}}
-						>
-							Submit
-						</Text>
-					</TouchableOpacity>
+					/>
 				</View>
 			</View>
 		</Modal>
 	);
 };
+
+const style = StyleSheet.create({
+	centeredContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+});
 
 export default SetUsernameModal;

@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import {
-	View,
-	Text,
-	Modal,
-	TouchableOpacity,
-	Alert as Window,
-} from "react-native";
+import { View, Text, Modal, Alert as Window, StyleSheet } from "react-native";
 import FormInput from "../../shared/FormInput";
+import FormButton from "../../shared/FormButton";
 import { COLORS } from "../../../constants/theme";
-import {
-	passwordMaxLength,
-} from "../../../constants/fieldsConstants";
+import { passwordMaxLength } from "../../../constants/fieldsConstants";
 import { validatePassword } from "../../../utils/validators";
 import { updateUserPassword } from "../../../utils/database";
 
@@ -84,8 +77,7 @@ const SetPasswordModal = ({
 				style={{
 					flex: 1,
 					backgroundColor: COLORS.black + "90",
-					justifyContent: "center",
-					alignItems: "center",
+					...style.centeredContainer
 				}}
 			>
 				<View
@@ -132,35 +124,30 @@ const SetPasswordModal = ({
 							setNewConfirmPassword(confirmPassword)
 						}
 					/>
-					<TouchableOpacity
+					<FormButton
+						labelText="Submit"
+						handleOnPress={() => handleOnPress()}
 						style={{
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "center",
+							...style.centeredContainer,
 							paddingVertical: 11,
 							width: "100%",
 							backgroundColor: COLORS.primary,
-							marginTop: 15,
+							marginTop: 12,
 							borderRadius: 40,
 						}}
-						onPress={() => handleOnPress()}
-					>
-						<Text
-							style={{
-								textAlign: "center",
-								color: COLORS.white,
-								marginLeft: 10,
-								fontSize: 19,
-								fontWeight: "500",
-							}}
-						>
-							Submit
-						</Text>
-					</TouchableOpacity>
+					/>
 				</View>
 			</View>
 		</Modal>
 	);
 };
+
+const style = StyleSheet.create({
+	centeredContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+});
 
 export default SetPasswordModal;

@@ -54,7 +54,10 @@ export const signOut = async () => {
 export const removeUser = async (user) => {
 	const { data, error } = await supabase.rpc("delete_user");
 	console.log(data);
-	if (validateObject(error)) Window.alert(error.message);
-	else if (deleteUser(user.user_id)) Toast.show("Account deleted.");
-	signOut();
+	if (validateObject(error)) {
+		Window.alert(error.message);
+	} else if (deleteUser(user.user_id)) {
+		Toast.show("Account deleted.");
+		signOut();
+	}
 };

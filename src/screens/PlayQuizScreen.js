@@ -18,6 +18,7 @@ import {
 	validateURL,
 	validateArray,
 } from "../utils/validators";
+import { storeProgress } from "../utils/database";
 import {
 	playCorrectAnswerSound,
 	playIncorrectAnswerSound,
@@ -26,6 +27,10 @@ import {
 import { COLORS, appName, questionsNumber } from "../constants/theme";
 
 // TODO: QUESTION COMPONENT.
+
+let startDate = null,
+	endDate = null,
+	totalSeconds = 0;
 
 const PlayQuizScreen = ({ navigation, route }) => {
 	const quizId = route.params.quizId,
@@ -38,13 +43,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	const [correctCount, setCorrectCount] = useState(0);
 	const [incorrectCount, setIncorrectCount] = useState(0);
 	const [questions, setQuestions] = useState([]);
-	const [imagesError, setImagesError] = useState([
-		false,
-		false,
-		false,
-		false,
-		false,
-	]);
+	const [imagesError, setImagesError] = useState([]); 
 
 	const flatListRef = useRef(null);
 
@@ -64,8 +63,15 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				if (validateObject(error)) {
 					console.error(error);
 				} else if (validateArray(data, questionsNumber)) {
+					startDate = new Date();
 					setQuestions(data);
 					scrollToTop();
+					let tempImagesError = null;
+					for (i = 0; i < questionsNumber; i++) {
+						tempImagesError = [...imagesError];
+						tempImagesError[i] = false;
+						setImagesError([...tempImagesError]);
+					}
 				}
 				setRefreshing(false);
 			}
@@ -82,7 +88,12 @@ const PlayQuizScreen = ({ navigation, route }) => {
 
 	const handleOnSubmit = () => {
 		setGameFinished(true);
+		endDate = new Date();
+		totalSeconds = (Math.abs(endDate - startDate) / 1000).toFixed(2);
+		console.log(endDate, startDate, totalSeconds);
 		setIsResultModalVisible(true);
+		setTryAgain(false);
+		// TODO insert progress record
 	};
 
 	const handleOnModalClose = () => {
@@ -90,6 +101,11 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		setCorrectCount(0);
 		setIncorrectCount(0);
 		setGameFinished(false);
+	};
+
+	const handleOnQuizClose = () => {
+		navigation.setParams({ openedQuiz: false });
+		navigation.navigate("Home page");
 	};
 
 	const getOptionBackgroundColor = (currentQuestion, currentOption) => {
@@ -351,11 +367,10 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				correctCount={correctCount}
 				incorrectCount={incorrectCount}
 				totalCount={questions.length}
-				seconds={60}
+				seconds={totalSeconds}
 				handleOnClose={() => {
 					handleOnModalClose();
-					navigation.setParams({ openedQuiz: false });
-					navigation.navigate("Home page");
+					handleOnQuizClose();
 				}}
 				handleOnRetry={() => {
 					handleOnModalClose();
@@ -363,8 +378,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				}}
 				handleOnGoHome={() => {
 					handleOnModalClose();
-					navigation.setParams({ openedQuiz: false });
-					navigation.navigate("Home page");
+					handleOnQuizClose();
 				}}
 			/>
 		</SafeAreaView>

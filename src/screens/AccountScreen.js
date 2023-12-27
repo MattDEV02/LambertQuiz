@@ -8,10 +8,11 @@ import {
 	Image,
 	Alert as Window,
 } from "react-native";
-import { supabase } from "../app/lib/supabase-client";
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
+import { supabase } from "../app/lib/supabase-client";
 import SetUsernameModal from "../components/screens/AccountScreen/setUsernameModal";
 import SetPasswordModal from "../components/screens/AccountScreen/setPasswordModal";
+import FormButton from "../components/shared/FormButton";
 import { validateObject, validateString } from "../utils/validators";
 import { removeUser } from "../utils/auth";
 import { COLORS } from "../constants/theme";
@@ -84,13 +85,7 @@ const AccountScreen = ({ navigation, route }) => {
 				backgroundColor: COLORS.background,
 			}}
 		>
-			<View
-				style={{
-					flex: 1,
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-			>
+			<View style={style.centeredContainer}>
 				{/* LOGO */}
 				<Image
 					source={require("../../assets/images/logo.png")}
@@ -104,9 +99,7 @@ const AccountScreen = ({ navigation, route }) => {
 				/>
 				<View
 					style={{
-						flex: 1,
-						justifyContent: "center",
-						alignItems: "center",
+						...style.centeredContainer,
 						marginTop: 13,
 						marginBottom: 5,
 					}}
@@ -135,7 +128,7 @@ const AccountScreen = ({ navigation, route }) => {
 						style={style.touchableOpacity}
 						onPress={() => setIsSetUsernameModalVisible(true)}
 					>
-						<Text style={{ ...style.text, ...{ color: COLORS.success } }}>
+						<Text style={{ ...style.text, color: COLORS.success }}>
 							Set username
 						</Text>
 						<MaterialIcons
@@ -159,7 +152,7 @@ const AccountScreen = ({ navigation, route }) => {
 						style={style.touchableOpacity}
 						onPress={() => setIsSetPasswordModalVisible(true)}
 					>
-						<Text style={{ ...style.text, ...{ color: COLORS.primary } }}>
+						<Text style={{ ...style.text, color: COLORS.primary }}>
 							Set password
 						</Text>
 						<MaterialIcons
@@ -172,9 +165,7 @@ const AccountScreen = ({ navigation, route }) => {
 						style={style.touchableOpacity}
 						onPress={() => navigation.navigate("Stats page")}
 					>
-						<Text
-							style={{ ...style.text, ...{ color: COLORS.secondary } }}
-						>
+						<Text style={{ ...style.text, color: COLORS.secondary }}>
 							Stats page
 						</Text>
 						<MaterialIcons
@@ -187,7 +178,7 @@ const AccountScreen = ({ navigation, route }) => {
 						style={style.touchableOpacity}
 						onPress={() => handleOnDeleteUserPress()}
 					>
-						<Text style={{ ...style.text, ...{ color: COLORS.error } }}>
+						<Text style={{ ...style.text, color: COLORS.error }}>
 							Delete account
 						</Text>
 						<MaterialIcons
@@ -203,6 +194,11 @@ const AccountScreen = ({ navigation, route }) => {
 };
 
 const style = StyleSheet.create({
+	centeredContainer: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
+	},
 	touchableOpacity: {
 		flexDirection: "row",
 		alignItems: "center",

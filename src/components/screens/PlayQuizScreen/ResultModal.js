@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { View, Text, Modal, TouchableOpacity } from "react-native";
+import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { COLORS } from "../../../constants/theme";
 import { playSuccessSound, playFailSound } from "../../../utils/sounds";
+import { COLORS } from "../../../constants/theme";
 
 const ResultModal = ({
 	isModalVisible,
@@ -36,14 +36,15 @@ const ResultModal = ({
 			animationType={"slide"}
 			transparent={true}
 			visible={isModalVisible}
-			onRequestClose={handleOnClose}
+			onRequestClose={() => handleOnClose()}
 		>
 			<View
 				style={{
-					flex: 1,
-					backgroundColor: COLORS.black + "90",
-					justifyContent: "center",
-					alignItems: "center",
+					...style.centeredContainer,
+					...{
+						flex: 1,
+						backgroundColor: COLORS.black + "90",
+					}
 				}}
 			>
 				<View
@@ -55,14 +56,15 @@ const ResultModal = ({
 						alignItems: "center",
 					}}
 				>
-					<Text style={{ fontSize: 28, color: COLORS.black }}>
+					<Text style={{ fontSize: 32.5, color: COLORS.black }}>
 						Results
 					</Text>
 					<View
 						style={{
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "space-between",
+							...style.centeredContainer,
+							...{
+								justifyContent: "space-between",
+							}
 						}}
 					>
 						<View
@@ -112,14 +114,14 @@ const ResultModal = ({
 					{/* Try again */}
 					<TouchableOpacity
 						style={{
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "center",
-							paddingVertical: buttonsPaddingVertical,
+							...style.centeredContainer,
+							...{
+								paddingVertical: buttonsPaddingVertical,
 							width: "100%",
 							backgroundColor: COLORS.primary,
 							marginTop: 20,
 							borderRadius: 50,
+							}
 						}}
 						onPress={() => handleOnRetry()}
 					>
@@ -143,14 +145,14 @@ const ResultModal = ({
 					{/* Go Home */}
 					<TouchableOpacity
 						style={{
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "center",
-							paddingVertical: buttonsPaddingVertical,
-							width: "100%",
-							backgroundColor: COLORS.primary + "20",
-							marginTop: 20,
-							borderRadius: 50,
+							...style.centeredContainer,
+							...{
+								paddingVertical: buttonsPaddingVertical,
+								width: "100%",
+								backgroundColor: COLORS.primary + "20",
+								marginTop: 20,
+								borderRadius: 50,
+							},
 						}}
 						onPress={() => handleOnGoHome()}
 					>
@@ -176,5 +178,13 @@ const ResultModal = ({
 		</Modal>
 	);
 };
+
+const style = StyleSheet.create({
+	centeredContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+});
 
 export default ResultModal;

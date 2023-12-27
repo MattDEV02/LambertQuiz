@@ -3,11 +3,10 @@ import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import { ListItem } from "@rneui/themed";
 import { COLORS } from "../../../constants/theme";
 
-const AccordionItem = ({ question, response, index }) => {
+const AccordionItem = ({ question, response }) => {
 	const [expanded, setExpanded] = useState(false);
 	return (
 		<ListItem.Accordion
-			key={index}
 			content={
 				<>
 					<MaterialIcons
@@ -21,7 +20,6 @@ const AccordionItem = ({ question, response, index }) => {
 								marginLeft: 19,
 								fontSize: 19,
 							}}
-							key={index}
 						>
 							{question}
 						</ListItem.Title>
@@ -33,9 +31,9 @@ const AccordionItem = ({ question, response, index }) => {
 				setExpanded(!expanded);
 			}}
 		>
-			<ListItem key={index} bottomDivider topDivider>
-				<ListItem.Content key={index} >
-					<ListItem.Title key={index} >{response}</ListItem.Title>
+			<ListItem bottomDivider topDivider>
+				<ListItem.Content>
+					<ListItem.Title>{response}</ListItem.Title>
 				</ListItem.Content>
 			</ListItem>
 		</ListItem.Accordion>

@@ -48,7 +48,6 @@ const AppStackNavigator = ({ user }) => {
 				drawerStyle: {
 					backgroundColor: COLORS.white,
 					width: 230,
-					//height: 300,
 				},
 			}}
 			initialRouteName={"Home page"}

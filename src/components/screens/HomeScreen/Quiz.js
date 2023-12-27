@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
+import FormButton from "../../shared/FormButton";
 import { COLORS } from "../../../constants/theme";
 
 const Quiz = ({ quiz, handleOnPlayPress }) => {
@@ -31,7 +32,9 @@ const Quiz = ({ quiz, handleOnPlayPress }) => {
 					{quiz.description}
 				</Text>
 			</View>
-			<TouchableOpacity
+			<FormButton
+				labelText="Play"
+				handleOnPress={() => handleOnPlayPress()}
 				style={{
 					paddingVertical: 13.5,
 					paddingHorizontal: 25,
@@ -40,18 +43,7 @@ const Quiz = ({ quiz, handleOnPlayPress }) => {
 					borderWidth: 1,
 					borderColor: COLORS.black,
 				}}
-				onPress={() => handleOnPlayPress()}
-			>
-				<Text
-					style={{
-						color: COLORS.white,
-						fontSize: 18,
-						fontWeight: "bold",
-					}}
-				>
-					Play
-				</Text>
-			</TouchableOpacity>
+			/>
 		</View>
 	);
 };
