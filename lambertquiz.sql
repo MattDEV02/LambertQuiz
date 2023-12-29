@@ -5,16 +5,16 @@ SELECT
   CURRENT_SCHEMA();
 
 DROP SCHEMA
-  IF EXISTS public CASCADE;
+  IF EXISTS lambertquiz CASCADE;
 
 CREATE SCHEMA
-  IF NOT EXISTS public AUTHORIZATION postgres;
+  IF NOT EXISTS lambertquiz AUTHORIZATION postgres;
 
 COMMENT
-  ON SCHEMA public IS 'LambertQuiz App Schema';
+  ON SCHEMA lambertquiz IS 'LambertQuiz App Schema';
 
 SET
-  SEARCH_PATH TO public;
+  SEARCH_PATH TO lambertquiz;
 
 SELECT
   CURRENT_DATABASE();
@@ -41,10 +41,10 @@ CREATE EXTENSION
 
 --- Users:
 DROP TABLE IF EXISTS
-  public.users;
+  lambertquiz.users;
 
 CREATE TABLE IF NOT EXISTS
-  public.users (
+  lambertquiz.users (
     user_id SERIAL NOT NULL PRIMARY KEY,
     email VARCHAR(40) NOT NULL,
     password VARCHAR(72) NOT NULL,
@@ -56,59 +56,59 @@ CREATE TABLE IF NOT EXISTS
   );
 
 COMMENT
-  ON COLUMN public.users.user_id IS 'The integer incremental User ID.';
+  ON COLUMN lambertquiz.users.user_id IS 'The integer incremental User ID.';
 
 COMMENT
-  ON COLUMN public.users.email IS 'The unique User account email.';
+  ON COLUMN lambertquiz.users.email IS 'The unique User account email.';
 
 COMMENT
-  ON COLUMN public.users.password IS 'The non-unique User account password stored with the BF algorithm.';
+  ON COLUMN lambertquiz.users.password IS 'The non-unique User account password stored with the BF algorithm.';
 
 COMMENT
-  ON COLUMN public.users.username IS 'The unique User account username.';
+  ON COLUMN lambertquiz.users.username IS 'The unique User account username.';
 
 COMMENT
-  ON COLUMN public.users.inserted_at IS 'The TIMESTAMP date and time when the record was inserted.';
+  ON COLUMN lambertquiz.users.inserted_at IS 'The TIMESTAMP date and time when the record was inserted.';
 
 COMMENT
-  ON COLUMN public.users.updated_at IS 'The TIMESTAMP date and time when the record was updated.';
+  ON COLUMN lambertquiz.users.updated_at IS 'The TIMESTAMP date and time when the record was updated.';
 
 COMMENT
-  ON TABLE public.users IS 'LambertQuiz app Users table.';
+  ON TABLE lambertquiz.users IS 'LambertQuiz app Users table.';
 
 ALTER TABLE
-  public.users
+  lambertquiz.users
 ADD
-  CONSTRAINT check_users_unsigned_user_id CHECK (public.users.user_id > 0);
+  CONSTRAINT check_users_unsigned_user_id CHECK (lambertquiz.users.user_id > 0);
 
 ALTER TABLE
-  public.users
+  lambertquiz.users
 ADD
-  CONSTRAINT check_users_email_min_length CHECK (LENGTH(public.users.email) >= 6);
+  CONSTRAINT check_users_email_min_length CHECK (LENGTH(lambertquiz.users.email) >= 6);
 
 ALTER TABLE
-  public.users
+  lambertquiz.users
 ADD
   CONSTRAINT check_users_email_valid CHECK (
     (
-      public.users.email ~ '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'::text
+      lambertquiz.users.email ~ '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'::text
     )
   );
 
 ALTER TABLE
-  public.users
+  lambertquiz.users
 ADD
-  CONSTRAINT check_users_password_min_length CHECK (LENGTH(public.users.password) >= 16);
+  CONSTRAINT check_users_password_min_length CHECK (LENGTH(lambertquiz.users.password) >= 16);
 
 ALTER TABLE
-  public.users
+  lambertquiz.users
 ADD
-  CONSTRAINT check_users_username_min_length CHECK (LENGTH(public.users.username) >= 3);
+  CONSTRAINT check_users_username_min_length CHECK (LENGTH(lambertquiz.users.username) >= 3);
 
 ALTER TABLE
-  public.users
+  lambertquiz.users
 ADD
-  CONSTRAINT check_users_inserted_at_updated_at CHECK (public.users.inserted_at <= users.updated_at);
+  CONSTRAINT check_users_inserted_at_updated_at CHECK (lambertquiz.users.inserted_at <= users.updated_at);
 
 CREATE
 OR REPLACE FUNCTION user_updated_at_set_timestamp () RETURNS TRIGGER AS $$
@@ -121,7 +121,7 @@ $$ LANGUAGE plpgsql;
 CREATE
 OR REPLACE TRIGGER trigger_user_updated_at_set_timestamp BEFORE
 UPDATE
-  ON public.users FOR EACH ROW
+  ON lambertquiz.users FOR EACH ROW
 EXECUTE
   FUNCTION user_updated_at_set_timestamp ();
 
@@ -134,19 +134,19 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE
-OR REPLACE TRIGGER trigger_password_crypt_on_user_insert BEFORE INSERT ON public.users FOR EACH ROW
+OR REPLACE TRIGGER trigger_password_crypt_on_user_insert BEFORE INSERT ON lambertquiz.users FOR EACH ROW
 EXECUTE
   FUNCTION crypt_user_password ();
 
 CREATE
 OR REPLACE TRIGGER trigger_password_crypt_on_user_update BEFORE
 UPDATE
-  ON public.users FOR EACH ROW
+  ON lambertquiz.users FOR EACH ROW
 EXECUTE
   FUNCTION crypt_user_password ();
 
 INSERT INTO
-  public.users (email, password, username)
+  lambertquiz.users (email, password, username)
 VALUES
   (
     'matteolambertucci3@gmail.com',
@@ -157,14 +157,14 @@ VALUES
 SELECT
   *
 FROM
-  public.users;
+  lambertquiz.users;
 
 --- Quizzes
 DROP TABLE IF EXISTS
-  public.quizzes;
+  lambertquiz.quizzes;
 
 CREATE TABLE IF NOT EXISTS
-  public.quizzes (
+  lambertquiz.quizzes (
     quiz_id SERIAL NOT NULL PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
@@ -173,44 +173,44 @@ CREATE TABLE IF NOT EXISTS
   );
 
 COMMENT
-  ON COLUMN public.quizzes.quiz_id IS 'The integer incremental Quiz ID.';
+  ON COLUMN lambertquiz.quizzes.quiz_id IS 'The integer incremental Quiz ID.';
 
 COMMENT
-  ON COLUMN public.quizzes.title IS 'The Quiz title.';
+  ON COLUMN lambertquiz.quizzes.title IS 'The Quiz title.';
 
 COMMENT
-  ON COLUMN public.quizzes.title IS 'The Quiz description.';
+  ON COLUMN lambertquiz.quizzes.title IS 'The Quiz description.';
 
 COMMENT
-  ON COLUMN public.quizzes.category IS 'The Quiz category in categories ENUM.';
+  ON COLUMN lambertquiz.quizzes.category IS 'The Quiz category in categories ENUM.';
 
 COMMENT
-  ON TABLE public.quizzes IS 'LambertQuiz app Quizzes with questions and responses.';
+  ON TABLE lambertquiz.quizzes IS 'LambertQuiz app Quizzes with questions and responses.';
 
 ALTER TABLE
-  public.quizzes
+  lambertquiz.quizzes
 ADD
-  CONSTRAINT check_quizzes_unsigned_quiz_id CHECK (public.quizzes.quiz_id > 0);
+  CONSTRAINT check_quizzes_unsigned_quiz_id CHECK (lambertquiz.quizzes.quiz_id > 0);
 
 ALTER TABLE
-  public.quizzes
+  lambertquiz.quizzes
 ADD
-  CONSTRAINT check_quizzes_title_min_length CHECK (LENGTH(public.quizzes.title) >= 3);
+  CONSTRAINT check_quizzes_title_min_length CHECK (LENGTH(lambertquiz.quizzes.title) >= 3);
 
 ALTER TABLE
-  public.quizzes
+  lambertquiz.quizzes
 ADD
-  CONSTRAINT check_questions_description_min_length CHECK (LENGTH(public.quizzes.description) >= 8);
+  CONSTRAINT check_questions_description_min_length CHECK (LENGTH(lambertquiz.quizzes.description) >= 8);
 
 ALTER TABLE
-  public.quizzes
+  lambertquiz.quizzes
 ADD
-  CONSTRAINT check_quizzes_category_min_length CHECK (LENGTH(public.quizzes.category::text) >= 3);
+  CONSTRAINT check_quizzes_category_min_length CHECK (LENGTH(lambertquiz.quizzes.category::text) >= 3);
 
 CREATE
 OR REPLACE FUNCTION quiz_question_category () RETURNS TRIGGER AS $$
 BEGIN
-  IF ((SELECT COUNT(public.quizzes.quiz_id) FROM public.quizzes JOIN public.questions ON public.quizzes.quiz_id = public.questions.quiz WHERE public.quizzes.category <> public.questions.category) > 0) THEN
+  IF ((SELECT COUNT(lambertquiz.quizzes.quiz_id) FROM lambertquiz.quizzes JOIN lambertquiz.questions ON lambertquiz.quizzes.quiz_id = lambertquiz.questions.quiz WHERE lambertquiz.quizzes.category <> lambertquiz.questions.category) > 0) THEN
  	RAISE EXCEPTION 'Question and Quiz with different category!';
   END IF;
   RETURN NEW;
@@ -221,12 +221,12 @@ CREATE
 OR REPLACE TRIGGER trigger_update_quiz_question_category
 AFTER
 UPDATE
-  ON public.quizzes FOR EACH ROW
+  ON lambertquiz.quizzes FOR EACH ROW
 EXECUTE
   FUNCTION quiz_question_category ();
 
 INSERT INTO
-  public.quizzes (title, description, category)
+  lambertquiz.quizzes (title, description, category)
 VALUES
   (
     'France culture Quiz',
@@ -247,14 +247,14 @@ VALUES
 SELECT
   *
 FROM
-  public.quizzes;
+  lambertquiz.quizzes;
 
 --- Questions
 DROP TABLE IF EXISTS
-  public.questions;
+  lambertquiz.questions;
 
 CREATE TABLE IF NOT EXISTS
-  public.questions (
+  lambertquiz.questions (
     question_id SERIAL NOT NULL PRIMARY KEY,
     text TEXT NOT NULL,
     category categories NOT NULL,
@@ -264,76 +264,76 @@ CREATE TABLE IF NOT EXISTS
     quiz integer NOT NULL,
     CONSTRAINT questions_text_category_unique UNIQUE (text, category),
     CONSTRAINT questions_imageURL_options_solution_quiz_unique UNIQUE (imageURL, options, solution, quiz),
-    CONSTRAINT question_quiz_fk FOREIGN KEY (quiz) REFERENCES public.quizzes (quiz_id) ON DELETE CASCADE
+    CONSTRAINT question_quiz_fk FOREIGN KEY (quiz) REFERENCES lambertquiz.quizzes (quiz_id) ON DELETE CASCADE
   );
 
 COMMENT
-  ON COLUMN public.questions.question_id IS 'The integer incremental quiz Question ID.';
+  ON COLUMN lambertquiz.questions.question_id IS 'The integer incremental quiz Question ID.';
 
 COMMENT
-  ON COLUMN public.questions.text IS 'The quiz Question text.';
+  ON COLUMN lambertquiz.questions.text IS 'The quiz Question text.';
 
 COMMENT
-  ON COLUMN public.questions.category IS 'The quiz Question category in categories ENUM.';
+  ON COLUMN lambertquiz.questions.category IS 'The quiz Question category in categories ENUM.';
 
 COMMENT
-  ON COLUMN public.questions.imageURL IS 'The quiz Question image URL (stored in my SUPABASE Storage).';
+  ON COLUMN lambertquiz.questions.imageURL IS 'The quiz Question image URL (stored in my SUPABASE Storage).';
 
 COMMENT
-  ON COLUMN public.questions.options IS 'The four quiz Question Options.';
+  ON COLUMN lambertquiz.questions.options IS 'The four quiz Question Options.';
 
 COMMENT
-  ON COLUMN public.questions.solution IS 'The quiz Question response solution in options array.';
+  ON COLUMN lambertquiz.questions.solution IS 'The quiz Question response solution in options array.';
 
 COMMENT
-  ON COLUMN public.questions.quiz IS 'The quiz Question foreign key.';
+  ON COLUMN lambertquiz.questions.quiz IS 'The quiz Question foreign key.';
 
 COMMENT
-  ON TABLE public.questions IS 'LambertQuiz app Questions with responses.';
+  ON TABLE lambertquiz.questions IS 'LambertQuiz app Questions with responses.';
 
 ALTER TABLE
-  public.questions
+  lambertquiz.questions
 ADD
-  CONSTRAINT check_questions_unsigned_question_id CHECK (public.questions.question_id > 0);
+  CONSTRAINT check_questions_unsigned_question_id CHECK (lambertquiz.questions.question_id > 0);
 
 ALTER TABLE
-  public.questions
+  lambertquiz.questions
 ADD
-  CONSTRAINT check_questions_text_min_length CHECK (LENGTH(public.questions.text) >= 8);
+  CONSTRAINT check_questions_text_min_length CHECK (LENGTH(lambertquiz.questions.text) >= 8);
 
 ALTER TABLE
-  public.questions
+  lambertquiz.questions
 ADD
-  CONSTRAINT check_questions_category_min_length CHECK (LENGTH(public.questions.category::text) >= 3);
+  CONSTRAINT check_questions_category_min_length CHECK (LENGTH(lambertquiz.questions.category::text) >= 3);
 
 ALTER TABLE
-  public.questions
+  lambertquiz.questions
 ADD
-  CONSTRAINT check_questions_imageURL_min_length CHECK (LENGTH(public.questions.imageURL) >= 8);
+  CONSTRAINT check_questions_imageURL_min_length CHECK (LENGTH(lambertquiz.questions.imageURL) >= 8);
 
 ALTER TABLE
-  public.questions
+  lambertquiz.questions
 ADD
   CONSTRAINT check_questions_imageURL_valid CHECK (
     (
-      public.questions.imageURL ~ '^[a-z](?:[-a-z0-9\+\.])*:(?:\/\/(?:(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~!\$&''\(\)\*\+,;=:@])|[\/\?])*)?'::text
+      lambertquiz.questions.imageURL ~ '^[a-z](?:[-a-z0-9\+\.])*:(?:\/\/(?:(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~!\$&''\(\)\*\+,;=:@])|[\/\?])*)?'::text
     )
   );
 
 ALTER TABLE
-  public.questions
+  lambertquiz.questions
 ADD
-  CONSTRAINT check_questions_options_4_length CHECK (ARRAY_LENGTH(public.questions.options, 1) = 4);
+  CONSTRAINT check_questions_options_4_length CHECK (ARRAY_LENGTH(lambertquiz.questions.options, 1) = 4);
 
 ALTER TABLE
-  public.questions
+  lambertquiz.questions
 ADD
-  CONSTRAINT check_questions_option_min_length CHECK (LENGTH(public.questions.solution) >= 1);
+  CONSTRAINT check_questions_option_min_length CHECK (LENGTH(lambertquiz.questions.solution) >= 1);
 
 ALTER TABLE
-  public.questions
+  lambertquiz.questions
 ADD
-  CONSTRAINT check_questions_unsigned_solution CHECK (public.questions.quiz >= 0);
+  CONSTRAINT check_questions_unsigned_solution CHECK (lambertquiz.questions.quiz >= 0);
 
 CREATE
 OR REPLACE FUNCTION unique_options_array () RETURNS TRIGGER AS $$
@@ -353,14 +353,14 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE
-OR REPLACE TRIGGER trigger_insert_unique_options_array BEFORE INSERT ON public.questions FOR EACH ROW
+OR REPLACE TRIGGER trigger_insert_unique_options_array BEFORE INSERT ON lambertquiz.questions FOR EACH ROW
 EXECUTE
   FUNCTION unique_options_array ();
 
 CREATE
 OR REPLACE TRIGGER trigger_update_unique_options_array BEFORE
 UPDATE
-  ON public.questions FOR EACH ROW
+  ON lambertquiz.questions FOR EACH ROW
 EXECUTE
   FUNCTION unique_options_array ();
 
@@ -375,21 +375,21 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE
-OR REPLACE TRIGGER trigger_insert_solution_in_options_array BEFORE INSERT ON public.questions FOR EACH ROW
+OR REPLACE TRIGGER trigger_insert_solution_in_options_array BEFORE INSERT ON lambertquiz.questions FOR EACH ROW
 EXECUTE
   FUNCTION solution_in_options_array ();
 
 CREATE
 OR REPLACE TRIGGER trigger_update_solution_in_options_array BEFORE
 UPDATE
-  ON public.questions FOR EACH ROW
+  ON lambertquiz.questions FOR EACH ROW
 EXECUTE
   FUNCTION solution_in_options_array ();
 
 CREATE
 OR REPLACE TRIGGER trigger_insert_question_quiz_category
 AFTER
-  INSERT ON public.questions FOR EACH ROW
+  INSERT ON lambertquiz.questions FOR EACH ROW
 EXECUTE
   FUNCTION quiz_question_category ();
 
@@ -397,7 +397,7 @@ CREATE
 OR REPLACE TRIGGER trigger_update_question_quiz_category
 AFTER
 UPDATE
-  ON public.questions FOR EACH ROW
+  ON lambertquiz.questions FOR EACH ROW
 EXECUTE
   FUNCTION quiz_question_category ();
 
@@ -412,7 +412,7 @@ OR REPLACE FUNCTION get_random_questions (IN quiz_id INTEGER) RETURNS SETOF ques
 $$;
 
 INSERT INTO
-  public.questions (text, category, imageURL, options, solution, quiz)
+  lambertquiz.questions (text, category, imageURL, options, solution, quiz)
 VALUES
   (
     'How much is tall the Eiffel Tower ?',
@@ -538,11 +538,11 @@ VALUES
 SELECT
   *
 from
-  public.questions;
+  lambertquiz.questions;
 
 --- Progresses
 CREATE TABLE IF NOT EXISTS
-  public.progresses (
+  lambertquiz.progresses (
     progresses_id SERIAL NOT NULL PRIMARY KEY,
     _user INTEGER NOT NULL,
     quiz INTEGER NOT NULL,
@@ -552,68 +552,68 @@ CREATE TABLE IF NOT EXISTS
     inserted_at TIMESTAMP WITH time zone DEFAULT TIMEZONE ('UTC'::text, NOW() + INTERVAL '+1 hours') NOT NULL,
     updated_at TIMESTAMP WITH time zone DEFAULT TIMEZONE ('UTC'::text, NOW() + INTERVAL '+1 hours') NOT NULL,
     CONSTRAINT progresses__user_quiz_unique UNIQUE (_user, quiz, quiz_started_at),
-    CONSTRAINT progresses_user_fk FOREIGN KEY (_user) REFERENCES public.users (user_id) ON DELETE CASCADE,
-    CONSTRAINT progresses_quiz_fk FOREIGN KEY (quiz) REFERENCES public.quizzes (quiz_id) ON DELETE CASCADE
+    CONSTRAINT progresses_user_fk FOREIGN KEY (_user) REFERENCES lambertquiz.users (user_id) ON DELETE CASCADE,
+    CONSTRAINT progresses_quiz_fk FOREIGN KEY (quiz) REFERENCES lambertquiz.quizzes (quiz_id) ON DELETE CASCADE
   );
 
 COMMENT
-  ON COLUMN public.progresses.progresses_id IS 'The integer incremental progresses ID.';
+  ON COLUMN lambertquiz.progresses.progresses_id IS 'The integer incremental progresses ID.';
 
 COMMENT
-  ON COLUMN public.progresses._user IS 'The user quiz question foreign key.';
+  ON COLUMN lambertquiz.progresses._user IS 'The user quiz question foreign key.';
 
 COMMENT
-  ON COLUMN public.progresses.quiz IS 'The quiz question foreign key.';
+  ON COLUMN lambertquiz.progresses.quiz IS 'The quiz question foreign key.';
 
 COMMENT
-  ON COLUMN public.progresses.quiz_started_at IS 'The quiz start timestamp.';
+  ON COLUMN lambertquiz.progresses.quiz_started_at IS 'The quiz start timestamp.';
 
 COMMENT
-  ON COLUMN public.progresses.quiz_finished_at IS 'The quiz end timestamp.';
+  ON COLUMN lambertquiz.progresses.quiz_finished_at IS 'The quiz end timestamp.';
 
 COMMENT
-  ON COLUMN public.progresses.quiz_score IS 'The user quiz score point.';
+  ON COLUMN lambertquiz.progresses.quiz_score IS 'The user quiz score point.';
 
 COMMENT
-  ON COLUMN public.progresses.inserted_at IS 'The TIMESTAMP date and time when the record was inserted.';
+  ON COLUMN lambertquiz.progresses.inserted_at IS 'The TIMESTAMP date and time when the record was inserted.';
 
 COMMENT
-  ON COLUMN public.progresses.updated_at IS 'The TIMESTAMP date and time when the record was updated.';
+  ON COLUMN lambertquiz.progresses.updated_at IS 'The TIMESTAMP date and time when the record was updated.';
 
 COMMENT
-  ON TABLE public.progresses IS 'LambertQuiz app table that rappresents the quizzes played by a specific user, used for statistics.';
+  ON TABLE lambertquiz.progresses IS 'LambertQuiz app table that rappresents the quizzes played by a specific user, used for statistics.';
 
 ALTER TABLE
-  public.progresses
+  lambertquiz.progresses
 ADD
   CONSTRAINT check_progresses_started_at_inserted_at_updated_at CHECK (
-    public.progresses.quiz_started_at < progresses.inserted_at
-    AND public.progresses.quiz_started_at < progresses.updated_at
-    AND public.progresses.quiz_started_at < public.progresses.quiz_finished_at
+    lambertquiz.progresses.quiz_started_at < progresses.inserted_at
+    AND lambertquiz.progresses.quiz_started_at < progresses.updated_at
+    AND lambertquiz.progresses.quiz_started_at < lambertquiz.progresses.quiz_finished_at
   );
 
 ALTER TABLE
-  public.progresses
+  lambertquiz.progresses
 ADD
   CONSTRAINT check_progresses_finished_at_inserted_at_updated_at CHECK (
-    public.progresses.quiz_finished_at < progresses.inserted_at
-    AND public.progresses.quiz_started_at < progresses.updated_at
-    AND public.progresses.quiz_finished_at > public.progresses.quiz_started_at
+    lambertquiz.progresses.quiz_finished_at < progresses.inserted_at
+    AND lambertquiz.progresses.quiz_started_at < progresses.updated_at
+    AND lambertquiz.progresses.quiz_finished_at > lambertquiz.progresses.quiz_started_at
   );
 
 ALTER TABLE
-  public.progresses
+  lambertquiz.progresses
 ADD
   CONSTRAINT check_progresses_inserted_at_updated_at CHECK (
-    public.progresses.inserted_at <= progresses.updated_at
+    lambertquiz.progresses.inserted_at <= progresses.updated_at
   );
 
 ALTER TABLE
-  public.progresses
+  lambertquiz.progresses
 ADD
   CONSTRAINT check_progresses_quiz_score CHECK (
-    public.progresses.quiz_score >= 0
-    AND public.progresses.quiz_score <= 5
+    lambertquiz.progresses.quiz_score >= 0
+    AND lambertquiz.progresses.quiz_score <= 5
   );
 
 CREATE
@@ -627,7 +627,7 @@ $$ LANGUAGE plpgsql;
 CREATE
 OR REPLACE TRIGGER trigger_progresses_updated_at_set_timestamp BEFORE
 UPDATE
-  ON public.progresses FOR EACH ROW
+  ON lambertquiz.progresses FOR EACH ROW
 EXECUTE
   FUNCTION progresses_updated_at_set_timestamp ();
 
@@ -654,7 +654,7 @@ FROM
   progresses;
 
 GRANT
-  usage ON schema "public" TO postgres;
+  usage ON schema "lambertquiz" TO postgres;
 
 GRANT
 SELECT
@@ -662,51 +662,30 @@ SELECT
   INSERT,
 UPDATE
 ,
-  DELETE ON ALL TABLES IN SCHEMA "public" TO postgres;
+  DELETE ON ALL TABLES IN SCHEMA "lambertquiz" TO postgres;
 
 GRANT
   USAGE,
 SELECT
-  ON ALL SEQUENCES IN SCHEMA public TO postgres;
+  ON ALL SEQUENCES IN SCHEMA lambertquiz TO postgres;
 
-GRANT
-  usage ON schema "public" TO anon;
 
-GRANT
-SELECT
-,
-  INSERT,
-UPDATE
-,
-  DELETE ON ALL TABLES IN SCHEMA "public" TO anon;
 
-GRANT
-  USAGE,
-SELECT
-  ON ALL SEQUENCES IN SCHEMA public TO anon;
+/*
 
-GRANT
-  usage ON schema "public" TO authenticated;
+	Other functions:
 
-GRANT
-SELECT
-,
-  INSERT,
-UPDATE
-,
-  DELETE ON ALL TABLES IN SCHEMA "public" TO authenticated;
+*/
 
-GRANT
-  USAGE,
-SELECT
-  ON ALL SEQUENCES IN SCHEMA public TO authenticated;
 
---- Other functions:
+/*
 CREATE
 OR REPLACE FUNCTION delete_user () RETURNS VOID LANGUAGE SQL SECURITY DEFINER AS $$
   DELETE FROM auth.users
   WHERE id = auth.UID();
 $$;
+
+*/
 
 CREATE
 OR REPLACE FUNCTION get_users_quizzes_10_stats () RETURNS TABLE (
@@ -905,6 +884,6 @@ SELECT
 FROM
   pg_catalog.pg_tables
 WHERE
-  schemaname = 'public';
+  schemaname = 'lambertquiz';
 
 -- Example query:
