@@ -76,7 +76,7 @@ const AppStackNavigator = ({ user }) => {
 						fontSize: labelFontSize,
 					},
 				}}
-				initialParams={{ user: user }}
+				initialParams={{ user }}
 			/>
 			<Drawer.Screen
 				name="Stats page"
@@ -135,6 +135,7 @@ const AppStackNavigator = ({ user }) => {
 						display: "none",
 					},
 				}}
+				initialParams={user}
 			/>
 		</Drawer.Navigator>
 	);

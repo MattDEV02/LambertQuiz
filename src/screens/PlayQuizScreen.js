@@ -94,6 +94,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		setIsResultModalVisible(true);
 		setTryAgain(false);
 		// TODO insert progress record
+		storeProgress(user.user_id, quizId, startDate);
 	};
 
 	const handleOnModalClose = () => {

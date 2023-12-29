@@ -87,6 +87,8 @@ I am the only Author of this beatiful app.
 
 - **Javascript ES6** 
 - **React native 0.72.6** 
+- ** NodeJS 20.4.0**
+- ** NPM 9.7.2**
 - **PostgreSQL 16.0**
 - **Visual Studio Code 1.85**
 - **Supabase 1.0**

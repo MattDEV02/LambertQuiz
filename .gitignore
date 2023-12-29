@@ -39,4 +39,5 @@ yarn-error.*
 up.cpp
 up.exe
 
-.env'
+
+.env

@@ -38,13 +38,14 @@ const HomeScreen = ({ navigation, route }) => {
 		const getUserUsernameFromEmail = async (email) => {
 			const { data, error } = await supabase
 				.from("users")
-				.select("username")
+				.select("user_id, username")
 				.eq("email", email)
 				.single(); // UNIQUE
 			if (validateObject(error)) {
 				console.error(error);
 			} else if (validateObject(data)) {
 				const tempUser = data;
+				tempUser.user_id = data.user_id;
 				tempUser.username = data.username;
 				setUser(tempUser);
 			}
