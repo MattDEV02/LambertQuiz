@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Text, ActivityIndicator } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { supabase } from "../app/lib/supabase-client";
 import {
 	HomeScreen,
 	PlayQuizScreen,
 	AccountScreen,
 	StatsScreen,
 	HelpScreen,
+	SignoutScreen,
 } from "../screens";
 import DrawerIcon from "../components/navigators/AppStackNavigator/DrawerIcon";
+import { validateObject } from "../utils/validators";
 import { COLORS, headerShown } from "../constants/theme";
 import { signOut } from "../utils/auth";
 
@@ -39,9 +43,46 @@ const LogoutIcon = () => (
 	/>
 );
 
-const AppStackNavigator = ({ user }) => {
+// TODO: useEffect with sessionUser
+
+const AppStackNavigator = ({ sessionUser }) => {
+	const [user, setUser] = useState(sessionUser);
+	const [userReady, setUserReady] = useState(false);
+
+	useEffect(() => {
+		const getUserUsernameFromEmail = async (email) => {
+			const { data, error } = await supabase
+				.from("users")
+				.select("user_id, username, password, inserted_at")
+				.eq("email", email)
+				.single(); // UNIQUE
+			if (validateObject(error)) {
+				console.error(error);
+			} else if (validateObject(data)) {
+				let tempUser = sessionUser;
+				tempUser.user_id = data.user_id;
+				tempUser.username = data.username;
+				tempUser.password = data.password;
+				tempUser.inserted_at = data.inserted_at;
+				tempUser.auth_id = sessionUser.id;
+				delete tempUser.id;
+				delete tempUser.app_metadata;
+				delete tempUser.created_at;
+				delete tempUser.identities;
+				delete tempUser.phone;
+				delete tempUser.confirmation_sent_at;
+				delete tempUser.aud;
+				delete tempUser.user_metadata;
+				setUser(tempUser);
+				setUserReady(true);
+			}
+		};
+		getUserUsernameFromEmail(sessionUser.email);
+	}, []);
+
 	const labelFontSize = 15;
-	return (
+
+	return userReady ? (
 		<Drawer.Navigator
 			screenOptions={{
 				headerShown,
@@ -89,6 +130,7 @@ const AppStackNavigator = ({ user }) => {
 						fontSize: labelFontSize,
 					},
 				}}
+				initialParams={{ user }}
 			/>
 			<Drawer.Screen
 				name="Help page"
@@ -104,7 +146,7 @@ const AppStackNavigator = ({ user }) => {
 			/>
 			<Drawer.Screen
 				name="Logout"
-				component={HelpScreen}
+				component={SignoutScreen}
 				options={{
 					drawerIcon: LogoutIcon,
 					title: "Logout",
@@ -135,9 +177,11 @@ const AppStackNavigator = ({ user }) => {
 						display: "none",
 					},
 				}}
-				initialParams={user}
+				initialParams={{ user }}
 			/>
 		</Drawer.Navigator>
+	) : (
+		<Text>...</Text>
 	);
 };
 

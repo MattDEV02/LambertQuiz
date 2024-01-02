@@ -27,7 +27,7 @@ const App = () => {
 		<RootSiblingParent>
 			<NavigationContainer>
 				{validateObject(session) && validateObject(session.user) ? (
-					<AppStackNavigator user={session.user} />
+					<AppStackNavigator sessionUser={session.user} />
 				) : (
 					<AuthStackNavigator />
 				)}

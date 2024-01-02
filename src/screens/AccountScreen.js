@@ -9,10 +9,8 @@ import {
 	Alert as Window,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
-import { supabase } from "../app/lib/supabase-client";
 import SetUsernameModal from "../components/screens/AccountScreen/setUsernameModal";
 import SetPasswordModal from "../components/screens/AccountScreen/setPasswordModal";
-import FormButton from "../components/shared/FormButton";
 import { validateObject, validateString } from "../utils/validators";
 import { removeUser } from "../utils/auth";
 import { COLORS } from "../constants/theme";
@@ -26,27 +24,6 @@ const AccountScreen = ({ navigation, route }) => {
 		useState(false);
 	const [isSetPasswordModalVisible, setIsSetPasswordModalVisible] =
 		useState(false);
-
-	useEffect(() => {
-		const getUserUsernameAndPasswordFromEmail = async (email) => {
-			const { data, error } = await supabase
-				.from("users")
-				.select("user_id, username, password")
-				.eq("email", email)
-				.single(); // UNIQUE
-			if (validateObject(error)) {
-				console.error(error);
-			} else if (validateObject(data)) {
-				const tempUser = user;
-				tempUser.user_id = data.user_id;
-				tempUser.username = data.username;
-				tempUser.password = data.password;
-				setUser(tempUser);
-				setUsername(user.username);
-			}
-		};
-		getUserUsernameAndPasswordFromEmail(user.email);
-	}, []);
 
 	const iconsSize = 26;
 
@@ -111,7 +88,7 @@ const AccountScreen = ({ navigation, route }) => {
 							fontSize: 29,
 						}}
 					>
-						{validateString(username) ? username : null}
+						{validateString(user.username) ? user.username : null}
 					</Text>
 					<Text
 						style={{

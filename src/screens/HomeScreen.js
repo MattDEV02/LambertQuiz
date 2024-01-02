@@ -18,6 +18,7 @@ import {
 import { playClickSound } from "../utils/sounds";
 
 const HomeScreen = ({ navigation, route }) => {
+	console.log(1, route.params.user);
 	const [user, setUser] = useState(route.params.user);
 	const [quizzes, setQuizzes] = useState([]);
 	const [refreshing, setRefreshing] = useState(false);
@@ -35,22 +36,6 @@ const HomeScreen = ({ navigation, route }) => {
 			setRefreshing(false);
 		};
 
-		const getUserUsernameFromEmail = async (email) => {
-			const { data, error } = await supabase
-				.from("users")
-				.select("user_id, username")
-				.eq("email", email)
-				.single(); // UNIQUE
-			if (validateObject(error)) {
-				console.error(error);
-			} else if (validateObject(data)) {
-				const tempUser = data;
-				tempUser.user_id = data.user_id;
-				tempUser.username = data.username;
-				setUser(tempUser);
-			}
-		};
-		getUserUsernameFromEmail(user.email);
 		getQuizzes();
 	}, []);
 

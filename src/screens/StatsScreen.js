@@ -3,66 +3,105 @@ import {
 	View,
 	Text,
 	SafeAreaView,
+	InputScrollView,
 	ActivityIndicator,
 	StyleSheet,
 } from "react-native";
-import {
-	Table,
-	TableWrapper,
-	Row,
-	Rows,
-	Col,
-	Cols,
-	Cell,
-} from "react-native-table-component";
+import { LineChart } from "react-native-gifted-charts";
+import moment from "moment";
 import { supabase } from "../app/lib/supabase-client";
+import StatsTable from "../components/screens/StatsScreen/StatsTable";
 import {
 	validateObject,
-	validateURL,
 	validateArray,
+	validateString,
 } from "../utils/validators";
-import { COLORS } from "../constants/theme";
+import { COLORS, SIZES } from "../constants/theme";
 
-const StatsScreen = ({ navigation }) => {
-	const [usersQuizzes10Stats, setUsersQuizzes10Stats] = useState([]);
+const StatsScreen = ({ navigation, route }) => {
+	const user = route.params.user;
+	const userId = user.user_id;
+
+	const userSub = moment(user.inserted_at).format("DD/MM/YYYY");
+	const userSubDays = moment().diff(user.inserted_at, "days") + 1;
+
+	const [usersQuizzesTenStats, setUsersQuizzesTenStats] = useState([]);
+	const [userLastTenQuizzes, setUserLastTenQuizzes] = useState([]);
+	const [userPrefCategory, setUserPrefCategory] = useState("");
 	const [refreshing, setRefreshing] = useState(false);
-	const [matrix, setMatrix] = useState([[]]);
+	const [matrix, setMatrix] = useState([]);
 
-	const userId = 1;
 	useEffect(() => {
-		const getUsersQuizzes10Stats = async () => {
+		const getUsersQuizzesTenStats = async () => {
 			setRefreshing(true);
 			const { data, error } = await supabase.rpc(
-				"get_users_quizzes_10_stats",
+				"get_users_quizzes_ten_stats",
 			);
 			if (validateObject(error)) {
 				console.error(error);
 			} else if (validateArray(data, 1)) {
-				console.log("a", data);
-				setUsersQuizzes10Stats(data);
+				setUsersQuizzesTenStats(data);
 				setMatrix(toMatrix(data));
-				console.log("b", usersQuizzes10Stats);
 			}
 			setRefreshing(false);
 		};
 
-		getUsersQuizzes10Stats();
+		const getUserLastTenDaysQuizzes = async (_user_id) => {
+			setRefreshing(true);
+			const { data, error } = await supabase.rpc(
+				"get_last_ten_days_quizzes",
+				{
+					_user_id: _user_id,
+				},
+			);
+			console.log(data);
+			if (validateObject(error)) {
+				console.error(error);
+			} else if (validateArray(data, 10)) {
+				let a = [];
+				data.map((item, index) => {
+					a.push({ value: item.totalquizzes, label: new String(index) });
+				});
+				setUserLastTenQuizzes(a);
+			}
+			setRefreshing(false);
+		};
+
+		const getUserPrefCategory = async (_user_id) => {
+			setRefreshing(true);
+			const { data, error } = await supabase
+				.rpc("get_user_pref_category", {
+					_user_id: _user_id,
+				})
+				.single();
+			console.log(data);
+			if (validateObject(error)) {
+				console.error(error);
+			} else if (validateObject(data) && validateString(data.category)) {
+				setUserPrefCategory(data.category);
+			}
+			setRefreshing(false);
+		};
+
+		getUsersQuizzesTenStats();
+		getUserLastTenDaysQuizzes(userId);
+		getUserPrefCategory(userId);
 	}, []);
 
 	const toMatrix = (objectsArray) => {
 		const matrix = [];
-		for (let i = 0; i < objectsArray.length; i += 2) {
-			const riga = [
+		const arrayLength = objectsArray.length;
+		for (let i = 0; i < arrayLength; i++) {
+			const row = [
+				objectsArray[i].username,
 				objectsArray[i].averagescore,
 				objectsArray[i].betterscore,
 				objectsArray[i].quizzescompletitionpercentage,
 				objectsArray[i].totalquizzes,
 				objectsArray[i].totalscore,
-				objectsArray[i].username,
 			];
-			matrix.push(riga);
+			matrix.push(row);
 		}
-		console.log(matrix);
 		return matrix;
 	};
 
@@ -74,28 +113,36 @@ const StatsScreen = ({ navigation }) => {
 					color={COLORS.primary}
 					animating={refreshing}
 				/>
-				{validateArray(usersQuizzes10Stats, 1) && validateArray(matrix, 1) ? (
-					<Table borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}>
-						<Row
-							data={Object.keys(usersQuizzes10Stats[0])}
-							style={style.head}
-							textStyle={style.text}
-						/>
-						<Rows data={[[2, 2, 33, 1, 2, "Matt"]]} textStyle={style.text} />
-					</Table>
-				) : (
-					<Text>ciao</Text>
-				)}
+				{validateArray(usersQuizzesTenStats, 1) &&
+				validateArray(matrix, 1) ? (
+					<StatsTable matrix={matrix} />
+				) : null}
+				<View>
+					<LineChart
+						maxValue={1}
+						adjustToWidth={true}
+						isAnimated={true}
+						backgroundColor={COLORS.orange}
+						noOfSections={1}
+						data={userLastTenQuizzes}
+					/>
+				</View>
+				<View>
+					<Text style={style.text}>
+						You are our User since {userSub}, it's {userSubDays} days!
+					</Text>
+					<Text style={style.text}>
+						Prefered category: {userPrefCategory}
+					</Text>
+				</View>
 			</View>
 		</SafeAreaView>
 	);
 };
 
 const style = StyleSheet.create({
-	container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: "#fff" },
-	head: { height: 40, backgroundColor: "#f1f8ff" },
-	text: { margin: 6 },
-	row: { height: 40, backgroundColor: "#E7E6E1" },
+	chart: {},
+	text: { margin: 3.5, textAlign: "center", fontWeight: "bold" },
 });
 
 export default StatsScreen;
