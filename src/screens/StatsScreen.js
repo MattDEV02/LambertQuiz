@@ -3,17 +3,19 @@ import {
 	View,
 	Text,
 	SafeAreaView,
-	InputScrollView,
 	ActivityIndicator,
 	StyleSheet,
 } from "react-native";
-import { BarChart } from "react-native-gifted-charts";
 import moment from "moment";
 import { supabase } from "../app/lib/supabase-client";
 import StatsTable from "../components/screens/StatsScreen/StatsTable";
-import StatsBarChart from "../components/screens/StatsScreen/charts/StatsBarChart";
-import StatsLineChart from "../components/screens/StatsScreen/charts/StatsLineChart";
-import StatsPieChart from "../components/screens/StatsScreen/charts/StatsPieChart";
+import RNPickerSelect from "react-native-picker-select";
+import ChartsPicker from "../components/screens/StatsScreen/ChartsPicker";
+import {
+	StatsBarChart,
+	StatsLineChart,
+	StatsPieChart,
+} from "../components/screens/StatsScreen/charts/";
 import {
 	validateObject,
 	validateArray,
@@ -29,9 +31,11 @@ const StatsScreen = ({ navigation, route }) => {
 	const userSubDays = moment().diff(user.confirmed_at, "days") + 1;
 
 	const [bestFiveUsersMatrix, setBestFiveUsersMatrix] = useState([]); // array of arrays
-	const [userLastSevenQuizzes, setUserLastSevenQuizzes] = useState([]); // array of objects
+	const [userLastSevenDaysQuizzes, setUserLastSevenDaysQuizzes] = useState([]); // array of objects
 	const [userPrefCategory, setUserPrefCategory] = useState("");
 	const [refreshing, setRefreshing] = useState(false);
+
+	const [selectedChart, setSelectedChart] = useState("BarChart");
 
 	useEffect(() => {
 		const getBestFiveUsersStats = async () => {
@@ -58,15 +62,15 @@ const StatsScreen = ({ navigation, route }) => {
 			if (validateObject(error)) {
 				console.error(error);
 			} else if (validateArray(data, 7)) {
-				//console.log(data);
-				let a = [];
+				let tempUserLastSevenDaysQuizzes = [];
 				data.map((item) => {
-					a.push({
+					tempUserLastSevenDaysQuizzes.push({
 						label: moment(item.day).format("DD/MM"),
 						value: item.totalquizzes,
+						gradientColor: COLORS.warning,
 					});
 				});
-				setUserLastSevenQuizzes(a);
+				setUserLastSevenDaysQuizzes(tempUserLastSevenDaysQuizzes);
 			}
 			setRefreshing(false);
 		};
@@ -81,7 +85,6 @@ const StatsScreen = ({ navigation, route }) => {
 			if (validateObject(error) && data !== null) {
 				console.error(error);
 			} else if (validateObject(data) && validateString(data.category)) {
-				console.log(data);
 				setUserPrefCategory(data.category);
 			}
 			setRefreshing(false);
@@ -120,16 +123,25 @@ const StatsScreen = ({ navigation, route }) => {
 				{validateArray(bestFiveUsersMatrix, 0) ? (
 					<StatsTable matrix={bestFiveUsersMatrix} />
 				) : null}
-				{validateArray(userLastSevenQuizzes, 7) ? (
-					<StatsPieChart data={userLastSevenQuizzes} style={style.chart} />
+				<ChartsPicker setSelectedChart={setSelectedChart} />
+				{validateArray(userLastSevenDaysQuizzes, 7) ? (
+					<View style={style.chart}>
+						{selectedChart === "BarChart" ? (
+							<StatsBarChart data={userLastSevenDaysQuizzes} />
+						) : selectedChart === "LineChart" ? (
+							<StatsLineChart data={userLastSevenDaysQuizzes} />
+						) : (
+							<StatsPieChart data={userLastSevenDaysQuizzes} />
+						)}
+					</View>
 				) : null}
 				{validateString(userSub) ? (
-					<View>
-						<Text style={style.text}>
+					<View style={style.footer}>
+						<Text style={{ ...style.text, ...style.footerText }}>
 							You are our User since {userSub}, that's {userSubDays}{" "}
 							days!
 						</Text>
-						<Text style={style.text}>
+						<Text style={{ ...style.text, ...style.footerText }}>
 							Prefered category:{" "}
 							{validateString(userPrefCategory)
 								? userPrefCategory
@@ -143,8 +155,10 @@ const StatsScreen = ({ navigation, route }) => {
 };
 
 const style = StyleSheet.create({
-	chart: { marginVertical: 30 },
+	chart: { marginTop: 15, marginBottom: 37.5 },
 	text: { margin: 3.5, textAlign: "center", fontWeight: "bold" },
+	footer: { marginVertical: 10 },
+	footerText: { fontSize: 16 },
 });
 
 export default StatsScreen;

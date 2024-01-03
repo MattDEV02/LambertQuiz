@@ -17,6 +17,7 @@ import {
 	validateObject,
 	validateURL,
 	validateArray,
+	validateString
 } from "../utils/validators";
 import { storeProgress } from "../utils/database";
 import {
@@ -92,10 +93,8 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		setGameFinished(true);
 		endDate = new Date();
 		totalSeconds = (Math.abs(endDate - startDate) / 1000).toFixed(2);
-		console.log(endDate, startDate, totalSeconds);
 		setIsResultModalVisible(true);
 		setTryAgain(false);
-		// TODO insert progress record
 		storeProgress(user.user_id, quizId, startDate, endDate, correctCount);
 	};
 
@@ -116,11 +115,16 @@ const PlayQuizScreen = ({ navigation, route }) => {
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption)
 		) {
-			if (currentOption === currentQuestion.solution) return COLORS.success;
-			else if (currentOption === currentQuestion.selectedOption)
+			if (currentOption === currentQuestion.solution) {
+				return COLORS.success;
+			} else if (currentOption === currentQuestion.selectedOption) {
 				return COLORS.error;
-			else return COLORS.white;
-		} else return COLORS.white;
+			} else {
+				return COLORS.white;
+			}
+		} else {
+			return COLORS.white;
+		}
 	};
 
 	const getOptionTextColor = (currentQuestion, currentOption) => {
@@ -128,22 +132,24 @@ const PlayQuizScreen = ({ navigation, route }) => {
 			validateObject(currentQuestion) &&
 			validateObject(currentQuestion.selectedOption)
 		) {
-			if (currentOption === currentQuestion.solution) return COLORS.white;
-			else return COLORS.black;
-		} else return COLORS.black;
+			return currentOption === currentQuestion.solution
+				? COLORS.white
+				: COLORS.black;
+		} else {
+			return COLORS.black;
+		}
 	};
 
 	const handleOnOptionPress = async (item, option, index) => {
-		//
 		if (validateObject(item.selectedOption)) {
-			return null;
+			return null; // don't do nothing
 		}
 		// increase correct and incorrect count
 		if (option === item.solution) {
-			setCorrectCount(correctCount + 1);
+			setCorrectCount((correctCount) => correctCount + 1);
 			await playCorrectAnswerSound();
 		} else {
-			setIncorrectCount(incorrectCount + 1);
+			setIncorrectCount((incorrectCount) => incorrectCount + 1);
 			await playIncorrectAnswerSound();
 		}
 
@@ -195,13 +201,14 @@ const PlayQuizScreen = ({ navigation, route }) => {
 						justifyContent: "flex-end",
 					}}
 				>
+					{/* Category */}
 					<Text
 						style={{
 							fontSize: 18,
 							fontWeight: "bold",
 						}}
 					>
-						{validateArray(questions, questionsNumber)
+						{validateArray(questions, questionsNumber) && validateString(questions[0].category)
 							? questions[0].category
 							: null}
 					</Text>

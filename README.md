@@ -2,7 +2,7 @@
 # LambertQuiz
 
 <p align="center">
-<img title="LambertQuiz Logo" alt="LambertQuiz Logo" width="19.5%" src="https://matteolambertucci.altervista.org/lambertquiz/logo.png">
+<img title="LambertQuiz Logo" alt="LambertQuiz Logo" width="19.5%" src="./assets/images/logo.png">
 </p>
 
 LambertQuiz is a React Native-based and cross-platform mobile app that offers an interactive quiz on various topics.
@@ -12,6 +12,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 - **Quiz on various topics:** Users can choose from a wide range of topics for the quiz, including mathematics, science, history, geographics, and more.
 - **Game Modes:** Timed gameplay with final scoring.
 - **Results Display:** Shows the final score and correct/incorrect answers.
+- **Dynamic sounds:** Quizzes with beatiful sounds!
 
 ## Screenshots
 
@@ -41,7 +42,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 
 - Node.js
 - React Native CLI
-- Yarn or npm
+- NPM or Yarn
 
 ### Installation Instructions
 

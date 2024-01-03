@@ -1,14 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, LogBox } from "react-native";
-import {
-	Table,
-	//TableWrapper,
-	Row,
-	Rows,
-	//Col,
-	//Cols,
-	//Cell,
-} from "react-native-table-component";
+import { Table, Row, Rows } from "react-native-table-component";
 import { COLORS } from "../../../constants/theme";
 
 const StatsTable = ({ matrix }) => {
@@ -16,7 +8,7 @@ const StatsTable = ({ matrix }) => {
 		"Warning: Failed prop type: Invalid prop `textStyle` of type `array` supplied to `Cell`, expected `object`.",
 	]);
 	return (
-		<View>
+		<View style={{ marginTop: 10, marginBottom: 20 }}>
 			<Table borderStyle={{ borderWidth: 1, borderColor: COLORS.black }}>
 				<Row
 					data={[

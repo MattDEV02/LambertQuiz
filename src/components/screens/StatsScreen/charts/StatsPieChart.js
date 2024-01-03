@@ -3,13 +3,15 @@ import { View } from "react-native";
 import { PieChart } from "react-native-gifted-charts";
 import { COLORS, SIZES } from "../../../../constants/theme";
 
-const StatsPieChart = ({ data, style }) => {
+const StatsPieChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
+
+		// TODO: percentage data with text propery
+		
 	return (
-		<View style={style}>
+		<View>
 			<PieChart
 				width={SIZES.width}
-				barWidth={25}
 				yAxisOffset={0}
 				noOfSections={new Set(dataY).size}
 				maxValue={Math.max(...dataY) + 1}
@@ -19,12 +21,16 @@ const StatsPieChart = ({ data, style }) => {
 				topColor={COLORS.grey}
 				isAnimated={true}
 				data={data}
-				stepValue={1}
 				isThreeD={true}
-				side="right"
 				showYAxisIndices={true}
 				hideRules={false}
-            donut
+				donut
+				showText
+				textColor="black"
+				radius={150}
+				textSize={20}
+				showTextBackground
+				textBackgroundRadius={26}
 			/>
 		</View>
 	);
