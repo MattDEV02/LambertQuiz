@@ -7,62 +7,66 @@ import {
 	ActivityIndicator,
 	StyleSheet,
 } from "react-native";
-import { LineChart } from "react-native-gifted-charts";
+import { BarChart } from "react-native-gifted-charts";
 import moment from "moment";
 import { supabase } from "../app/lib/supabase-client";
 import StatsTable from "../components/screens/StatsScreen/StatsTable";
+import StatsBarChart from "../components/screens/StatsScreen/charts/StatsBarChart";
+import StatsLineChart from "../components/screens/StatsScreen/charts/StatsLineChart";
+import StatsPieChart from "../components/screens/StatsScreen/charts/StatsPieChart";
 import {
 	validateObject,
 	validateArray,
 	validateString,
 } from "../utils/validators";
-import { COLORS, SIZES } from "../constants/theme";
+import { COLORS } from "../constants/theme";
 
 const StatsScreen = ({ navigation, route }) => {
 	const user = route.params.user;
 	const userId = user.user_id;
 
-	const userSub = moment(user.inserted_at).format("DD/MM/YYYY");
-	const userSubDays = moment().diff(user.inserted_at, "days") + 1;
+	const userSub = moment(user.confirmed_at).format("DD/MM/YYYY");
+	const userSubDays = moment().diff(user.confirmed_at, "days") + 1;
 
-	const [usersQuizzesTenStats, setUsersQuizzesTenStats] = useState([]);
-	const [userLastTenQuizzes, setUserLastTenQuizzes] = useState([]);
+	const [bestFiveUsersMatrix, setBestFiveUsersMatrix] = useState([]); // array of arrays
+	const [userLastSevenQuizzes, setUserLastSevenQuizzes] = useState([]); // array of objects
 	const [userPrefCategory, setUserPrefCategory] = useState("");
 	const [refreshing, setRefreshing] = useState(false);
-	const [matrix, setMatrix] = useState([]);
 
 	useEffect(() => {
-		const getUsersQuizzesTenStats = async () => {
+		const getBestFiveUsersStats = async () => {
 			setRefreshing(true);
 			const { data, error } = await supabase.rpc(
-				"get_users_quizzes_ten_stats",
+				"get_best_five_users_stats",
 			);
 			if (validateObject(error)) {
 				console.error(error);
-			} else if (validateArray(data, 1)) {
-				setUsersQuizzesTenStats(data);
-				setMatrix(toMatrix(data));
+			} else if (validateArray(data, 0)) {
+				setBestFiveUsersMatrix(toMatrix(data));
 			}
 			setRefreshing(false);
 		};
 
-		const getUserLastTenDaysQuizzes = async (_user_id) => {
+		const getUserLastSevenDaysQuizzes = async (_user_id) => {
 			setRefreshing(true);
 			const { data, error } = await supabase.rpc(
-				"get_last_ten_days_quizzes",
+				"get_last_seven_days_quizzes",
 				{
 					_user_id: _user_id,
 				},
 			);
-			console.log(data);
 			if (validateObject(error)) {
 				console.error(error);
-			} else if (validateArray(data, 10)) {
+			} else if (validateArray(data, 7)) {
+				//console.log(data);
 				let a = [];
-				data.map((item, index) => {
-					a.push({ value: item.totalquizzes, label: new String(index) });
+				data.map((item) => {
+					a.push({
+						label: moment(item.day).format("DD/MM"),
+						value: item.totalquizzes,
+					});
 				});
-				setUserLastTenQuizzes(a);
+				setUserLastSevenQuizzes(a);
 			}
 			setRefreshing(false);
 		};
@@ -74,17 +78,17 @@ const StatsScreen = ({ navigation, route }) => {
 					_user_id: _user_id,
 				})
 				.single();
-			console.log(data);
-			if (validateObject(error)) {
+			if (validateObject(error) && data !== null) {
 				console.error(error);
 			} else if (validateObject(data) && validateString(data.category)) {
+				console.log(data);
 				setUserPrefCategory(data.category);
 			}
 			setRefreshing(false);
 		};
 
-		getUsersQuizzesTenStats();
-		getUserLastTenDaysQuizzes(userId);
+		getBestFiveUsersStats();
+		getUserLastSevenDaysQuizzes(userId);
 		getUserPrefCategory(userId);
 	}, []);
 
@@ -100,7 +104,7 @@ const StatsScreen = ({ navigation, route }) => {
 				objectsArray[i].totalquizzes,
 				objectsArray[i].totalscore,
 			];
-			matrix.push(row);
+			for (i = 0; i < 5; i++) matrix.push(row); //
 		}
 		return matrix;
 	};
@@ -113,35 +117,33 @@ const StatsScreen = ({ navigation, route }) => {
 					color={COLORS.primary}
 					animating={refreshing}
 				/>
-				{validateArray(usersQuizzesTenStats, 1) &&
-				validateArray(matrix, 1) ? (
-					<StatsTable matrix={matrix} />
+				{validateArray(bestFiveUsersMatrix, 0) ? (
+					<StatsTable matrix={bestFiveUsersMatrix} />
 				) : null}
-				<View>
-					<LineChart
-						maxValue={1}
-						adjustToWidth={true}
-						isAnimated={true}
-						backgroundColor={COLORS.orange}
-						noOfSections={1}
-						data={userLastTenQuizzes}
-					/>
-				</View>
-				<View>
-					<Text style={style.text}>
-						You are our User since {userSub}, it's {userSubDays} days!
-					</Text>
-					<Text style={style.text}>
-						Prefered category: {userPrefCategory}
-					</Text>
-				</View>
+				{validateArray(userLastSevenQuizzes, 7) ? (
+					<StatsPieChart data={userLastSevenQuizzes} style={style.chart} />
+				) : null}
+				{validateString(userSub) ? (
+					<View>
+						<Text style={style.text}>
+							You are our User since {userSub}, that's {userSubDays}{" "}
+							days!
+						</Text>
+						<Text style={style.text}>
+							Prefered category:{" "}
+							{validateString(userPrefCategory)
+								? userPrefCategory
+								: "None"}
+						</Text>
+					</View>
+				) : null}
 			</View>
 		</SafeAreaView>
 	);
 };
 
 const style = StyleSheet.create({
-	chart: {},
+	chart: { marginVertical: 30 },
 	text: { margin: 3.5, textAlign: "center", fontWeight: "bold" },
 });
 

@@ -1,3 +1,4 @@
+import moment from "moment";
 import { supabase } from "../app/lib/supabase-client";
 import { validateObject } from "./validators";
 
@@ -6,7 +7,7 @@ const usersTableName = "users";
 export const storeUser = async (email, password, username) => {
 	const { data } = await supabase
 		.from(usersTableName)
-		.select()
+		.select("email, username")
 		.eq("email", email)
 		.or("username", username)
 		.single();
@@ -72,19 +73,30 @@ export const deleteUser = async (user_id) => {
 	return true;
 };
 
-export const storeProgress = async (user_id, quiz_id, startDate, endDate, score) => {
+export const storeProgress = async (
+	_user,
+	quiz,
+	quiz_started_at,
+	quiz_finished_at,
+	quiz_score,
+) => {
 	const { data } = await supabase
-		.from("progresses")
-		.select()
-		.eq("user_id", user_id)
-		.and("quiz_id", quiz_id)
-		.and("startDate", startDate)
+		.rpc("get_progress", {
+			user_id: _user,
+			quiz_id: quiz,
+			_quiz_started_at: quiz_started_at,
+		})
 		.single();
 	const progress = data;
 	if (!validateObject(progress)) {
-		const { error } = await supabase
-			.from("progresses")
-			.insert({ user_id, quiz_id, startDate, endDate, score });
+		console.log(2);
+		const { error } = await supabase.rpc("store_progress", {
+			user_id: _user,
+			quiz_id: quiz,
+			_quiz_started_at: moment(quiz_started_at).add(1, "hours").toDate(),
+			_quiz_finished_at: moment(quiz_finished_at).add(1, "hours").toDate(),
+			_quiz_score: quiz_score,
+		});
 		if (validateObject(error)) {
 			console.error(error);
 			return false;

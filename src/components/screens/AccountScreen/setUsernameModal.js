@@ -30,33 +30,21 @@ const SetUsernameModal = ({
 	const [usersUsername, setUsersUsername] = useState([]);
 
 	useEffect(() => {
-		const getUsersUsername = async () => {
+		const getUsersUsernames = async () => {
 			const { data, error } = await supabase
 				.from("users")
 				.select("username");
 			if (validateObject(error)) {
 				console.error(error);
 			} else if (validateObject(data)) {
-				let tempUsersUsername = getUsernamesFromUsers(data);
-				setUsersUsername(tempUsersUsername);
+				let tempUsersUsername = data.map(value => value.username);
 				setUsersUsername(
-					usersUsername.splice(usersUsername.indexOf(oldUsername), 1),
+					tempUsersUsername.splice(tempUsersUsername.indexOf(oldUsername), 1),
 				);
 			}
 		};
-		getUsersUsername();
+		getUsersUsernames();
 	}, []);
-
-	const getUsernamesFromUsers = (users) => {
-		let usernames = [];
-		if (validateArray(users, 0)) {
-			users.map((user) => {
-				if (validateObject(user) && validateUsername(user.username))
-					usernames.push(user.username);
-			});
-		}
-		return usernames;
-	};
 
 	const handleOnPress = () => {
 		if (validateUsername(newUsername)) {

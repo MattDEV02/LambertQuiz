@@ -15,6 +15,8 @@ export const COLORS = {
 
 	background: "#EFECEC",
 	border: "#F5F5F7",
+
+	grey: "#A09F9F"
 };
 
 const { width, height } = Dimensions.get("window");

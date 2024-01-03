@@ -615,6 +615,22 @@ ADD
     lambertquiz.progresses.quiz_score >= 0
     AND lambertquiz.progresses.quiz_score <= 5
   );
+  
+CREATE
+OR REPLACE FUNCTION progresses_started_at_finished_at_set_timestamp() RETURNS TRIGGER AS $$
+BEGIN
+  NEW.started_at = started_at + INTERVAL '+1 hours';
+  NEW.finished_at = finished_at + INTERVAL '+1 hours';
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE
+OR REPLACE TRIGGER trigger_progresses_started_at_finished_at_set_timestamp BEFORE
+INSERT
+  ON lambertquiz.progresses FOR EACH ROW
+EXECUTE
+  FUNCTION progresses_started_at_finished_at_set_timestamp ();
 
 CREATE
 OR REPLACE FUNCTION progresses_updated_at_set_timestamp () RETURNS TRIGGER AS $$

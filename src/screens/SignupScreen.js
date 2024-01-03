@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-	Text,
-	SafeAreaView,
-	View,
-	Alert as Window,
-} from "react-native";
+import { Text, SafeAreaView, View, Alert as Window } from "react-native";
 import { supabase } from "../app/lib/supabase-client";
 import InputScrollView from "react-native-input-scroll-view";
 import FormInput from "../components/shared/FormInput";
@@ -54,28 +49,6 @@ const SignUpScreen = ({ navigation }) => {
 		};
 		getUsersEmailAndUsername();
 	}, []);
-
-	const getEmailsFromUsers = (users) => {
-		let emails = [];
-		if (validateArray(users, 0)) {
-			users.map((user) => {
-				if (validateObject(user) && validateEmail(user.email))
-					emails.push(user.email);
-			});
-		}
-		return emails;
-	};
-
-	const getUsernamesFromUsers = (users) => {
-		let usernames = [];
-		if (validateArray(users, 0)) {
-			users.map((user) => {
-				if (validateObject(user) && validateUsername(user.username))
-					usernames.push(user.username);
-			});
-		}
-		return usernames;
-	};
 
 	const fieldsReset = () => {
 		setEmail("");
@@ -146,41 +119,39 @@ const SignUpScreen = ({ navigation }) => {
 			passwordFieldError();
 			Window.alert(
 				"Password not valid",
-				"Password not valid, use minimum 8 chars with numbers, lowercase and uppercase letters.",
+				"Password not valid, use 8 chars with numbers, lowercase and uppercase letters.",
 			);
 		}
-		if (validateConfirmPassword(confirmPassword)) {
+		if (validateConfirmPassword(password, confirmPassword)) {
 			confirmPasswordFieldSuccess();
 		} else {
 			confirmPasswordFieldError();
-			Window.alert("Please, try again", "The passwords did not match or Password not valid.");
+			Window.alert(
+				"Please, try again",
+				"The passwords did not match or Password not valid.",
+			);
 		}
 		if (
 			validateEmail(email) &&
 			validateUsername(username) &&
-			validatePassword(password)
+			validatePassword(password) &&
+			validateConfirmPassword(password, confirmPassword)
 		) {
-			if (password === confirmPassword) {
-				const emails = getEmailsFromUsers(users),
-					usernames = getUsernamesFromUsers(users);
-				if (emails.includes(email)) {
-					Window.alert(
-						"This email is already used.",
-						"Please use another email.",
-					);
-				}
-				else if (usernames.includes(username)) {
-					Window.alert(
-						"This username is already used.",
-						"Please use another email.",
-					);
-				}
-				else if (signUp(email, password, username)) {
-					navigation.navigate("Sign In page");
-					fieldsReset();
-				}
-			} else {
-				Window.alert("The password did not match.");
+			const emails = users.map((user) => user.email),
+				usernames = users.map((user) => user.username);
+			if (emails.includes(email)) {
+				Window.alert(
+					"This email is already used.",
+					"Please use another email.",
+				);
+			} else if (usernames.includes(username)) {
+				Window.alert(
+					"This username is already used.",
+					"Please use another email.",
+				);
+			} else if (signUp(email, password, username)) {
+				navigation.navigate("Sign In page");
+				fieldsReset();
 			}
 		}
 	};

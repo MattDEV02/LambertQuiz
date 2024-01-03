@@ -34,7 +34,7 @@ export const validateUsername = (username) =>
 	username.length <= usernameMaxLength;
 
 export const validateObject = (object) =>
-	object !== undefined && object !== null && object != {}; // && object != {}
+	object != undefined && object != null && object != {}; // && object != {}
 
 export const validateArray = (array, minLength) =>
 	validateObject(array) && Array.isArray(array) && array.length >= minLength;

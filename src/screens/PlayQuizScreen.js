@@ -36,6 +36,8 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	const quizId = route.params.quizId,
 		openedQuiz = route.params.openedQuiz;
 
+	const user = route.params.user;
+
 	const [refreshing, setRefreshing] = useState(false);
 	const [isResultModalVisible, setIsResultModalVisible] = useState(false);
 	const [tryAgain, setTryAgain] = useState(false);
@@ -43,7 +45,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	const [correctCount, setCorrectCount] = useState(0);
 	const [incorrectCount, setIncorrectCount] = useState(0);
 	const [questions, setQuestions] = useState([]);
-	const [imagesError, setImagesError] = useState([]); 
+	const [imagesError, setImagesError] = useState([]);
 
 	const flatListRef = useRef(null);
 
@@ -94,7 +96,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		setIsResultModalVisible(true);
 		setTryAgain(false);
 		// TODO insert progress record
-		storeProgress(user.user_id, quizId, startDate);
+		storeProgress(user.user_id, quizId, startDate, endDate, correctCount);
 	};
 
 	const handleOnModalClose = () => {
