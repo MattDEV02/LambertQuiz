@@ -1,36 +1,45 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { PieChart } from "react-native-gifted-charts";
 import { COLORS, SIZES } from "../../../../constants/theme";
 
 const StatsPieChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
-
-		// TODO: percentage data with text propery
-		
 	return (
-		<View>
+		<View
+			style={{
+				flexDirection: "row",
+				alignItems: "center",
+				justifyContent: "center",
+				marginTop: -18.5,
+				marginBottom: 4.5,
+			}}
+		>
 			<PieChart
 				width={SIZES.width}
-				yAxisOffset={0}
-				noOfSections={new Set(dataY).size}
-				maxValue={Math.max(...dataY) + 1}
+				//maxValue={Math.max(...dataY) + 1}
 				backgroundColor={COLORS.white}
-				frontColor={COLORS.primary}
-				sideColor={COLORS.secondary}
-				topColor={COLORS.grey}
+				textColor={COLORS.secondary}
+				innerRadius={65}
+				showTextBackground={false}
 				isAnimated={true}
 				data={data}
-				isThreeD={true}
-				showYAxisIndices={true}
-				hideRules={false}
-				donut
-				showText
-				textColor="black"
+				isThreeD={false}
+				donut={true}
+				showText={true}
+				focusOnPress={true}
+				innerCircleBorderColor={COLORS.black}
 				radius={150}
-				textSize={20}
-				showTextBackground
-				textBackgroundRadius={26}
+				textSize={16}
+				inwardExtraLengthForFocused={1.75}
+				extraRadiusForFocused={10}
+				centerLabelComponent={() => {
+					return (
+						<View>
+							<Text style={{ fontSize: 19.5, textAlign: "center", fontWeight: "bold" }}>Last 7 days Quizzes</Text>
+						</View>
+					);
+				}}
 			/>
 		</View>
 	);

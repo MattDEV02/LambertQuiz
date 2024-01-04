@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, Modal, Alert as Window, StyleSheet } from "react-native";
-import FormInput from "../../shared/FormInput";
-import FormButton from "../../shared/FormButton";
-import { COLORS } from "../../../constants/theme";
-import { passwordMaxLength } from "../../../constants/fieldsConstants";
-import { validatePassword } from "../../../utils/validators";
-import { updateUserPassword } from "../../../utils/database";
+import FormInput from "../../../shared/FormInput";
+import FormButton from "../../../shared/FormButton";
+import { COLORS } from "../../../../constants/theme";
+import { passwordMaxLength } from "../../../../constants/fieldsConstants";
+import { validatePassword, validateConfirmPassword } from "../../../../utils/validators";
+import { updateUserPassword } from "../../../../utils/database";
 
 const SetPasswordModal = ({
 	isModalVisible = false,
@@ -21,7 +21,7 @@ const SetPasswordModal = ({
 
 	const handleOnPress = () => {
 		if (validatePassword(newPassword)) {
-			if (newPassword === newConfirmPassword) {
+			if (validateConfirmPassword(newPassword, newConfirmPassword)) {
 				setConfirmPasswordError(false);
 				setConfirmPasswordSuccess(true);
 				Window.alert(

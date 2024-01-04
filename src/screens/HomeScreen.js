@@ -3,7 +3,6 @@ import {
 	View,
 	Text,
 	SafeAreaView,
-	StatusBar,
 	FlatList,
 	ScrollView,
 } from "react-native";
@@ -18,8 +17,8 @@ import {
 import { playClickSound } from "../utils/sounds";
 
 const HomeScreen = ({ navigation, route }) => {
-	console.log(1, route.params.user);
-	const [user, setUser] = useState(route.params.user);
+	console.log(route.params.user);
+	const user = route.params.user;
 	const [quizzes, setQuizzes] = useState([]);
 	const [refreshing, setRefreshing] = useState(false);
 
@@ -56,7 +55,6 @@ const HomeScreen = ({ navigation, route }) => {
 				position: "relative",
 			}}
 		>
-			<StatusBar backgroundColor={COLORS.white} barStyle={"dark-content"} />
 			{/* TOP BAR */}
 			<ScrollView
 				style={{
@@ -76,7 +74,7 @@ const HomeScreen = ({ navigation, route }) => {
 					>
 						<Text
 							style={{
-								fontSize: 25,
+								fontSize: 27,
 								color: COLORS.black,
 								fontWeight: "bold",
 							}}

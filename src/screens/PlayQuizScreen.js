@@ -3,7 +3,6 @@ import {
 	View,
 	Text,
 	SafeAreaView,
-	StatusBar,
 	FlatList,
 	Image,
 	TouchableOpacity,
@@ -17,7 +16,7 @@ import {
 	validateObject,
 	validateURL,
 	validateArray,
-	validateString
+	validateString,
 } from "../utils/validators";
 import { storeProgress } from "../utils/database";
 import {
@@ -171,7 +170,6 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				position: "relative",
 			}}
 		>
-			<StatusBar backgroundColor={COLORS.white} barStyle={"dark-content"} />
 			{/* TOP BAR */}
 			<View
 				style={{
@@ -208,7 +206,8 @@ const PlayQuizScreen = ({ navigation, route }) => {
 							fontWeight: "bold",
 						}}
 					>
-						{validateArray(questions, questionsNumber) && validateString(questions[0].category)
+						{validateArray(questions, questionsNumber) &&
+						validateString(questions[0].category)
 							? questions[0].category
 							: null}
 					</Text>

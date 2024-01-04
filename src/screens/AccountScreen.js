@@ -9,8 +9,8 @@ import {
 	Alert as Window,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/FontAwesome";
-import SetUsernameModal from "../components/screens/AccountScreen/setUsernameModal";
-import SetPasswordModal from "../components/screens/AccountScreen/setPasswordModal";
+import SetUsernameModal from "../components/screens/AccountScreen/modals/setUsernameModal";
+import SetPasswordModal from "../components/screens/AccountScreen/modals/setPasswordModal";
 import { validateObject, validateString } from "../utils/validators";
 import { removeUser } from "../utils/auth";
 import { COLORS } from "../constants/theme";
@@ -18,7 +18,7 @@ import { COLORS } from "../constants/theme";
 // TODO: AccountOption component
 
 const AccountScreen = ({ navigation, route }) => {
-	const [user, setUser] = useState(route.params.user);
+	const user = route.params.user;
 	const [username, setUsername] = useState("");
 	const [isSetUsernameModalVisible, setIsSetUsernameModalVisible] =
 		useState(false);
@@ -186,7 +186,7 @@ const style = StyleSheet.create({
 	},
 	text: {
 		color: COLORS.secondary,
-		fontSize: 21.5,
+		fontSize: 22,
 		marginRight: 10,
 	},
 });

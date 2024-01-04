@@ -6,17 +6,17 @@ import {
 	Alert as Window,
 	StyleSheet
 } from "react-native";
-import { supabase } from "../../../app/lib/supabase-client";
-import FormInput from "../../shared/FormInput";
-import FormButton from "../../shared/FormButton";
-import { COLORS } from "../../../constants/theme";
-import { usernameMaxLength } from "../../../constants/fieldsConstants";
-import { updateUserUsername } from "../../../utils/database";
+import { supabase } from "../../../../app/lib/supabase-client";
+import FormInput from "../../../shared/FormInput";
+import FormButton from "../../../shared/FormButton";
+import { COLORS } from "../../../../constants/theme";
+import { usernameMaxLength } from "../../../../constants/fieldsConstants";
+import { updateUserUsername } from "../../../../utils/database";
 import {
 	validateUsername,
 	validateArray,
 	validateObject,
-} from "../../../utils/validators";
+} from "../../../../utils/validators";
 
 const SetUsernameModal = ({
 	isModalVisible = false,

@@ -7,7 +7,7 @@ import PointerLabelComponent from "./shared/PointerLabelComponent";
 const StatsBarChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
 	return (
-		<View>
+		<View style={{ marginBottom: 30 }}>
 			<BarChart
 				width={SIZES.width}
 				barWidth={26}

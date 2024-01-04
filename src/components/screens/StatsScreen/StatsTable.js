@@ -8,7 +8,7 @@ const StatsTable = ({ matrix }) => {
 		"Warning: Failed prop type: Invalid prop `textStyle` of type `array` supplied to `Cell`, expected `object`.",
 	]);
 	return (
-		<View style={{ marginTop: 10, marginBottom: 20 }}>
+		<View style={{ marginTop: 25, marginBottom: -11.5 }}>
 			<Table borderStyle={{ borderWidth: 1, borderColor: COLORS.black }}>
 				<Row
 					data={[
@@ -39,7 +39,7 @@ const style = StyleSheet.create({
 	container: { flex: 1 },
 	head: { height: 35, backgroundColor: COLORS.primary, color: COLORS.white },
 	text: { margin: 3.5, textAlign: "center", fontWeight: "bold" },
-	row: { backgroundColor: COLORS.white },
+	row: { backgroundColor: "#E6E4E4" },
 });
 
 export default StatsTable;

@@ -9,7 +9,6 @@ import {
 import moment from "moment";
 import { supabase } from "../app/lib/supabase-client";
 import StatsTable from "../components/screens/StatsScreen/StatsTable";
-import RNPickerSelect from "react-native-picker-select";
 import ChartsPicker from "../components/screens/StatsScreen/ChartsPicker";
 import {
 	StatsBarChart,
@@ -27,6 +26,12 @@ const StatsScreen = ({ navigation, route }) => {
 	const user = route.params.user;
 	const userId = user.user_id;
 
+	const CHARTTYPES = {
+		barChart: "BarChart",
+		lineChart: "LineChart",
+		pieChart: "PieChart",
+	};
+
 	const userSub = moment(user.confirmed_at).format("DD/MM/YYYY");
 	const userSubDays = moment().diff(user.confirmed_at, "days") + 1;
 
@@ -35,7 +40,7 @@ const StatsScreen = ({ navigation, route }) => {
 	const [userPrefCategory, setUserPrefCategory] = useState("");
 	const [refreshing, setRefreshing] = useState(false);
 
-	const [selectedChart, setSelectedChart] = useState("BarChart");
+	const [selectedChart, setSelectedChart] = useState(CHARTTYPES.barChart);
 
 	useEffect(() => {
 		const getBestFiveUsersStats = async () => {
@@ -64,10 +69,12 @@ const StatsScreen = ({ navigation, route }) => {
 			} else if (validateArray(data, 7)) {
 				let tempUserLastSevenDaysQuizzes = [];
 				data.map((item) => {
+					const formattedDate = moment(item.day).format("DD/MM");
 					tempUserLastSevenDaysQuizzes.push({
-						label: moment(item.day).format("DD/MM"),
+						label: formattedDate,
 						value: item.totalquizzes,
-						gradientColor: COLORS.warning,
+						text: formattedDate,
+						fontWeight: "bold"
 					});
 				});
 				setUserLastSevenDaysQuizzes(tempUserLastSevenDaysQuizzes);
@@ -115,17 +122,17 @@ const StatsScreen = ({ navigation, route }) => {
 	return (
 		<SafeAreaView>
 			<View>
+				{validateArray(bestFiveUsersMatrix, 0) ? (
+					<StatsTable matrix={bestFiveUsersMatrix} />
+				) : null}
 				<ActivityIndicator
 					size="large"
 					color={COLORS.primary}
 					animating={refreshing}
 				/>
-				{validateArray(bestFiveUsersMatrix, 0) ? (
-					<StatsTable matrix={bestFiveUsersMatrix} />
-				) : null}
-				<ChartsPicker setSelectedChart={setSelectedChart} />
+				<ChartsPicker chartsToSelect={CHARTTYPES} setSelectedChart={setSelectedChart} />
 				{validateArray(userLastSevenDaysQuizzes, 7) ? (
-					<View style={style.chart}>
+					<View>
 						{selectedChart === "BarChart" ? (
 							<StatsBarChart data={userLastSevenDaysQuizzes} />
 						) : selectedChart === "LineChart" ? (
@@ -155,7 +162,6 @@ const StatsScreen = ({ navigation, route }) => {
 };
 
 const style = StyleSheet.create({
-	chart: { marginTop: 15, marginBottom: 37.5 },
 	text: { margin: 3.5, textAlign: "center", fontWeight: "bold" },
 	footer: { marginVertical: 10 },
 	footerText: { fontSize: 16 },

@@ -7,7 +7,7 @@ import PointerLabelComponent from "./shared/PointerLabelComponent";
 const StatsLineChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
 	return (
-		<View>
+		<View style={{ marginBottom: 30 }}>
 			<LineChart
 				areaChart={true}
 				startFillColor={COLORS.primary}
