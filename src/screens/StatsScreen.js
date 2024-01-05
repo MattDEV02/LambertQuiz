@@ -4,7 +4,7 @@ import {
 	Text,
 	SafeAreaView,
 	ActivityIndicator,
-	StyleSheet,
+	StyleSheet, 
 } from "react-native";
 import moment from "moment";
 import { supabase } from "../app/lib/supabase-client";
@@ -127,7 +127,7 @@ const StatsScreen = ({ navigation, route }) => {
 				) : null}
 				<ActivityIndicator
 					size="large"
-					color={COLORS.primary}
+					color={COLORS.black}
 					animating={refreshing}
 				/>
 				<ChartsPicker chartsToSelect={CHARTTYPES} setSelectedChart={setSelectedChart} />

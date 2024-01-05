@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, LogBox } from "react-native";
+import { View, Text, StyleSheet, ScrollView, LogBox } from "react-native";
 import { Table, Row, Rows } from "react-native-table-component";
 import { COLORS } from "../../../constants/theme";
 
@@ -9,28 +9,34 @@ const StatsTable = ({ matrix }) => {
 	]);
 	return (
 		<View style={{ marginTop: 25, marginBottom: -11.5 }}>
-			<Table borderStyle={{ borderWidth: 1, borderColor: COLORS.black }}>
-				<Row
-					data={[
-						"User",
-						"Average",
-						"Better",
-						"%Comp",
-						"TotQuiz",
-						"TotScor",
-					]}
-					style={style.head}
-					textStyle={{
-						...style.text,
-						color: COLORS.white,
-					}}
-				/>
-				{matrix.length > 0 ? (
-					<Rows data={matrix} style={style.row} textStyle={style.text} />
-				) : (
-					<Text style={style.text}>No rows</Text>
-				)}
-			</Table>
+			<ScrollView horizontal={true}>
+				<Table borderStyle={{ borderWidth: 1, borderColor: COLORS.black }}>
+					<Row
+						data={[
+							"User",
+							"Average",
+							"Better",
+							"%Comp",
+							"TotQuiz",
+							"TotScor",
+						]}
+						style={style.head}
+						textStyle={{
+							...style.text,
+							color: COLORS.white,
+						}}
+					/>
+					{matrix.length > 0 ? (
+						<Rows
+							data={matrix}
+							style={style.row}
+							textStyle={style.text}
+						/>
+					) : (
+						<Text style={style.text}>No rows</Text>
+					)}
+				</Table>
+			</ScrollView>
 		</View>
 	);
 };

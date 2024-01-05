@@ -145,12 +145,31 @@ UPDATE
 EXECUTE
   FUNCTION crypt_user_password ();
 
+CREATE
+OR REPLACE FUNCTION check_user_password (input_email VARCHAR, input_password TEXT) RETURNS BOOLEAN AS $$
+DECLARE
+    _check BOOLEAN;
+BEGIN
+    SELECT EXISTS(
+        SELECT 
+            user_id 
+        FROM 
+            Users
+        WHERE 
+            email = input_email AND 
+            password = CRYPT(input_password, password)
+    ) INTO _check;
+    RETURN _check;
+END;
+$$ LANGUAGE PLPGSQL;
+
+
 INSERT INTO
   public.users (email, password, username)
 VALUES
   (
     'matteolambertucci3@gmail.com',
-    '12345678',
+    'Matteo02',
     'Matt'
   );
 
@@ -820,6 +839,48 @@ FROM
   pg_catalog.pg_tables
 WHERE
   schemaname = 'public';
+
+CREATE
+OR REPLACE FUNCTION get_progress (
+  IN user_id INTEGER,
+  IN quiz_id INTEGER,
+  IN _quiz_started_at TIMESTAMP
+) RETURNS SETOF Progresses LANGUAGE SQL AS $$
+  SELECT DISTINCT
+ *
+FROM
+  Progresses
+WHERE
+  Progresses._user = user_id AND
+  Progresses.quiz = quiz_id AND
+  Progresses.quiz_started_at = _quiz_started_at;
+$$;
+
+CREATE
+OR REPLACE FUNCTION store_progress (
+  IN user_id INTEGER,
+  IN quiz_id INTEGER,
+  IN _quiz_started_at TIMESTAMP,
+  IN _quiz_finished_at TIMESTAMP,
+  IN _quiz_score INTEGER
+) RETURNS VOID LANGUAGE SQL AS $$
+  INSERT
+  INTO Progresses (
+    _user,
+    quiz,
+    quiz_started_at,
+    quiz_finished_at,
+    quiz_score
+  )
+  VALUES (
+    user_id,
+    quiz_id,
+    _quiz_started_at,
+    _quiz_finished_at,
+    _quiz_score
+  )
+$$;
+
 
 -- Example query:
 select
