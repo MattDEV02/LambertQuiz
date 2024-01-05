@@ -8,6 +8,8 @@ import {
 	usernameMaxLength,
 } from "../constants/fieldsConstants";
 
+export const validateBoolean = (value) => value === false || value === true;
+
 export const validateString = (string) =>
 	string !== undefined && string !== null && string !== ""; // && string !== " "
 

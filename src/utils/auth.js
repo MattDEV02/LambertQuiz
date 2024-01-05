@@ -57,7 +57,7 @@ export const removeUser = async (user) => {
 	if (validateObject(error)) {
 		Window.alert(error.message);
 	} else if (deleteUser(user.user_id)) {
-		Toast.show("Account deleted.");
 		signOut();
+		Toast.show("Account deleted.");
 	}
 };

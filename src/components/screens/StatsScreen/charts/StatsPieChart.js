@@ -11,13 +11,18 @@ const StatsPieChart = ({ data }) => {
 				flexDirection: "row",
 				alignItems: "center",
 				justifyContent: "center",
-				marginTop: -18.5,
 				marginBottom: 4.5,
+				backgroundColor: COLORS.white,
+				borderWidth: 1,
+				borderColor: COLORS.black,
+				width: "100%",
 			}}
 		>
 			<PieChart
 				width={SIZES.width}
-				//maxValue={Math.max(...dataY) + 1}
+				labelsPosition={"outward"}
+				fontWeight={"bold"}
+				fontStyle={"italic"}
 				backgroundColor={COLORS.white}
 				textColor={COLORS.secondary}
 				innerRadius={65}
@@ -29,14 +34,23 @@ const StatsPieChart = ({ data }) => {
 				showText={true}
 				focusOnPress={true}
 				innerCircleBorderColor={COLORS.black}
-				radius={150}
+				radius={145}
 				textSize={16}
 				inwardExtraLengthForFocused={1.75}
 				extraRadiusForFocused={10}
 				centerLabelComponent={() => {
 					return (
 						<View>
-							<Text style={{ fontSize: 19.5, textAlign: "center", fontWeight: "bold" }}>Last 7 days Quizzes</Text>
+							<Text
+								style={{
+									fontSize: 19.5,
+									textAlign: "center",
+									fontWeight: "bold",
+									color: "#0654A7",
+								}}
+							>
+								Last 7 days Quizzes
+							</Text>
 						</View>
 					);
 				}}

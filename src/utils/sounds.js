@@ -1,8 +1,5 @@
 import { Audio } from "expo-av";
 
-const base = "../../",
-	path = "assets/sounds/",
-	extension = ".mp3";
 
 const playSound = async (requiredFile) => {
 	const { sound } = await Audio.Sound.createAsync(requiredFile);

@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { View, Text, Modal, Alert as Window, StyleSheet } from "react-native";
+import { supabase } from "../../../../app/lib/supabase-client";
 import FormInput from "../../../shared/FormInput";
 import FormButton from "../../../shared/FormButton";
 import { COLORS } from "../../../../constants/theme";
 import { passwordMaxLength } from "../../../../constants/fieldsConstants";
-import { validatePassword, validateConfirmPassword } from "../../../../utils/validators";
+import {
+	validatePassword,
+	validateConfirmPassword,
+	validateObject,
+	validateBoolean,
+} from "../../../../utils/validators";
 import { updateUserPassword } from "../../../../utils/database";
 
 const SetPasswordModal = ({
@@ -12,57 +18,123 @@ const SetPasswordModal = ({
 	setIsModalVisible,
 	username,
 }) => {
+	const [oldPassword, setOldPassword] = useState("");
+	const [oldPasswordError, setOldPasswordError] = useState(false);
+	const [oldPasswordSuccess, setOldPasswordSuccess] = useState(false);
 	const [newPassword, setNewPassword] = useState("");
 	const [newConfirmPassword, setNewConfirmPassword] = useState("");
 	const [newPasswordError, setNewPasswordError] = useState(false);
-	const [confirmpasswordError, setConfirmPasswordError] = useState(false);
 	const [newPasswordSuccess, setNewPasswordSuccess] = useState(false);
+	const [confirmpasswordError, setConfirmPasswordError] = useState(false);
 	const [confirmpasswordSuccess, setConfirmPasswordSuccess] = useState(false);
 
-	const handleOnPress = () => {
+	const fieldsReset = () => {
+		setIsModalVisible(false);
+		setOldPassword("");
+		setNewPassword("");
+		setNewConfirmPassword("");
+		setOldPasswordError(false);
+		setOldPasswordSuccess(false);
+		setNewPasswordError(false);
+		setNewPasswordSuccess(false);
+		setConfirmPasswordError(false);
+		setConfirmPasswordSuccess(false);
+	};
+
+	const handleOnPress = async () => {
+		if (validatePassword(oldPassword)) {
+			setOldPasswordError(false);
+			setOldPasswordSuccess(true);
+		} else {
+			setOldPasswordError(true);
+			setOldPasswordSuccess(false);
+		}
 		if (validatePassword(newPassword)) {
-			if (validateConfirmPassword(newPassword, newConfirmPassword)) {
-				setConfirmPasswordError(false);
-				setConfirmPasswordSuccess(true);
-				Window.alert(
-					"Are your sure?",
-					"Are you sure you want to set your password ?",
-					[
-						{
-							text: "Yes",
-							onPress: () => {
-								if (updateUserPassword(username, newPassword)) {
-									setNewPasswordError(false);
-									setNewPasswordSuccess(true);
-									Window.alert(
-										"We have sented an email confirmation to you.",
-										"Please check your email checkbox.",
-									);
-								}
-								setIsModalVisible(false);
-							},
-						},
-						{
-							text: "No",
-							onPress: () => {
-								Window.alert("Password not updated");
-								setIsModalVisible(false);
-							},
-						},
-					],
-				);
-			} else {
-				setConfirmPasswordError(true);
-				setConfirmPasswordSuccess(false);
-				Window.alert("Please, try again.", "The passwords did not match.");
-			}
+			setNewPasswordError(false);
+			setNewPasswordSuccess(true);
 		} else {
 			Window.alert(
 				`Password not valid.`,
-				"Password not valid, use minimum 8 chars with numbers, lowercase and uppercase letters.",
+				"Password not valid, use 8 chars with numbers, lowercase and uppercase letters.",
 			);
 			setNewPasswordError(true);
 			setNewPasswordSuccess(false);
+		}
+		if (validateConfirmPassword(newPassword, newConfirmPassword)) {
+			setConfirmPasswordError(false);
+			setConfirmPasswordSuccess(true);
+		} else {
+			setConfirmPasswordError(true);
+			setConfirmPasswordSuccess(false);
+			Window.alert(
+				"Please, try again.",
+				"The new password did not match with confirm password or it is not valid.",
+			);
+		}
+		if (
+			validatePassword(oldPassword) &&
+			validatePassword(newPassword) &&
+			validateConfirmPassword(newPassword, newConfirmPassword)
+		) {
+			const { data, error } = await supabase.rpc(
+				"check_user_password_function",
+				{
+					input_username: username,
+					input_password: oldPassword,
+				},
+			);
+			if (validateObject(error)) {
+				console.error(error);
+			} else if (validateBoolean(data) && data === true) {
+				console.log(data);
+				if (oldPassword !== newPassword) {
+					Window.alert(
+						"Are your sure?",
+						"Are you sure you want to set your password ?",
+						[
+							{
+								text: "Yes",
+								onPress: () => {
+									if (updateUserPassword(username, newPassword)) {
+										setNewPasswordError(false);
+										setNewPasswordSuccess(true);
+										Window.alert(
+											"Password updated",
+											"Password updated with success.",
+										);
+									}
+								},
+							},
+							{
+								text: "No",
+								onPress: () => {
+									Window.alert(
+										"Password not updated",
+										"Your password is still the same.",
+									);
+								},
+							},
+						],
+					);
+					fieldsReset();
+				} else {
+					setNewPasswordError(true);
+					setNewPasswordSuccess(false);
+					setConfirmPasswordError(true);
+					setConfirmPasswordSuccess(false);
+					Window.alert(
+						"Old Password and new password are equals",
+						"Please, choose another new password.",
+					);
+				}
+			} else {
+				setOldPasswordError(true);
+				setOldPasswordSuccess(false);
+				Window.alert(
+					"Old Password does not match.",
+					"Please, retry with the old password.",
+				);
+			}
 		}
 	};
 
@@ -77,7 +149,7 @@ const SetPasswordModal = ({
 				style={{
 					flex: 1,
 					backgroundColor: COLORS.black + "90",
-					...style.centeredContainer
+					...style.centeredContainer,
 				}}
 			>
 				<View
@@ -91,7 +163,7 @@ const SetPasswordModal = ({
 				>
 					<Text
 						style={{
-							fontSize: 24,
+							fontSize: 25,
 							color: COLORS.black,
 							marginBottom: 30,
 						}}
@@ -99,7 +171,19 @@ const SetPasswordModal = ({
 						Set your password
 					</Text>
 					<FormInput
-						labelText="New Password"
+						labelText="Old password"
+						placeholderText="Enter your old password (8 chars)"
+						value={oldPassword}
+						inputError={oldPasswordError}
+						inputSuccess={oldPasswordSuccess}
+						autoComplete={"off"}
+						autoCorrect={false}
+						maxLength={passwordMaxLength}
+						secureTextEntry={true}
+						onChangeText={(password) => setOldPassword(password)}
+					/>
+					<FormInput
+						labelText="New password"
 						placeholderText="Enter your new password (8 chars)"
 						value={newPassword}
 						inputError={newPasswordError}
@@ -111,7 +195,7 @@ const SetPasswordModal = ({
 						onChangeText={(password) => setNewPassword(password)}
 					/>
 					<FormInput
-						labelText="Confirm new Password"
+						labelText="Confirm new password"
 						placeholderText="Confirm your new Password"
 						value={newConfirmPassword}
 						inputError={confirmpasswordError}

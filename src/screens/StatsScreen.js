@@ -3,8 +3,9 @@ import {
 	View,
 	Text,
 	SafeAreaView,
+	ScrollView,
 	ActivityIndicator,
-	StyleSheet, 
+	StyleSheet,
 } from "react-native";
 import moment from "moment";
 import { supabase } from "../app/lib/supabase-client";
@@ -15,6 +16,7 @@ import {
 	StatsLineChart,
 	StatsPieChart,
 } from "../components/screens/StatsScreen/charts/";
+import StatsFooter from "../components/screens/StatsScreen/StatsFooter";
 import {
 	validateObject,
 	validateArray,
@@ -22,7 +24,7 @@ import {
 } from "../utils/validators";
 import { COLORS } from "../constants/theme";
 
-const StatsScreen = ({ navigation, route }) => {
+const StatsScreen = ({ route }) => {
 	const user = route.params.user;
 	const userId = user.user_id;
 
@@ -74,7 +76,6 @@ const StatsScreen = ({ navigation, route }) => {
 						label: formattedDate,
 						value: item.totalquizzes,
 						text: formattedDate,
-						fontWeight: "bold"
 					});
 				});
 				setUserLastSevenDaysQuizzes(tempUserLastSevenDaysQuizzes);
@@ -102,6 +103,15 @@ const StatsScreen = ({ navigation, route }) => {
 		getUserPrefCategory(userId);
 	}, []);
 
+	const goodMathRound = number => {
+		number = parseFloat(number);
+		const integerNumber = Math.round(number);
+		if(number - integerNumber == 0) {
+			return integerNumber;
+		} 
+		return number;
+	};
+
 	const toMatrix = (objectsArray) => {
 		const matrix = [];
 		const arrayLength = objectsArray.length;
@@ -109,10 +119,10 @@ const StatsScreen = ({ navigation, route }) => {
 			const row = [
 				objectsArray[i].username,
 				objectsArray[i].averagescore,
-				objectsArray[i].betterscore,
-				objectsArray[i].quizzescompletitionpercentage,
-				objectsArray[i].totalquizzes,
 				objectsArray[i].totalscore,
+				objectsArray[i].betterscore,
+				objectsArray[i].totalquizzes,
+				objectsArray[i].quizzescompletitionpercentage,
 			];
 			for (i = 0; i < 5; i++) matrix.push(row); //
 		}
@@ -122,40 +132,41 @@ const StatsScreen = ({ navigation, route }) => {
 	return (
 		<SafeAreaView>
 			<View>
-				{validateArray(bestFiveUsersMatrix, 0) ? (
-					<StatsTable matrix={bestFiveUsersMatrix} />
-				) : null}
-				<ActivityIndicator
-					size="large"
-					color={COLORS.black}
-					animating={refreshing}
-				/>
-				<ChartsPicker chartsToSelect={CHARTTYPES} setSelectedChart={setSelectedChart} />
-				{validateArray(userLastSevenDaysQuizzes, 7) ? (
-					<View>
-						{selectedChart === "BarChart" ? (
-							<StatsBarChart data={userLastSevenDaysQuizzes} />
-						) : selectedChart === "LineChart" ? (
-							<StatsLineChart data={userLastSevenDaysQuizzes} />
-						) : (
-							<StatsPieChart data={userLastSevenDaysQuizzes} />
-						)}
-					</View>
-				) : null}
-				{validateString(userSub) ? (
-					<View style={style.footer}>
-						<Text style={{ ...style.text, ...style.footerText }}>
-							You are our User since {userSub}, that's {userSubDays}{" "}
-							days!
-						</Text>
-						<Text style={{ ...style.text, ...style.footerText }}>
-							Prefered category:{" "}
-							{validateString(userPrefCategory)
-								? userPrefCategory
-								: "None"}
-						</Text>
-					</View>
-				) : null}
+				<ScrollView>
+					{validateArray(bestFiveUsersMatrix, 0) ? (
+						<StatsTable matrix={bestFiveUsersMatrix} />
+					) : null}
+					<ActivityIndicator
+						size="large"
+						color={COLORS.black}
+						animating={refreshing}
+					/>
+					<ChartsPicker
+						chartsToSelect={CHARTTYPES}
+						setSelectedChart={setSelectedChart}
+					/>
+					{validateArray(userLastSevenDaysQuizzes, 7) ? (
+						<View>
+							{selectedChart === "BarChart" ? (
+								<StatsBarChart data={userLastSevenDaysQuizzes} />
+							) : selectedChart === "LineChart" ? (
+								<StatsLineChart data={userLastSevenDaysQuizzes} />
+							) : selectedChart === "PieChart" ? (
+								<StatsPieChart data={userLastSevenDaysQuizzes} />
+							) : (
+								<StatsBarChart data={userLastSevenDaysQuizzes} />
+							)}
+						</View>
+					) : null}
+					{validateString(userSub) ? (
+						<StatsFooter
+							userSub={userSub}
+							userSubDays={userSubDays}
+							userPrefCategory={userPrefCategory}
+							addingTextStyle={style.text}
+						/>
+					) : null}
+				</ScrollView>
 			</View>
 		</SafeAreaView>
 	);
@@ -163,8 +174,6 @@ const StatsScreen = ({ navigation, route }) => {
 
 const style = StyleSheet.create({
 	text: { margin: 3.5, textAlign: "center", fontWeight: "bold" },
-	footer: { marginVertical: 10 },
-	footerText: { fontSize: 16 },
 });
 
 export default StatsScreen;

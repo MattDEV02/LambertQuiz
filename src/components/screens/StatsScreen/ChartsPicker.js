@@ -2,22 +2,33 @@ import React from "react";
 import { View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { COLORS } from "../../../constants/theme";
-import MaterialIcons from "react-native-vector-icons/FontAwesome";
 
 // TODO: charts num
 
 const ChartsPicker = ({ chartsToSelect, setSelectedChart }) => {
 
-	const getRandomChart = () => {
-		const chartTypesArray = Object.keys(chartsToSelect);
-		const chartTypesArrayLength = chartTypesArray.length;
-		return chartTypesArray[Math.floor(Math.random() * (chartTypesArrayLength))]
-	};
+	const items = [ // TODO: with a loop...
+	{
+		label: chartsToSelect.barChart.replace("C", " C"),
+		value: chartsToSelect.barChart,
+		color: COLORS.primary,
+	},
+	{
+		label: chartsToSelect.lineChart.replace("C", " C"),
+		value: chartsToSelect.lineChart,
+		color: COLORS.primary,
+	},
+	{
+		label: chartsToSelect.pieChart.replace("C", " C"),
+		value: chartsToSelect.pieChart,
+		color: COLORS.primary,
+	},
+]
 
 	return (
 		<View
 			style={{
-				marginBottom: 10.5,
+				marginBottom: 11.5,
 				fontSize: 16,
 				paddingLeft: 15,
 				paddingVertical: 4.5,
@@ -27,38 +38,26 @@ const ChartsPicker = ({ chartsToSelect, setSelectedChart }) => {
 				borderRadius: 9,
 				paddingRight: 28,
 			}}
+			testID="android_touchable_wrapper"
+			activeOpacity={1}
 		>
 			<RNPickerSelect
 				onValueChange={(value) => setSelectedChart(value)}
 				useNativeAndroidPickerStyle={true}
+				fixAndroidTouchableBug={true}
 				pickerProps={{
-					accessibilityLabel: "Bar Chart",
+					accessibilityLabel: items[0].label,
 				}}
 				placeholder={{
 					label: "Select a Chart type...",
-					value: getRandomChart(),
+					value: null,
 					color: COLORS.grey,
 				}}
-				items={[ // TODO: with a loop...
-					{
-						label: chartsToSelect.barChart.replace("C", " C"),
-						value: chartsToSelect.barChart,
-						color: COLORS.primary,
-					},
-					{
-						label: chartsToSelect.lineChart.replace("C", " C"),
-						value: chartsToSelect.lineChart,
-						color: COLORS.primary,
-					},
-					{
-						label: chartsToSelect.pieChart.replace("C", " C"),
-						value: chartsToSelect.pieChart,
-						color: COLORS.primary,
-					},
-				]}
+				items={items}
 			/>
 		</View>
 	);
 };
+
 
 export default ChartsPicker;

@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-	View,
-	Text,
-	Modal,
-	Alert as Window,
-	StyleSheet
-} from "react-native";
+import { View, Text, Modal, Alert as Window, StyleSheet } from "react-native";
 import { supabase } from "../../../../app/lib/supabase-client";
 import FormInput from "../../../shared/FormInput";
 import FormButton from "../../../shared/FormButton";
 import { COLORS } from "../../../../constants/theme";
 import { usernameMaxLength } from "../../../../constants/fieldsConstants";
 import { updateUserUsername } from "../../../../utils/database";
-import {
-	validateUsername,
-	validateArray,
-	validateObject,
-} from "../../../../utils/validators";
+import { validateUsername, validateObject } from "../../../../utils/validators";
 
 const SetUsernameModal = ({
 	isModalVisible = false,
@@ -27,6 +17,7 @@ const SetUsernameModal = ({
 	const [newUsername, setNewUsername] = useState(oldUsername);
 	const [usernameError, setUsernameError] = useState(false);
 	const [usernameSuccess, setUsernameSuccess] = useState(false);
+	const [usernameUpdated, setUsernameUpdated] = useState(false);
 	const [usersUsername, setUsersUsername] = useState([]);
 
 	useEffect(() => {
@@ -37,14 +28,21 @@ const SetUsernameModal = ({
 			if (validateObject(error)) {
 				console.error(error);
 			} else if (validateObject(data)) {
-				let tempUsersUsername = data.map(value => value.username);
-				setUsersUsername(
-					tempUsersUsername.splice(tempUsersUsername.indexOf(oldUsername), 1),
+				let tempUsersUsername = data.map((value) => value.username);
+				tempUsersUsername = tempUsersUsername.filter(
+					(username) => username !== oldUsername,
 				);
+				setUsersUsername(tempUsersUsername);
 			}
 		};
 		getUsersUsernames();
-	}, []);
+	}, [usernameUpdated]);
+
+	const fieldsReset = () => {
+		setIsModalVisible(false);
+		setUsernameError(false);
+		setUsernameSuccess(false);
+	};
 
 	const handleOnPress = () => {
 		if (validateUsername(newUsername)) {
@@ -61,12 +59,12 @@ const SetUsernameModal = ({
 										setUsername(newUsername);
 										setUsernameError(false);
 										setUsernameSuccess(true);
+										setUsernameUpdated(true);
 										Window.alert(
 											"Username updated",
 											`Now your username is ${newUsername}.`,
 										);
 									}
-									setIsModalVisible(false);
 								},
 							},
 							{
@@ -76,22 +74,27 @@ const SetUsernameModal = ({
 										"Username not updated",
 										`Your username is still ${oldUsername}.`,
 									);
-									setIsModalVisible(false);
+									setNewUsername(oldUsername);
 								},
 							},
 						],
 					);
+					fieldsReset();
 				} else {
 					Window.alert(
 						"Old and new username are equals",
 						"Please, choose a new usermame.",
 					);
+					setUsernameError(true);
+					setUsernameSuccess(false);
 				}
 			} else {
 				Window.alert(
 					"Username already used",
 					"Please, choose a new usermame.",
 				);
+				setUsernameError(true);
+				setUsernameSuccess(false);
 			}
 		} else {
 			Window.alert(
@@ -128,7 +131,7 @@ const SetUsernameModal = ({
 				>
 					<Text
 						style={{
-							fontSize: 24,
+							fontSize: 25,
 							color: COLORS.black,
 							marginBottom: 30,
 						}}

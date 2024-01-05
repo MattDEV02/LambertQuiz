@@ -19,7 +19,7 @@ import { COLORS } from "../constants/theme";
 
 const AccountScreen = ({ navigation, route }) => {
 	const user = route.params.user;
-	const [username, setUsername] = useState("");
+	const [username, setUsername] = useState(user.username);
 	const [isSetUsernameModalVisible, setIsSetUsernameModalVisible] =
 		useState(false);
 	const [isSetPasswordModalVisible, setIsSetPasswordModalVisible] =
@@ -30,7 +30,7 @@ const AccountScreen = ({ navigation, route }) => {
 	const handleOnDeleteUserPress = () => {
 		Window.alert(
 			"Are your sure?",
-			`Are you sure you want to deleted your account with this email: ${user.email} ?`,
+			`Are you sure you want to deleted your account with this email: ${user.email} and this username: ${username} ?`,
 			[
 				{
 					text: "Yes",
@@ -88,7 +88,7 @@ const AccountScreen = ({ navigation, route }) => {
 							fontSize: 29,
 						}}
 					>
-						{validateString(user.username) ? user.username : null}
+						{validateString(username) ? username : null}
 					</Text>
 					<Text
 						style={{
@@ -117,7 +117,7 @@ const AccountScreen = ({ navigation, route }) => {
 					<SetUsernameModal
 						isModalVisible={isSetUsernameModalVisible}
 						setIsModalVisible={setIsSetUsernameModalVisible}
-						oldUsername={user.username}
+						oldUsername={username}
 						setUsername={setUsername}
 					/>
 					<SetPasswordModal

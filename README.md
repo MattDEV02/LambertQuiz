@@ -4,9 +4,13 @@
 
   
 
+  
+
 <p align="center">
 <img  title="LambertQuiz Logo"  alt="LambertQuiz Logo"  width="19.5%"  src="./assets/images/logo.png">
 </p>
+
+  
 
   
 
@@ -14,7 +18,11 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 
   
 
+  
+
 ## Key Features
+
+  
 
   
 
@@ -22,15 +30,21 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 
 -  **Game Modes:** Timed gameplay with final scoring.
 
-- **Security:** The user's sensitive data, such as their password, are encrypted and stored in a very robust database.
+-  **Security:** The user's sensitive data, such as their password, are encrypted and stored in a very robust database.  
 
 -  **Results Display:** Shows the final score and correct / incorrect answers.
 
 -  **Dynamic sounds:** Quizzes with beatiful sounds!
 
+- **Language:** There is only the English language.
+
+  
+
   
 
 ## Screenshots
+
+  
 
   
 
@@ -53,10 +67,12 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 </p>
 
   
-  
+
   
 
 ## Installation and usage
+
+  
 
   
 
@@ -64,11 +80,19 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 
   
 
+  
+
 - Node.js
+
+  
 
 - React Native CLI
 
+  
+
 - NPM or Yarn
+
+  
 
   
 
@@ -76,15 +100,25 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 
   
 
+  
+
 1. Clone the repository:
+
+  
 
   
 
 ```bash
 
-git clone https://github.com/MattDEV02/LambertQuiz.git
+  
+
+git  clone  https://github.com/MattDEV02/LambertQuiz.git
+
+  
 
 ```
+
+  
 
   
 
@@ -92,11 +126,19 @@ git clone https://github.com/MattDEV02/LambertQuiz.git
 
   
 
+  
+
 ```bash
 
-cd LambertQuiz
+  
+
+cd  LambertQuiz
+
+  
 
 ```
+
+  
 
   
 
@@ -104,15 +146,27 @@ cd LambertQuiz
 
   
 
+  
+
 ```bash
 
-npm install
+  
+
+npm  install
+
+  
 
 # or using yarn
 
+  
+
 # yarn install
 
+  
+
 ```
+
+  
 
   
 
@@ -120,27 +174,49 @@ npm install
 
   
 
+  
+
 ```bash
 
-npm start
+  
+
+npm  start
+
+  
 
 # or using yarn
 
+  
+
 # yarn start
 
+  
+
 ```
+
+  
 
 **P.S. = You can do both third and fourth step with "my comand script":**
 
   
 
+  
+
 ```bash
+
+  
 
 npm  run  all
 
+  
+
 ```
 
+  
+
 ## Authors
+
+  
 
   
 
@@ -148,7 +224,11 @@ npm  run  all
 
   
 
+  
+
 I am the only Author of this beatiful app.
+
+  
 
   
 
@@ -156,35 +236,97 @@ I am the only Author of this beatiful app.
 
   
 
+  
+
 -  **Javascript ES6**
+
+  
 
 -  **React native 0.72.6**
 
+  
+
 -  **NodeJS 20.4.0**
+
+  
 
 -  **NPM 9.7.2**
 
+  
+
 -  **PostgreSQL 16.0**
+
+  
 
 -  **Visual Studio Code 1.85**
 
+  
+
 -  **Supabase 1.0**
+
+  
 
 -  **Altervista hosting**
 
+  
+
 -  **Bootstrap 5**
+
+  
 
 -  **HTML 5**
 
+  
+
 -  **CSS 4.15**
+
+  
 
 -  **Windows 11**
 
- ## Project structure 
+  
+
+## Project structure
+
+-  **`src/`**: The main folder for the application source code.
+
+- **`src/components/`**: Contains all reusable components of the application.
+
+- **`src/screens/`**: Primary screens of the application, each associated with specific functionalities.
+
+- **`src/navigators/`**: Configuration and management of application navigation, using React Navigation or a similar library.
+
+- **`src/utils/`**: Utility functions, or helpers used across multiple parts of the code.
+
+- **`src/constants/`**: Utility constants, or helpers used across multiple parts of the code.
+
+- **`src/App.js`**: The main component of this project, it gets rendered in the index.js file (see below).
+
+-  **`assets/`**: Images, fonts, or other multimedia assets used in the application.
+
+-  **`tests/`** Contains tests for various components, functionalities, or application logic.
+
+-  **`index.js`**: The main entry of this project.
+
+-  **`lambertquiz.sql`**: A SQL (PostGreSQL) script file that allows to create the database that I used for this App.
+
+-  **`package.json`**: JSON metadata file that to define various properties and configurations related to the project, including its dependencies, scripts, version information, and other metadata.
+
+-  **`README.md`**: Markdown documentation of this project.
+
+-  **`android/`**: Contains Android-specific files, including configuration files, manifest, etc.
+
+-  **`ios/`**: Contains iOS-specific files, including configuration files, assets, etc.
+
+  
 
 ## ER Model
 
+  
+
 <img  title="LambertQuiz ER model"  alt="LambertQuiz ER model"  src="https://matteolambertucci.altervista.org/lambertquiz/planning/ER_model.jpeg"  width="100%">
+
+  
 
   
 
@@ -192,11 +334,17 @@ I am the only Author of this beatiful app.
 
   
 
+  
+
 <img  title="LambertQuiz ER model"  alt="LambertQuiz ER model"  src="https://matteolambertucci.altervista.org/lambertquiz/planning/relational_model.jpeg"  width="100%">
 
   
 
+  
+
 ## License
+
+  
 
   
 
