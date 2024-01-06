@@ -39,15 +39,17 @@ const SetUsernameModal = ({
 	}, [usernameUpdated]);
 
 	const fieldsReset = () => {
-		setIsModalVisible(false);
 		setUsernameError(false);
 		setUsernameSuccess(false);
+		setIsModalVisible(false);
 	};
 
 	const handleOnPress = () => {
 		if (validateUsername(newUsername)) {
 			if (!usersUsername.includes(newUsername)) {
 				if (oldUsername !== newUsername) {
+					setUsernameError(false);
+					setUsernameSuccess(true);
 					Window.alert(
 						"Are your sure?",
 						`Are you sure you want to set your username in ${newUsername} ?`,
@@ -57,8 +59,6 @@ const SetUsernameModal = ({
 								onPress: () => {
 									if (updateUserUsername(oldUsername, newUsername)) {
 										setUsername(newUsername);
-										setUsernameError(false);
-										setUsernameSuccess(true);
 										setUsernameUpdated(true);
 										Window.alert(
 											"Username updated",

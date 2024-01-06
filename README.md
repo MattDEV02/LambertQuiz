@@ -78,24 +78,13 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 
 ### Requirements
 
-  
-
-  
-
 - Node.js
-
-  
 
 - React Native CLI
 
-  
-
 - NPM or Yarn
-
   
-
   
-
 ### Installation Instructions
 
   
@@ -109,13 +98,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
   
 
 ```bash
-
-  
-
 git  clone  https://github.com/MattDEV02/LambertQuiz.git
-
-  
-
 ```
 
   
@@ -129,13 +112,7 @@ git  clone  https://github.com/MattDEV02/LambertQuiz.git
   
 
 ```bash
-
-  
-
 cd  LambertQuiz
-
-  
-
 ```
 
   
@@ -149,21 +126,11 @@ cd  LambertQuiz
   
 
 ```bash
-
-  
-
 npm  install
-
-  
 
 # or using yarn
 
-  
-
 # yarn install
-
-  
-
 ```
 
   
@@ -177,21 +144,11 @@ npm  install
   
 
 ```bash
-
-  
-
 npm  start
-
-  
 
 # or using yarn
 
-  
-
 # yarn start
-
-  
-
 ```
 
   
@@ -203,28 +160,16 @@ npm  start
   
 
 ```bash
-
-  
-
 npm  run  all
-
-  
-
 ```
 
-  
 
 ## Authors
 
-  
-
-  
-
+- **Matteo Lambertucci** - [Linkedin Profile](https://www.linkedin.com/in/matteo-lambertucci-134073211)
 -  **MattDEV02** - [GitHub Profile](https://github.com/MattDEV02)
-
-  
-
-  
+ 
+ <br> 
 
 I am the only Author of this beatiful app.
 
@@ -290,17 +235,17 @@ I am the only Author of this beatiful app.
 
 -  **`src/`**: The main folder for the application source code.
 
-- **`src/components/`**: Contains all reusable components of the application.
+	- **`src/components/`**: Contains all reusable components of the application.
 
-- **`src/screens/`**: Primary screens of the application, each associated with specific functionalities.
+	- **`src/screens/`**: Primary screens of the application, each associated with specific functionalities.
 
-- **`src/navigators/`**: Configuration and management of application navigation, using React Navigation or a similar library.
+	- **`src/navigators/`**: Configuration and management of application navigation, using React Navigation or a similar library.
 
-- **`src/utils/`**: Utility functions, or helpers used across multiple parts of the code.
+	- **`src/utils/`**: Utility functions, or helpers used across multiple parts of the code.
 
-- **`src/constants/`**: Utility constants, or helpers used across multiple parts of the code.
+	- **`src/constants/`**: Utility constants, or helpers used across multiple parts of the code.
 
-- **`src/App.js`**: The main component of this project, it gets rendered in the index.js file (see below).
+	- **`src/App.js`**: The main component of this project, it gets rendered in the index.js file (see below).
 
 -  **`assets/`**: Images, fonts, or other multimedia assets used in the application.
 

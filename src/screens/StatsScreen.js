@@ -10,6 +10,7 @@ import {
 import moment from "moment";
 import { supabase } from "../app/lib/supabase-client";
 import StatsTable from "../components/screens/StatsScreen/StatsTable";
+import StatsCalendar from "../components/screens/StatsScreen/StatsCalendar";
 import ChartsPicker from "../components/screens/StatsScreen/ChartsPicker";
 import {
 	StatsBarChart,
@@ -73,6 +74,7 @@ const StatsScreen = ({ route }) => {
 				data.map((item) => {
 					const formattedDate = moment(item.day).format("DD/MM");
 					tempUserLastSevenDaysQuizzes.push({
+						day: item.day,
 						label: formattedDate,
 						value: item.totalquizzes,
 						text: formattedDate,
@@ -141,6 +143,9 @@ const StatsScreen = ({ route }) => {
 						color={COLORS.black}
 						animating={refreshing}
 					/>
+					{validateArray(userLastSevenDaysQuizzes, 7) ? (
+						<StatsCalendar data={userLastSevenDaysQuizzes}/>
+					) : null}
 					<ChartsPicker
 						chartsToSelect={CHARTTYPES}
 						setSelectedChart={setSelectedChart}

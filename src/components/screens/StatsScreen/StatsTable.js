@@ -1,16 +1,47 @@
-import React from "react";
-import { View, Text, StyleSheet, ScrollView, LogBox } from "react-native";
+import React, { useState } from "react";
+import {
+	View,
+	Text,
+	StyleSheet,
+	ScrollView,
+	LogBox,
+	TouchableOpacity,
+} from "react-native";
 import { Table, Row, Rows } from "react-native-table-component";
+import Tooltip from "react-native-walkthrough-tooltip";
 import { COLORS } from "../../../constants/theme";
 
 const StatsTable = ({ matrix }) => {
 	LogBox.ignoreLogs([
 		"Warning: Failed prop type: Invalid prop `textStyle` of type `array` supplied to `Cell`, expected `object`.",
 	]);
+
 	const widthArr = [85, 105, 100, 107, 105, 110];
+
+	const [tooltipVisible, setTooltipVisible] = useState(false);
+
 	return (
 		<View style={{ marginTop: 25, marginBottom: -11.5 }}>
-			<ScrollView horizontal={true}>
+			<Tooltip
+				isVisible={tooltipVisible}
+				content={
+					<View>
+						<Text style={{ fontWeight: "bold", color: COLORS.primary }}>
+							Best 5 LambertQuiz Players
+						</Text>
+					</View>
+				}
+				placement={"top"}
+				useReactNativeModal={false}
+				disableShadow={true}
+				onClose={() => setTooltipVisible(false)}
+			></Tooltip>
+			<ScrollView
+				horizontal={true}
+				onMomentumScrollEnd={() => setTooltipVisible(false)}
+				onTouchStart={() => setTooltipVisible(true)}
+				onTouchEnd={() => setTooltipVisible(false)}
+			>
 				<View>
 					<Table borderStyle={style.borderStyle}>
 						<Row
@@ -32,18 +63,16 @@ const StatsTable = ({ matrix }) => {
 					</Table>
 					<ScrollView style={style.dataWrapper}>
 						{matrix.length > 0 ? (
-							<Table
-								borderStyle={style.borderStyle}
-							>
+							<Table borderStyle={style.borderStyle}>
 								<Rows
 									data={matrix}
 									style={style.row}
-									textStyle={{...style.text, fontSize: 15}}
+									textStyle={{ ...style.text, fontSize: 15 }}
 									widthArr={widthArr}
 								/>
 							</Table>
 						) : (
-							<Text style={style.text}>No rows</Text>
+							<Text style={style.text}>No rows to show</Text>
 						)}
 					</ScrollView>
 				</View>

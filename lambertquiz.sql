@@ -146,7 +146,7 @@ EXECUTE
   FUNCTION crypt_user_password ();
 
 CREATE
-OR REPLACE FUNCTION check_user_password (input_email VARCHAR, input_password TEXT) RETURNS BOOLEAN AS $$
+OR REPLACE FUNCTION check_user_password_function (input_username VARCHAR, input_password TEXT) RETURNS BOOLEAN AS $$
 DECLARE
     _check BOOLEAN;
 BEGIN
@@ -156,7 +156,7 @@ BEGIN
         FROM 
             Users
         WHERE 
-            email = input_email AND 
+            username = input_username AND 
             password = CRYPT(input_password, password)
     ) INTO _check;
     RETURN _check;
@@ -662,15 +662,15 @@ VALUES
   (
     1,
     1,
-    '2023-12-29 10:23:54',
-    '2023-12-29 10:24:32',
+    '2024-01-05 10:23:54',
+    '2024-01-05 10:24:32',
     2
   ),
     (
     1,
     1,
-    '2023-12-29 11:23:54',
-    '2023-12-29 11:24:32',
+    '2024-01-04 11:23:54',
+    '2024-01-04 11:24:32',
     2
   ),
   (
@@ -756,19 +756,27 @@ CREATE
 OR REPLACE FUNCTION get_best_five_users_stats () RETURNS TABLE (
   username VARCHAR,
   totalScore BIGINT,
-  totalQuizzes BIGINT,
-  averageScore NUMERIC,
-  betterScore BIGINT,
+  averageScore TEXT,
+  betterScore TEXT,
+  totalQuizzes TEXT,
   quizzesCompletitionPercentage TEXT
 ) AS $$
+DECLARE
+    quizzes_number INTEGER;
+    questions_number INTEGER;
 BEGIN
+  SELECT DISTINCT
+    COUNT(DISTINCT quiz_id) 
+      INTO quizzes_number 
+  FROM public.Quizzes;
+  SELECT 5 INTO questions_number;
 RETURN QUERY
   SELECT DISTINCT
   Users.username,
   SUM(Progresses.quiz_score) AS totalScore,
-  COUNT(DISTINCT Quizzes.quiz_id) AS totalQuizzes,
-  ROUND(AVG(Progresses.quiz_score), 2) AS averageScore,
-  SUM(Progresses.quiz_score) AS betterScore,
+  ROUND(AVG(Progresses.quiz_score), 2)::VARCHAR || ' / ' || questions_number AS averageScore,
+  MAX(Progresses.quiz_score)::VARCHAR || ' / ' || questions_number AS betterScore,
+  COUNT(DISTINCT Quizzes.quiz_id)::VARCHAR || ' / ' || quizzes_number AS totalQuizzes,
   (ROUND(
     CAST(
       (
@@ -886,5 +894,5 @@ $$;
 select
   *
 from
-  get_last_seven_days_quizzes (1);
+  check_user_password_function ('Matt', 'Matteo02');
 

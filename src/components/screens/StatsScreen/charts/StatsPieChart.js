@@ -46,7 +46,7 @@ const StatsPieChart = ({ data }) => {
 									fontSize: 19.5,
 									textAlign: "center",
 									fontWeight: "bold",
-									color: "#0654A7",
+									color: COLORS.secondary,
 								}}
 							>
 								Last 7 days Quizzes

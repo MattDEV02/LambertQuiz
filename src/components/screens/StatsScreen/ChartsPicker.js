@@ -28,6 +28,7 @@ const ChartsPicker = ({ chartsToSelect, setSelectedChart }) => {
 	return (
 		<View
 			style={{
+				marginTop: 23,
 				marginBottom: 11.5,
 				fontSize: 16,
 				paddingLeft: 15,

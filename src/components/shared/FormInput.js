@@ -10,6 +10,7 @@ const FormInput = ({
 	inputError = false,
 	inputSuccess = false,
 	style = null,
+	inputStyle = null,
 	...more
 }) => {
 	let textErrorStyle = null,
@@ -56,6 +57,7 @@ const FormInput = ({
 						width: "100%",
 						marginTop: 11,
 					},
+					...inputStyle,
 					...textInputErrorStyle,
 					...textInputSuccessStyle,
 				}}
