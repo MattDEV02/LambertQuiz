@@ -5,7 +5,6 @@ import {
 	StyleSheet,
 	ScrollView,
 	LogBox,
-	TouchableOpacity,
 } from "react-native";
 import { Table, Row, Rows } from "react-native-table-component";
 import Tooltip from "react-native-walkthrough-tooltip";
@@ -72,7 +71,12 @@ const StatsTable = ({ matrix }) => {
 								/>
 							</Table>
 						) : (
-							<Text style={style.text}>No rows to show</Text>
+							<View style={{ marginTop: 12.5, width: "70%"}}>
+								<Text style={{
+									...style.text,
+									fontSize: 16,
+								}}>No rows to show</Text>
+							</View>
 						)}
 					</ScrollView>
 				</View>
@@ -82,7 +86,6 @@ const StatsTable = ({ matrix }) => {
 };
 
 const style = StyleSheet.create({
-	container: { flex: 1 },
 	borderStyle: { borderWidth: 1, borderColor: COLORS.black },
 	head: { height: 35, backgroundColor: COLORS.primary, color: COLORS.white },
 	dataWrapper: { marginTop: -1 },

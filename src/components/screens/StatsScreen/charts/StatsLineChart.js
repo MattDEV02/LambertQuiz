@@ -29,14 +29,14 @@ const StatsLineChart = ({ data }) => {
 				showVerticalLines={true}
 				hideRules={false}
 				pointerConfig={{
-					pointerStripUptoDataPoint: true,
+					pointerStripUptoDataPoint: false,
 					pointerStripColor: COLORS.error,
 					pointerStripWidth: 2,
 					pointerColor: COLORS.error,
 					radius: 6,
 					pointerLabelWidth: 100,
 					pointerLabelHeight: 100,
-					autoAdjustPointerLabelPosition: false,
+					autoAdjustPointerLabelPosition: true,
 					pointerLabelComponent: (items) => (
 						<PointerLabelComponent value={items[0].value} />
 					),

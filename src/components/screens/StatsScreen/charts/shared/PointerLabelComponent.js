@@ -15,7 +15,7 @@ const PointerLabelComponent = ({ value }) => {
 				justifyContent: "center",
 			}}
 		>
-			<Text style={{ textAlign: "center", fontWeight: "bold"}}>
+			<Text style={{ textAlign: "center", fontWeight: "bold" }}>
 				{value} Quizzes
 			</Text>
 		</View>

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, SafeAreaView, FlatList, ScrollView } from "react-native";
+import {
+	View,
+	Text,
+	SafeAreaView,
+	FlatList,
+	ScrollView,
+	StyleSheet,
+} from "react-native";
 import { supabase } from "../app/lib/supabase-client";
 import Quiz from "../components/screens/HomeScreen/Quiz";
 import FormInput from "../components/shared/FormInput";
@@ -12,7 +19,6 @@ import {
 import { playClickSound } from "../utils/sounds";
 
 const HomeScreen = ({ navigation, route }) => {
-	//console.log(route.params.user);
 	const user = route.params.user;
 	const [quizzes, setQuizzes] = useState([]);
 	const [quiz, setQuiz] = useState("");
@@ -26,8 +32,9 @@ const HomeScreen = ({ navigation, route }) => {
 			if (validateObject(error)) {
 				console.error(error);
 				setRefreshing(false);
+			} else if (validateArray(data, 1)) {
+				setQuizzes(data);
 			}
-			if (validateArray(data, 1)) setQuizzes(data);
 			setRefreshing(false);
 		};
 
@@ -36,15 +43,12 @@ const HomeScreen = ({ navigation, route }) => {
 			const { data, error } = await supabase.rpc("get_searched_quizzes", {
 				quiz_category: quiz,
 			});
-			console.log(data);
 			if (validateObject(error)) {
 				console.error(error);
 				setRefreshing(false);
-			}
-			if (validateArray(data, 1)) {
+			} else if (validateArray(data, 0)) {
 				setQuizzes(data);
-			} else {
-				//setQuizzes([]);
+			} else if (!validateString(quiz)) {
 				setSearching(false);
 				getQuizzes();
 			}
@@ -52,7 +56,6 @@ const HomeScreen = ({ navigation, route }) => {
 		};
 
 		searching ? getQuizzesWithSearching() : getQuizzes();
-
 	}, [quiz]);
 
 	const handleOnPlayPress = async (quiz_id) => {
@@ -82,19 +85,11 @@ const HomeScreen = ({ navigation, route }) => {
 					{/* Welcome title */}
 					<View
 						style={{
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "center",
+							...style.container,
 							marginTop: 27.5,
 						}}
 					>
-						<Text
-							style={{
-								fontSize: 27,
-								color: COLORS.black,
-								fontWeight: "bold",
-							}}
-						>
+						<Text style={{ ...style.text, fontSize: 29 }}>
 							Welcome{" "}
 							{validateObject(user) && validateString(user.username)
 								? user.username
@@ -104,13 +99,7 @@ const HomeScreen = ({ navigation, route }) => {
 					</View>
 
 					{/* Quiz search form */}
-					<View
-						style={{
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "center",
-						}}
-					>
+					<View style={style.container}>
 						<FormInput
 							placeholderText="Search a Quiz"
 							value={quiz}
@@ -125,40 +114,59 @@ const HomeScreen = ({ navigation, route }) => {
 								setQuiz(quiz);
 								setSearching(true);
 							}}
-							style={{ width: "89.5%" }}
+							style={{ width: "89%" }}
 							inputStyle={{
-								marginTop: 7.5,
+								marginTop: 7,
 								marginBottom: 6,
 								paddingVertical: 15,
 								backgroundColor: COLORS.white,
 								borderWidth: 0.35,
 								borderColor: COLORS.secondary,
-								borderRadius: 12,
+								borderRadius: 10,
 								fontSize: 16,
 							}}
 						/>
 					</View>
 					{/* Quiz list */}
-					<FlatList
-						data={quizzes}
-						scrollEnabled={false}
-						onRefresh={() => undefined}
-						refreshing={refreshing}
-						showsVerticalScrollIndicator={false}
-						keyExtractor={(item) => item.title}
-						renderItem={({ item: quiz }) => (
-							<Quiz
-								quiz={quiz}
-								handleOnPlayPress={() =>
-									handleOnPlayPress(quiz.quiz_id)
-								}
-							/>
-						)}
-					/>
+					{validateArray(quizzes, 1) ? (
+						<FlatList
+							data={quizzes}
+							scrollEnabled={false}
+							onRefresh={() => undefined}
+							refreshing={refreshing}
+							showsVerticalScrollIndicator={false}
+							keyExtractor={(item) => item.title}
+							renderItem={({ item: quiz }) => (
+								<Quiz
+									quiz={quiz}
+									handleOnPlayPress={() =>
+										handleOnPlayPress(quiz.quiz_id)
+									}
+								/>
+							)}
+						/>
+					) : (
+						<View style={{ ...style.container, marginTop: 13 }}>
+							<Text style={{...style.text, color: "#E60909"}}>No quizzes</Text>
+						</View>
+					)}
 				</View>
 			</ScrollView>
 		</SafeAreaView>
 	);
 };
+
+const style = StyleSheet.create({
+	container: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	text: {
+		fontSize: 25.5,
+		color: COLORS.black,
+		fontWeight: "bold",
+	},
+});
 
 export default HomeScreen;

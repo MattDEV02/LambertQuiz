@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 import { COLORS, SIZES } from "../../../../constants/theme";
 import PointerLabelComponent from "./shared/PointerLabelComponent";

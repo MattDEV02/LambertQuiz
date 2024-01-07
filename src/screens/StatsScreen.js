@@ -39,6 +39,7 @@ const StatsScreen = ({ route }) => {
 	const userSubDays = moment().diff(user.confirmed_at, "days") + 1;
 
 	const [bestFiveUsersMatrix, setBestFiveUsersMatrix] = useState([]); // array of arrays
+	const [quizzesDays, setQuizzesDays] = useState([]); // array of objects
 	const [userLastSevenDaysQuizzes, setUserLastSevenDaysQuizzes] = useState([]); // array of objects
 	const [userPrefCategory, setUserPrefCategory] = useState("");
 	const [refreshing, setRefreshing] = useState(false);
@@ -59,12 +60,27 @@ const StatsScreen = ({ route }) => {
 			setRefreshing(false);
 		};
 
+		const getQuizzesDays = async (_user_id) => {
+			setRefreshing(true);
+			const { data, error } = await supabase.rpc(
+				"get_quizzes_days", {
+					_user_id
+				}
+			);
+			if (validateObject(error)) {
+				console.error(error);
+			} else if (validateArray(data, 0)) {
+				setQuizzesDays(data);
+			}
+			setRefreshing(false);
+		};
+
 		const getUserLastSevenDaysQuizzes = async (_user_id) => {
 			setRefreshing(true);
 			const { data, error } = await supabase.rpc(
 				"get_last_seven_days_quizzes",
 				{
-					_user_id: _user_id,
+					_user_id,
 				},
 			);
 			if (validateObject(error)) {
@@ -72,12 +88,10 @@ const StatsScreen = ({ route }) => {
 			} else if (validateArray(data, 7)) {
 				let tempUserLastSevenDaysQuizzes = [];
 				data.map((item) => {
-					const formattedDate = moment(item.day).format("DD/MM");
 					tempUserLastSevenDaysQuizzes.push({
-						day: item.day,
-						label: formattedDate,
+						label: item.day,
 						value: item.totalquizzes,
-						text: formattedDate,
+						text: item.day,
 					});
 				});
 				setUserLastSevenDaysQuizzes(tempUserLastSevenDaysQuizzes);
@@ -101,18 +115,10 @@ const StatsScreen = ({ route }) => {
 		};
 
 		getBestFiveUsersStats();
+		getQuizzesDays(userId);
 		getUserLastSevenDaysQuizzes(userId);
 		getUserPrefCategory(userId);
 	}, []);
-
-	const goodMathRound = number => {
-		number = parseFloat(number);
-		const integerNumber = Math.round(number);
-		if(number - integerNumber == 0) {
-			return integerNumber;
-		} 
-		return number;
-	};
 
 	const toMatrix = (objectsArray) => {
 		const matrix = [];
@@ -143,8 +149,8 @@ const StatsScreen = ({ route }) => {
 						color={COLORS.black}
 						animating={refreshing}
 					/>
-					{validateArray(userLastSevenDaysQuizzes, 7) ? (
-						<StatsCalendar data={userLastSevenDaysQuizzes}/>
+					{validateArray(quizzesDays, 1)  ? (
+						<StatsCalendar data={quizzesDays} userSubDate={moment(user.confirmed_at).format("YYYY-MM-DD")}/>
 					) : null}
 					<ChartsPicker
 						chartsToSelect={CHARTTYPES}
