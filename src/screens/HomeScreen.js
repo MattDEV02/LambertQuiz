@@ -101,7 +101,7 @@ const HomeScreen = ({ navigation, route }) => {
 					{/* Quiz search form */}
 					<View style={style.container}>
 						<FormInput
-							placeholderText="Search a Quiz"
+							placeholderText="Search for a Quiz"
 							value={quiz}
 							maxLength={15}
 							autoComplete={"name"}
@@ -122,7 +122,7 @@ const HomeScreen = ({ navigation, route }) => {
 								backgroundColor: COLORS.white,
 								borderWidth: 0.35,
 								borderColor: COLORS.secondary,
-								borderRadius: 10,
+								borderRadius: 11,
 								fontSize: 16,
 							}}
 						/>
@@ -145,11 +145,11 @@ const HomeScreen = ({ navigation, route }) => {
 								/>
 							)}
 						/>
-					) : (
+					) : searching ? (
 						<View style={{ ...style.container, marginTop: 13 }}>
-							<Text style={{...style.text, color: "#E60909"}}>No quizzes</Text>
+							<Text style={{...style.text, color: "#EF0909"}}>No quizzes</Text>
 						</View>
-					)}
+					) : null}
 				</View>
 			</ScrollView>
 		</SafeAreaView>
@@ -163,7 +163,7 @@ const style = StyleSheet.create({
 		justifyContent: "center",
 	},
 	text: {
-		fontSize: 25.5,
+		fontSize: 26.5,
 		color: COLORS.black,
 		fontWeight: "bold",
 	},

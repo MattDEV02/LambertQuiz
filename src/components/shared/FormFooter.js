@@ -1,8 +1,9 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { COLORS, footerFontSize } from "../../constants/theme";
+import { COLORS } from "../../constants/theme";
 
 const FormFooter = ({ isLogin = true, handleOnPress }) => {
+	const footerFontSize = 15.5;
 	return (
 		<View
 			style={{

@@ -133,7 +133,8 @@ const SignInScreen = ({ navigation }) => {
 			<FormButton
 				labelText="Submit"
 				handleOnPress={() => handleOnPress()}
-				style={{ width: "100%", marginTop: 4 }}
+				style={{ width: "100%", marginTop: 4, borderRadius: 13 }}
+				textStyle={{color: COLORS.white, fontSize: 21}}
 			/>
 			<FormFooter
 				handleOnPress={() => navigation.navigate("Sign Up page")}

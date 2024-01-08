@@ -16,7 +16,7 @@ export const COLORS = {
 	background: "#EFECEC",
 	border: "#F5F5F7",
 
-	grey: "#A09F9F"
+	grey: "#A09F9F",
 };
 
 const { width, height } = Dimensions.get("window");
@@ -33,4 +33,18 @@ export const headerShown = true;
 
 export const questionsNumber = 5;
 
+export const CHARTTYPES = {
+	barChart: "BarChart",
+	lineChart: "LineChart",
+	pieChart: "PieChart",
+};
 
+export const pointerConfig = {
+	pointerStripUptoDataPoint: true,
+	pointerStripColor: COLORS.error,
+	pointerStripWidth: 2,
+	pointerColor: COLORS.error,
+	radius: 6,
+	pointerLabelWidth: 100,
+	pointerLabelHeight: 100,
+};

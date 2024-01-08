@@ -1,8 +1,9 @@
 import React from "react";
 import { View } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
-import { COLORS, SIZES } from "../../../../constants/theme";
 import PointerLabelComponent from "./shared/PointerLabelComponent";
+import { COLORS, SIZES } from "../../../../constants/theme";
+import { pointerConfig } from "../../../../constants/theme";
 
 const StatsBarChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
@@ -29,15 +30,9 @@ const StatsBarChart = ({ data }) => {
 				yAxisThickness={1.5}
 				xAxisThickness={1.5}
 				pointerConfig={{
-					pointerStripUptoDataPoint: true,
-					stripBehindBar: true,
-					pointerStripColor: COLORS.error,
-					pointerStripWidth: 2,
-					pointerColor: COLORS.error,
-					radius: 6,
-					pointerLabelWidth: 100,
-					pointerLabelHeight: 100,
-					autoAdjustPointerLabelPosition: false,
+
+					...pointerConfig,
+					stripBehindBars: false,
 					pointerLabelComponent: (items) => (
 						<PointerLabelComponent value={items[0].value} />
 					),

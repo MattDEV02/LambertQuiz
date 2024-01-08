@@ -1,26 +1,26 @@
 import React from "react";
 import { View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
-import { COLORS } from "../../../constants/theme";
+import { COLORS, CHARTTYPES } from "../../../constants/theme";
 
 // TODO: charts num
 
-const ChartsPicker = ({ chartsToSelect, setSelectedChart }) => {
+const ChartsPicker = ({ setSelectedChart }) => {
 
 	const items = [ // TODO: with a loop...
 	{
-		label: chartsToSelect.barChart.replace("C", " C"),
-		value: chartsToSelect.barChart,
+		label: CHARTTYPES.barChart.replace("C", " C"),
+		value: CHARTTYPES.barChart,
 		color: COLORS.primary,
 	},
 	{
-		label: chartsToSelect.lineChart.replace("C", " C"),
-		value: chartsToSelect.lineChart,
+		label: CHARTTYPES.lineChart.replace("C", " C"),
+		value: CHARTTYPES.lineChart,
 		color: COLORS.primary,
 	},
 	{
-		label: chartsToSelect.pieChart.replace("C", " C"),
-		value: chartsToSelect.pieChart,
+		label: CHARTTYPES.pieChart.replace("C", " C"),
+		value: CHARTTYPES.pieChart,
 		color: COLORS.primary,
 	},
 ]

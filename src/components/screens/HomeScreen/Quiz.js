@@ -9,7 +9,7 @@ const Quiz = ({ quiz, handleOnPlayPress }) => {
 			style={{
 				padding: 20.5,
 				borderRadius: 17.5,
-				marginVertical: 5.2,
+				marginVertical: 5.7,
 				marginHorizontal: 10,
 				flexDirection: "row",
 				alignItems: "center",
@@ -42,6 +42,9 @@ const Quiz = ({ quiz, handleOnPlayPress }) => {
 					backgroundColor: COLORS.primary,
 					borderWidth: 1,
 					borderColor: COLORS.black,
+				}}
+				textStyle={{
+					color: COLORS.white,
 				}}
 			/>
 		</View>

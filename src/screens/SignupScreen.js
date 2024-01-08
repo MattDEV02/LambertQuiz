@@ -245,7 +245,8 @@ const SignUpScreen = ({ navigation }) => {
 				<FormButton
 					labelText="Submit"
 					handleOnPress={() => handleOnPress()}
-					style={{ width: "100%", marginTop: 4 }}
+					style={{ width: "100%", marginTop: 4, borderRadius: 13 }}
+					textStyle={{ color: COLORS.white, fontSize: 20 }}
 				/>
 				<FormFooter
 					isLogin={false}

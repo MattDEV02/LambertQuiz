@@ -1,32 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-	View,
-	Text,
-	SafeAreaView,
-	FlatList,
-	Image,
-	TouchableOpacity,
-} from "react-native";
-import { supabase } from "../app/lib/supabase-client";
+import { View, Text, SafeAreaView, FlatList, StyleSheet } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Question from "../components/screens/PlayQuizScreen/Question";
 import FormButton from "../components/shared/FormButton";
 import ResultModal from "../components/screens/PlayQuizScreen/ResultModal";
-import NoImage from "../components/screens/PlayQuizScreen/NoImage";
+import { supabase } from "../app/lib/supabase-client";
 import {
 	validateObject,
-	validateURL,
 	validateArray,
 	validateString,
 } from "../utils/validators";
 import { storeProgress } from "../utils/database";
-import {
-	playCorrectAnswerSound,
-	playIncorrectAnswerSound,
-	playOpenSound,
-} from "../utils/sounds";
+import { playOpenSound } from "../utils/sounds";
 import { COLORS, appName, questionsNumber } from "../constants/theme";
-
-// TODO: QUESTION COMPONENT.
 
 let startDate = null,
 	endDate = null,
@@ -45,7 +31,6 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	const [correctCount, setCorrectCount] = useState(0);
 	const [incorrectCount, setIncorrectCount] = useState(0);
 	const [questions, setQuestions] = useState([]);
-	const [imagesError, setImagesError] = useState([]);
 
 	const flatListRef = useRef(null);
 
@@ -68,12 +53,6 @@ const PlayQuizScreen = ({ navigation, route }) => {
 					startDate = new Date();
 					setQuestions(data);
 					scrollToTop();
-					let tempImagesError = null;
-					for (i = 0; i < questionsNumber; i++) {
-						tempImagesError = [...imagesError];
-						tempImagesError[i] = false;
-						setImagesError([...tempImagesError]);
-					}
 				}
 				setRefreshing(false);
 			}
@@ -109,60 +88,6 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		navigation.navigate("Home page");
 	};
 
-	const getOptionBackgroundColor = (currentQuestion, currentOption) => {
-		if (
-			validateObject(currentQuestion) &&
-			validateObject(currentQuestion.selectedOption)
-		) {
-			if (currentOption === currentQuestion.solution) {
-				return COLORS.success;
-			} else if (currentOption === currentQuestion.selectedOption) {
-				return COLORS.error;
-			} else {
-				return COLORS.white;
-			}
-		} else {
-			return COLORS.white;
-		}
-	};
-
-	const getOptionTextColor = (currentQuestion, currentOption) => {
-		if (
-			validateObject(currentQuestion) &&
-			validateObject(currentQuestion.selectedOption)
-		) {
-			return currentOption === currentQuestion.solution
-				? COLORS.white
-				: COLORS.black;
-		} else {
-			return COLORS.black;
-		}
-	};
-
-	const handleOnOptionPress = async (item, option, index) => {
-		if (validateObject(item.selectedOption)) {
-			return null; // don't do nothing
-		}
-		// increase correct and incorrect count
-		if (option === item.solution) {
-			setCorrectCount((correctCount) => correctCount + 1);
-			await playCorrectAnswerSound();
-		} else {
-			setIncorrectCount((incorrectCount) => incorrectCount + 1);
-			await playIncorrectAnswerSound();
-		}
-
-		let tempQuestions = [...questions];
-		tempQuestions[index].selectedOption = option;
-		setQuestions([...tempQuestions]);
-	};
-
-	const handleImageError = (index) => {
-		const updatedErrors = [...imagesError];
-		updatedErrors[index] = true;
-		setImagesError(updatedErrors);
-	};
-
 	return (
 		<SafeAreaView
 			style={{
@@ -173,8 +98,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 			{/* TOP BAR */}
 			<View
 				style={{
-					flexDirection: "row",
-					alignItems: "center",
+					...style.container,
 					justifyContent: "space-between",
 					paddingVertical: 10,
 					paddingHorizontal: 20,
@@ -215,18 +139,14 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				{/* Corret and Incorrect */}
 				<View
 					style={{
-						flexDirection: "row",
-						alignItems: "right",
-						justifyContent: "flex-end",
+						...style.container,
 					}}
 				>
 					{/* Correct */}
 					<View
 						style={{
+							...style.container,
 							backgroundColor: COLORS.success,
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "center",
 							paddingHorizontal: 10,
 							paddingVertical: 4,
 							borderTopLeftRadius: 10,
@@ -246,10 +166,8 @@ const PlayQuizScreen = ({ navigation, route }) => {
 					{/* Incorrect */}
 					<View
 						style={{
+							...style.container,
 							backgroundColor: COLORS.error,
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "center",
 							paddingHorizontal: 10,
 							paddingVertical: 4,
 							borderTopRightRadius: 10,
@@ -277,95 +195,21 @@ const PlayQuizScreen = ({ navigation, route }) => {
 				onRefresh={() => undefined}
 				refreshing={refreshing}
 				keyExtractor={(item) => item.text}
-				renderItem={({ item, index }) => (
-					<View
-						style={{
-							marginTop: 12,
-							marginHorizontal: 10,
-							backgroundColor: COLORS.white,
-							elevation: 2,
-							borderRadius: 2,
-						}}
-					>
-						<View style={{ padding: 20 }}>
-							<Text style={{ fontSize: 16 }}>
-								{index + 1}. {item.text}
-							</Text>
-							{validateURL(item.imageurl) && !imagesError[index] ? (
-								<Image
-									source={{
-										uri: item.imageurl,
-									}}
-									resizeMode={"contain"}
-									alt={"Questio Image"}
-									onError={() => handleImageError(index)}
-									style={{
-										width: "80%",
-										height: 150,
-										marginTop: 20,
-										marginLeft: "10%",
-										borderRadius: 5,
-									}}
-								/>
-							) : (
-								<NoImage />
-							)}
-						</View>
-						{/* Options */}
-						{item.options.map((option, optionIndex) => {
-							return (
-								<TouchableOpacity
-									key={optionIndex}
-									style={{
-										paddingVertical: 15,
-										paddingHorizontal: 20,
-										borderWidth: 1,
-										borderColor: "#E8E6E6",
-										backgroundColor: getOptionBackgroundColor(
-											item,
-											option,
-										),
-										flexDirection: "row",
-										alignItems: "center",
-										justifyContent: "flex-start",
-									}}
-									onPress={() =>
-										handleOnOptionPress(item, option, index)
-									}
-								>
-									<Text
-										style={{
-											width: 25,
-											height: 25,
-											padding: 2,
-											borderWidth: 1,
-											borderColor: COLORS.border,
-											textAlign: "center",
-											marginLeft: 15,
-											borderRadius: 25,
-											color: getOptionTextColor(item, option),
-										}}
-									>
-										{optionIndex + 1}
-									</Text>
-									<Text
-										style={{
-											color: getOptionTextColor(item, option),
-											marginLeft: 11,
-											fontSize: 14.5,
-										}}
-									>
-										{option}
-									</Text>
-								</TouchableOpacity>
-							);
-						})}
-					</View>
+				renderItem={({ item: question, index }) => (
+					<Question
+						question={question}
+						questionIndex={index}
+						questions={questions}
+						setQuestions={setQuestions}
+						setCorrectCount={setCorrectCount}
+						setIncorrectCount={setIncorrectCount}
+					/>
 				)}
 				ListFooterComponent={() => (
 					<FormButton
 						labelText="Submit"
-						style={{ margin: 12, borderRadius: 14 }}
+						style={{ margin: 12, borderRadius: 15 }}
+						textStyle={{ color: COLORS.white, fontSize: 22 }}
 						handleOnPress={() => handleOnSubmit()}
 					/>
 				)}
@@ -393,5 +237,13 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		</SafeAreaView>
 	);
 };
+
+const style = StyleSheet.create({
+	container: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+});
 
 export default PlayQuizScreen;

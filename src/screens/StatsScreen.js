@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import {
 	View,
-	Text,
 	SafeAreaView,
 	ScrollView,
 	ActivityIndicator,
 	StyleSheet,
+	RefreshControl,
 } from "react-native";
+import { useIsFocused } from '@react-navigation/native';
 import moment from "moment";
 import { supabase } from "../app/lib/supabase-client";
 import StatsTable from "../components/screens/StatsScreen/StatsTable";
@@ -23,17 +24,13 @@ import {
 	validateArray,
 	validateString,
 } from "../utils/validators";
-import { COLORS } from "../constants/theme";
+import { COLORS, CHARTTYPES } from "../constants/theme";
 
 const StatsScreen = ({ route }) => {
 	const user = route.params.user;
 	const userId = user.user_id;
 
-	const CHARTTYPES = {
-		barChart: "BarChart",
-		lineChart: "LineChart",
-		pieChart: "PieChart",
-	};
+	const isFocused = useIsFocused();
 
 	const userSub = moment(user.confirmed_at).format("DD/MM/YYYY");
 	const userSubDays = moment().diff(user.confirmed_at, "days") + 1;
@@ -43,82 +40,87 @@ const StatsScreen = ({ route }) => {
 	const [userLastSevenDaysQuizzes, setUserLastSevenDaysQuizzes] = useState([]); // array of objects
 	const [userPrefCategory, setUserPrefCategory] = useState("");
 	const [refreshing, setRefreshing] = useState(false);
+	const [rerefreshing, setRerefreshing] = useState(false);
 
 	const [selectedChart, setSelectedChart] = useState(CHARTTYPES.barChart);
 
-	useEffect(() => {
-		const getBestFiveUsersStats = async () => {
-			setRefreshing(true);
-			const { data, error } = await supabase.rpc(
-				"get_best_five_users_stats",
-			);
-			if (validateObject(error)) {
-				console.error(error);
-			} else if (validateArray(data, 0)) {
-				setBestFiveUsersMatrix(toMatrix(data));
-			}
-			setRefreshing(false);
-		};
+	const getBestFiveUsersStats = async () => {
+		setRefreshing(true);
+		const { data, error } = await supabase.rpc(
+			"get_best_five_users_stats",
+		);
+		if (validateObject(error)) {
+			console.error(error);
+		} else if (validateArray(data, 0)) {
+			setBestFiveUsersMatrix(toMatrix(data));
+		}
+		setRefreshing(false);
+	};
 
-		const getQuizzesDays = async (_user_id) => {
-			setRefreshing(true);
-			const { data, error } = await supabase.rpc(
-				"get_quizzes_days", {
-					_user_id
-				}
-			);
-			if (validateObject(error)) {
-				console.error(error);
-			} else if (validateArray(data, 0)) {
-				setQuizzesDays(data);
-			}
-			setRefreshing(false);
-		};
+	const getQuizzesDays = async (_user_id) => {
+		setRefreshing(true);
+		const { data, error } = await supabase.rpc("get_quizzes_days", {
+			_user_id,
+		});
+		if (validateObject(error)) {
+			console.error(error);
+		} else if (validateArray(data, 0)) {
+			setQuizzesDays(data);
+		}
+		setRefreshing(false);
+	};
 
-		const getUserLastSevenDaysQuizzes = async (_user_id) => {
-			setRefreshing(true);
-			const { data, error } = await supabase.rpc(
-				"get_last_seven_days_quizzes",
-				{
-					_user_id,
-				},
-			);
-			if (validateObject(error)) {
-				console.error(error);
-			} else if (validateArray(data, 7)) {
-				let tempUserLastSevenDaysQuizzes = [];
-				data.map((item) => {
-					tempUserLastSevenDaysQuizzes.push({
-						label: item.day,
-						value: item.totalquizzes,
-						text: item.day,
-					});
+	const getUserLastSevenDaysQuizzes = async (_user_id) => {
+		setRefreshing(true);
+		const { data, error } = await supabase.rpc(
+			"get_last_seven_days_quizzes",
+			{
+				_user_id,
+			},
+		);
+		if (validateObject(error)) {
+			console.error(error);
+		} else if (validateArray(data, 7)) {
+			let tempUserLastSevenDaysQuizzes = [];
+			data.map((item) => {
+				tempUserLastSevenDaysQuizzes.push({
+					label: item.day,
+					value: item.totalquizzes,
+					text: item.day,
 				});
-				setUserLastSevenDaysQuizzes(tempUserLastSevenDaysQuizzes);
-			}
-			setRefreshing(false);
-		};
+			});
+			setUserLastSevenDaysQuizzes(tempUserLastSevenDaysQuizzes);
+		}
+		setRefreshing(false);
+	};
 
-		const getUserPrefCategory = async (_user_id) => {
-			setRefreshing(true);
-			const { data, error } = await supabase
-				.rpc("get_user_pref_category", {
-					_user_id: _user_id,
-				})
-				.single();
-			if (validateObject(error) && data !== null) {
-				console.error(error);
-			} else if (validateObject(data) && validateString(data.category)) {
-				setUserPrefCategory(data.category);
-			}
-			setRefreshing(false);
-		};
+	const getUserPrefCategory = async (_user_id) => {
+		setRefreshing(true);
+		const { data, error } = await supabase
+			.rpc("get_user_pref_category", {
+				_user_id: _user_id,
+			})
+			.single();
+		if (validateObject(error) && data !== null) {
+			console.error(error);
+		} else if (validateObject(data) && validateString(data.category)) {
+			setUserPrefCategory(data.category);
+		}
+		setRefreshing(false);
+	};
 
+	const onRefresh = () => {
 		getBestFiveUsersStats();
 		getQuizzesDays(userId);
 		getUserLastSevenDaysQuizzes(userId);
 		getUserPrefCategory(userId);
-	}, []);
+	};
+
+	useEffect(() => {
+		if(isFocused) {
+			onRefresh();
+		}
+	}, [isFocused]);
 
 	const toMatrix = (objectsArray) => {
 		const matrix = [];
@@ -140,7 +142,14 @@ const StatsScreen = ({ route }) => {
 	return (
 		<SafeAreaView>
 			<View>
-				<ScrollView>
+				<ScrollView
+					refreshControl={
+						<RefreshControl
+							refreshing={refreshing}
+							onRefresh={onRefresh}
+						/>
+					}
+				>
 					{validateArray(bestFiveUsersMatrix, 0) ? (
 						<StatsTable matrix={bestFiveUsersMatrix} />
 					) : null}
@@ -149,11 +158,15 @@ const StatsScreen = ({ route }) => {
 						color={COLORS.black}
 						animating={refreshing}
 					/>
-					{validateArray(quizzesDays, 1)  ? (
-						<StatsCalendar data={quizzesDays} userSubDate={moment(user.confirmed_at).format("YYYY-MM-DD")}/>
+					{validateArray(quizzesDays, 1) ? (
+						<StatsCalendar
+							data={quizzesDays}
+							userSubDate={moment(user.confirmed_at).format(
+								"YYYY-MM-DD",
+							)}
+						/>
 					) : null}
 					<ChartsPicker
-						chartsToSelect={CHARTTYPES}
 						setSelectedChart={setSelectedChart}
 					/>
 					{validateArray(userLastSevenDaysQuizzes, 7) ? (

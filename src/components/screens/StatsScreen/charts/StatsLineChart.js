@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
-import { COLORS, SIZES } from "../../../../constants/theme";
 import PointerLabelComponent from "./shared/PointerLabelComponent";
+import { COLORS, SIZES } from "../../../../constants/theme";
+import { pointerConfig } from "../../../../constants/theme";
 
 const StatsLineChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
@@ -29,13 +30,8 @@ const StatsLineChart = ({ data }) => {
 				showVerticalLines={true}
 				hideRules={false}
 				pointerConfig={{
+					...pointerConfig,
 					pointerStripUptoDataPoint: false,
-					pointerStripColor: COLORS.error,
-					pointerStripWidth: 2,
-					pointerColor: COLORS.error,
-					radius: 6,
-					pointerLabelWidth: 100,
-					pointerLabelHeight: 100,
 					autoAdjustPointerLabelPosition: true,
 					pointerLabelComponent: (items) => (
 						<PointerLabelComponent value={items[0].value} />

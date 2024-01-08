@@ -24,7 +24,7 @@ const StatsPieChart = ({ data }) => {
 				fontWeight={"bold"}
 				fontStyle={"italic"}
 				backgroundColor={COLORS.white}
-				textColor={COLORS.secondary}
+				textColor={COLORS.black}
 				innerRadius={65}
 				showTextBackground={false}
 				isAnimated={true}

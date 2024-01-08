@@ -13,10 +13,12 @@ const PointerLabelComponent = ({ value }) => {
 				borderRadius: 15,
 				backgroundColor: COLORS.grey,
 				justifyContent: "center",
+				position: "relative",
+				zIndex: 1,
 			}}
 		>
 			<Text style={{ textAlign: "center", fontWeight: "bold" }}>
-				{value} Quizzes
+				{value} Quizzes on this day !
 			</Text>
 		</View>
 	);

@@ -7,6 +7,7 @@ const FormButton = ({
 	handleOnPress = null,
 	style,
 	isPrimary = true,
+	textStyle = null,
 	...more
 }) => {
 	return (
@@ -27,7 +28,7 @@ const FormButton = ({
 					textAlign: "center",
 					fontSize: 19,
 					fontWeight: "bold",
-					color: isPrimary ? COLORS.white : COLORS.primary,
+					...textStyle,
 				}}
 			>
 				{labelText}
