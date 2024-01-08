@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, SafeAreaView, FlatList, StyleSheet } from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { SafeAreaView, FlatList } from "react-native";
+import PlayNavBar from "../components/screens/PlayQuizScreen/PlayNavBar";
 import Question from "../components/screens/PlayQuizScreen/Question";
 import FormButton from "../components/shared/FormButton";
 import ResultModal from "../components/screens/PlayQuizScreen/ResultModal";
@@ -12,14 +12,14 @@ import {
 } from "../utils/validators";
 import { storeProgress } from "../utils/database";
 import { playOpenSound } from "../utils/sounds";
-import { COLORS, appName, questionsNumber } from "../constants/theme";
+import { COLORS, questionsNumber } from "../constants/theme";
 
 let startDate = null,
 	endDate = null,
 	totalSeconds = 0;
 
 const PlayQuizScreen = ({ navigation, route }) => {
-	const quizId = route.params.quizId,
+	const quiz_id = route.params.quizId,
 		openedQuiz = route.params.openedQuiz;
 
 	const user = route.params.user;
@@ -40,12 +40,12 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	};
 
 	useEffect(() => {
-		const getQuestionsFromQuizId = async (quizId) => {
+		const getQuestionsFromQuizId = async (quiz_id) => {
 			if (openedQuiz && !gameFinished) {
 				setRefreshing(true);
 				await playOpenSound();
 				const { data, error } = await supabase.rpc("get_random_questions", {
-					quiz_id: quizId,
+					quiz_id,
 				});
 				if (validateObject(error)) {
 					console.error(error);
@@ -58,7 +58,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 			}
 		};
 
-		getQuestionsFromQuizId(quizId);
+		getQuestionsFromQuizId(quiz_id);
 	}, [openedQuiz, tryAgain]);
 
 	navigation.addListener("blur", () => {
@@ -73,7 +73,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		totalSeconds = (Math.abs(endDate - startDate) / 1000).toFixed(2);
 		setIsResultModalVisible(true);
 		setTryAgain(false);
-		storeProgress(user.user_id, quizId, startDate, endDate, correctCount);
+		storeProgress(user.user_id, quiz_id, startDate, endDate, correctCount);
 	};
 
 	const handleOnModalClose = () => {
@@ -96,96 +96,16 @@ const PlayQuizScreen = ({ navigation, route }) => {
 			}}
 		>
 			{/* TOP BAR */}
-			<View
-				style={{
-					...style.container,
-					justifyContent: "space-between",
-					paddingVertical: 10,
-					paddingHorizontal: 20,
-					backgroundColor: COLORS.white,
-					elevation: 4,
-				}}
-			>
-				<View>
-					{/* TITLE */}
-					<Text
-						style={{
-							fontSize: 17.5,
-						}}
-					>
-						{appName}
-					</Text>
-				</View>
-				<View
-					style={{
-						flexDirection: "row",
-						alignItems: "right",
-						justifyContent: "flex-end",
-					}}
-				>
-					{/* Category */}
-					<Text
-						style={{
-							fontSize: 18,
-							fontWeight: "bold",
-						}}
-					>
-						{validateArray(questions, questionsNumber) &&
-						validateString(questions[0].category)
-							? questions[0].category
-							: null}
-					</Text>
-				</View>
-				{/* Corret and Incorrect */}
-				<View
-					style={{
-						...style.container,
-					}}
-				>
-					{/* Correct */}
-					<View
-						style={{
-							...style.container,
-							backgroundColor: COLORS.success,
-							paddingHorizontal: 10,
-							paddingVertical: 4,
-							borderTopLeftRadius: 10,
-							borderBottomLeftRadius: 10,
-						}}
-					>
-						<MaterialIcons
-							name="check"
-							size={14}
-							style={{ color: COLORS.white }}
-						/>
-						{/* correct count */}
-						<Text style={{ color: COLORS.white, marginLeft: 6 }}>
-							{correctCount}
-						</Text>
-					</View>
-					{/* Incorrect */}
-					<View
-						style={{
-							...style.container,
-							backgroundColor: COLORS.error,
-							paddingHorizontal: 10,
-							paddingVertical: 4,
-							borderTopRightRadius: 10,
-							borderBottomRightRadius: 10,
-						}}
-					>
-						<MaterialIcons
-							name="close"
-							size={14}
-							style={{ color: COLORS.white }}
-						/>
-						{/* incorrect count */}
-						<Text style={{ color: COLORS.white, marginLeft: 6 }}>
-							{incorrectCount}
-						</Text>
-					</View>
-				</View>
-			</View>
+
+			{validateArray(questions, questionsNumber) &&
+			validateObject(questions[0]) &&
+			validateString(questions[0].category) ? (
+				<PlayNavBar
+					category={questions[0].category}
+					correctCount={correctCount}
+					incorrectCount={incorrectCount}
+				/>
+			) : null}
 			{/* Questions and Options */}
 			<FlatList
 				ref={flatListRef}
@@ -237,13 +157,5 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		</SafeAreaView>
 	);
 };
-
-const style = StyleSheet.create({
-	container: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-});
 
 export default PlayQuizScreen;

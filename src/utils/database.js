@@ -69,6 +69,11 @@ export const deleteUser = async (user_id) => {
 		console.error(error);
 		return false;
 	}
+	const { data, error2 } = await supabase.rpc("delete_user");
+	console.log(data);
+	if (validateObject(error2)) {
+		console.error(error2.message);
+	}
 	console.log("User_id " + user_id + " deleted.");
 	return true;
 };

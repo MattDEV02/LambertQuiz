@@ -52,12 +52,30 @@ export const signOut = async () => {
 };
 
 export const removeUser = async (user) => {
-	const { data, error } = await supabase.rpc("delete_user");
-	console.log(data);
-	if (validateObject(error)) {
-		Window.alert(error.message);
-	} else if (deleteUser(user.user_id)) {
-		signOut();
-		Toast.show("Account deleted.");
-	}
+	Window.alert(
+		"Are your sure?",
+		`Are you sure you want to deleted your account with this email: ${user.email} ?`,
+		[
+			{
+				text: "Yes",
+				onPress: async () => {
+					Window.alert(
+						"Account deleted successfully",
+						`Your account is deleted.`,
+					);
+					signOut();
+					Toast.show("Account deleted.");
+				},
+			},
+			{
+				text: "No",
+				onPress: () => {
+					Window.alert(
+						"Account not deleted",
+						`You can continue to play with us.`,
+					);
+				},
+			},
+		],
+	);
 };

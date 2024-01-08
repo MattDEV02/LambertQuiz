@@ -162,6 +162,10 @@ const SetUsernameModal = ({
 							marginTop: 12,
 							borderRadius: 40,
 						}}
+						textStyle={{
+							color: COLORS.white,
+							fontSize: 20,
+						}}
 					/>
 				</View>
 			</View>

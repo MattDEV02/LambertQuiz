@@ -164,15 +164,13 @@ npm  run  all
 ```
 
 
-## Authors
+## Author
 
-- **Matteo Lambertucci** - [Linkedin Profile](https://www.linkedin.com/in/matteo-lambertucci-134073211)
--  **MattDEV02** - [GitHub Profile](https://github.com/MattDEV02)
- 
- <br> 
+Made with ❤️ by:
 
-I am the only Author of this beatiful app.
+- **Matteo Lambertucci / MattDEV02** - [Linkedin Profile](https://www.linkedin.com/in/matteo-lambertucci-134073211) - [GitHub Profile](https://github.com/MattDEV02)
 
+I am the only author of this beatiful app👀
   
 
   

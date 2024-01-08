@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
 	StyleSheet,
 	SafeAreaView,
 	View,
 	Text,
-	TouchableOpacity,
 	Image,
-	Alert as Window,
 } from "react-native";
-import MaterialIcons from "react-native-vector-icons/FontAwesome";
+import AccountOption from "../components/screens/AccountScreen/AccountOption";
 import SetUsernameModal from "../components/screens/AccountScreen/modals/setUsernameModal";
 import SetPasswordModal from "../components/screens/AccountScreen/modals/setPasswordModal";
 import { validateObject, validateString } from "../utils/validators";
 import { removeUser } from "../utils/auth";
-import { COLORS } from "../constants/theme";
+import { COLORS, ACCOUNTOPTIONS } from "../constants/theme";
 
 // TODO: AccountOption component
 
@@ -25,36 +23,6 @@ const AccountScreen = ({ navigation, route }) => {
 	const [isSetPasswordModalVisible, setIsSetPasswordModalVisible] =
 		useState(false);
 
-	const iconsSize = 26;
-
-	const handleOnDeleteUserPress = () => {
-		Window.alert(
-			"Are your sure?",
-			`Are you sure you want to deleted your account with this email: ${user.email} and this username: ${username} ?`,
-			[
-				{
-					text: "Yes",
-					onPress: () => {
-						Window.alert(
-							"Account deleted successfully",
-							`Your account is deleted.`,
-						);
-						removeUser(user);
-					},
-				},
-				{
-					text: "No",
-					onPress: () => {
-						Window.alert(
-							"Account not deleted",
-							`You can continue to play with us.`,
-						);
-					},
-				},
-			],
-		);
-	};
-
 	return validateObject(user) ? (
 		<SafeAreaView
 			style={{
@@ -62,7 +30,7 @@ const AccountScreen = ({ navigation, route }) => {
 				backgroundColor: COLORS.background,
 			}}
 		>
-			<View style={style.centeredContainer}>
+			<View style={style.container}>
 				{/* LOGO */}
 				<Image
 					source={require("../../assets/images/logo.png")}
@@ -76,7 +44,7 @@ const AccountScreen = ({ navigation, route }) => {
 				/>
 				<View
 					style={{
-						...style.centeredContainer,
+						...style.container,
 						marginTop: 13,
 						marginBottom: 5,
 					}}
@@ -101,69 +69,33 @@ const AccountScreen = ({ navigation, route }) => {
 					</Text>
 				</View>
 				<View style={{ marginBottom: 150 }}>
-					<TouchableOpacity
-						style={style.touchableOpacity}
-						onPress={() => setIsSetUsernameModalVisible(true)}
-					>
-						<Text style={{ ...style.text, color: COLORS.success }}>
-							Set username
-						</Text>
-						<MaterialIcons
-							name="edit"
-							size={iconsSize}
-							color={COLORS.success}
-						/>
-					</TouchableOpacity>
+					<AccountOption
+						accountOption={ACCOUNTOPTIONS.setUsername}
+						handleOnSetUsernamePress={() => setIsSetUsernameModalVisible(true)}
+					/>
 					<SetUsernameModal
 						isModalVisible={isSetUsernameModalVisible}
 						setIsModalVisible={setIsSetUsernameModalVisible}
 						oldUsername={username}
 						setUsername={setUsername}
 					/>
+					<AccountOption
+						accountOption={ACCOUNTOPTIONS.setPassword}
+						handleOnSetPasswordPress={() => setIsSetPasswordModalVisible(true)}
+					/>
 					<SetPasswordModal
 						isModalVisible={isSetPasswordModalVisible}
 						setIsModalVisible={setIsSetPasswordModalVisible}
 						username={username}
 					/>
-					<TouchableOpacity
-						style={style.touchableOpacity}
-						onPress={() => setIsSetPasswordModalVisible(true)}
-					>
-						<Text style={{ ...style.text, color: COLORS.primary }}>
-							Set password
-						</Text>
-						<MaterialIcons
-							name="edit"
-							size={iconsSize}
-							color={COLORS.primary}
-						/>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={style.touchableOpacity}
-						onPress={() => navigation.navigate("Stats page")}
-					>
-						<Text style={{ ...style.text, color: COLORS.secondary }}>
-							Stats page
-						</Text>
-						<MaterialIcons
-							name="bar-chart-o"
-							size={iconsSize}
-							color={COLORS.secondary}
-						/>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={style.touchableOpacity}
-						onPress={() => handleOnDeleteUserPress()}
-					>
-						<Text style={{ ...style.text, color: COLORS.error }}>
-							Delete account
-						</Text>
-						<MaterialIcons
-							name="close"
-							size={iconsSize}
-							color={COLORS.error}
-						/>
-					</TouchableOpacity>
+					<AccountOption
+						accountOption={ACCOUNTOPTIONS.statsPage}
+						handleOnStatsPagePress={() => navigation.navigate("Stats page")}
+					/>
+					<AccountOption
+						accountOption={ACCOUNTOPTIONS.deleteAccount}
+						handleOnDeleteUserPress={() => removeUser(user)}
+					/>
 				</View>
 			</View>
 		</SafeAreaView>
@@ -171,23 +103,10 @@ const AccountScreen = ({ navigation, route }) => {
 };
 
 const style = StyleSheet.create({
-	centeredContainer: {
+	container: {
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
-	},
-	touchableOpacity: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		fontSize: 8,
-		margin: 2,
-		marginTop: 34.75,
-	},
-	text: {
-		color: COLORS.secondary,
-		fontSize: 22,
-		marginRight: 10,
 	},
 });
 
