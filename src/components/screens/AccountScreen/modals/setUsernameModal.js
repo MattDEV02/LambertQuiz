@@ -11,9 +11,11 @@ import { validateUsername, validateObject } from "../../../../utils/validators";
 const SetUsernameModal = ({
 	isModalVisible = false,
 	setIsModalVisible,
-	oldUsername,
-	setUsername,
+	user,
+	setUserUsername,
 }) => {
+	const oldUsername = user.username;
+
 	const [newUsername, setNewUsername] = useState(oldUsername);
 	const [usernameError, setUsernameError] = useState(false);
 	const [usernameSuccess, setUsernameSuccess] = useState(false);
@@ -58,7 +60,13 @@ const SetUsernameModal = ({
 								text: "Yes",
 								onPress: () => {
 									if (updateUserUsername(oldUsername, newUsername)) {
-										setUsername(newUsername);
+										user.username = newUsername;
+										setUserUsername({
+											user: {
+												...user,
+												username: newUsername,
+											},
+										});
 										setUsernameUpdated(true);
 										Window.alert(
 											"Username updated",

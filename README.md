@@ -20,7 +20,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 
   
 
-## Key Features
+## Key Features ✨
 
   
 
@@ -42,7 +42,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 
   
 
-## Screenshots
+## Screenshots 📸
 
   
 
@@ -70,10 +70,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 
   
 
-## Installation and usage
-
-  
-
+## Installation 🚀 and usage⚡
   
 
 ### Requirements
@@ -156,7 +153,7 @@ npm  start
 **P.S. = You can do both third and fourth step with "my comand script":**
 
   
-
+## Some code examples
   
 
 ```bash
@@ -164,21 +161,24 @@ npm  run  all
 ```
 
 
-## Author
+## Author  ©️
 
 Made with ❤️ by:
 
-- **Matteo Lambertucci / MattDEV02** - [Linkedin Profile](https://www.linkedin.com/in/matteo-lambertucci-134073211) - [GitHub Profile](https://github.com/MattDEV02)
+- **Matteo Lambertucci (MattDEV02)**  
+	
+	- [GitHub Profile](https://github.com/MattDEV02) 
+	- [Linkedin Profile](https://www.linkedin.com/in/matteo-lambertucci-134073211)
+	- [Instagram Profile](https://www.instagram.com/_matte.02_/)
+	- [Moodle Profile](https://ingegneriacivileinformaticatecnologieaeronautiche.el.uniroma3.it/user/profile.php?id=5522)
 
-I am the only author of this beatiful app👀
+I am the only author of this beatiful app 😉
   
 
   
 
-## Technologies used
-
+## Technologies used 🧑‍💻
   
-
   
 
 -  **Javascript ES6**
@@ -229,7 +229,7 @@ I am the only author of this beatiful app👀
 
   
 
-## Project structure
+## Project structure 🏠
 
 -  **`src/`**: The main folder for the application source code.
 
@@ -263,7 +263,7 @@ I am the only author of this beatiful app👀
 
   
 
-## ER Model
+## ER Model 🔢
 
   
 
@@ -273,7 +273,7 @@ I am the only author of this beatiful app👀
 
   
 
-## Relational model
+## Relational model 🔣
 
   
 
@@ -285,7 +285,7 @@ I am the only author of this beatiful app👀
 
   
 
-## License
+## License 🗒️
 
   
 

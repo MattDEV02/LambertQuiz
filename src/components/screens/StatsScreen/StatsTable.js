@@ -47,7 +47,8 @@ const StatsTable = ({ matrix }) => {
 							data={[
 								"User",
 								"Average score",
-								"Total score",
+							//	"Total score",
+								"Worst score",
 								"Better score",
 								"Total quizzes",
 								"% Completition",

@@ -28,7 +28,10 @@ const HomeScreen = ({ navigation, route }) => {
 	useEffect(() => {
 		const getQuizzes = async () => {
 			setRefreshing(true);
-			const { data, error } = await supabase.from("quizzes").select();
+			const { data, error } = await supabase
+				.from("quizzes")
+				.select()
+				.order("category");
 			if (validateObject(error)) {
 				console.error(error);
 				setRefreshing(false);
@@ -116,8 +119,8 @@ const HomeScreen = ({ navigation, route }) => {
 							}}
 							style={{ width: "89%" }}
 							inputStyle={{
-								marginTop: 7,
-								marginBottom: 6,
+								marginTop: 7.5,
+								marginBottom: 5,
 								paddingVertical: 15,
 								backgroundColor: COLORS.white,
 								borderWidth: 0.35,
@@ -135,7 +138,7 @@ const HomeScreen = ({ navigation, route }) => {
 							onRefresh={() => undefined}
 							refreshing={refreshing}
 							showsVerticalScrollIndicator={false}
-							keyExtractor={(item) => item.title}
+							keyExtractor={(item) => item.quiz_id}
 							renderItem={({ item: quiz }) => (
 								<Quiz
 									quiz={quiz}
@@ -146,8 +149,10 @@ const HomeScreen = ({ navigation, route }) => {
 							)}
 						/>
 					) : searching ? (
-						<View style={{ ...style.container, marginTop: 13 }}>
-							<Text style={{...style.text, color: "#EF0909"}}>No quizzes</Text>
+						<View style={{ ...style.container, marginTop: 47 }}>
+							<Text style={{ ...style.text, color: "#EF0909" }}>
+								NO Quizzes found.
+							</Text>
 						</View>
 					) : null}
 				</View>

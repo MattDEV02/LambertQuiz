@@ -2,8 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import PointerLabelComponent from "./shared/PointerLabelComponent";
-import { COLORS, SIZES } from "../../../../constants/theme";
-import { pointerConfig } from "../../../../constants/theme";
+import { COLORS, SIZES, pointerConfig } from "../../../../constants/theme";
 
 const StatsLineChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);

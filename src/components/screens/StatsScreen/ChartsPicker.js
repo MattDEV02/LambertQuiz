@@ -3,23 +3,26 @@ import { View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { COLORS, CHARTTYPES } from "../../../constants/theme";
 
-// TODO: charts num
-
 const ChartsPicker = ({ setSelectedChart }) => {
 
 	const items = [ // TODO: with a loop...
 	{
-		label: CHARTTYPES.barChart.replace("C", " C"),
+		label: CHARTTYPES.barChart.replace("C", " c"),
 		value: CHARTTYPES.barChart,
 		color: COLORS.primary,
 	},
 	{
-		label: CHARTTYPES.lineChart.replace("C", " C"),
+		label: CHARTTYPES.lineChart.replace("C", " c"),
 		value: CHARTTYPES.lineChart,
 		color: COLORS.primary,
 	},
 	{
-		label: CHARTTYPES.pieChart.replace("C", " C"),
+		label: CHARTTYPES.horizontalBarChart.replace("C", " c").replace("B", " B"),
+		value: CHARTTYPES.horizontalBarChart,
+		color: COLORS.primary,
+	},
+	{
+		label: CHARTTYPES.pieChart.replace("C", " c"),
 		value: CHARTTYPES.pieChart,
 		color: COLORS.primary,
 	},
@@ -28,7 +31,7 @@ const ChartsPicker = ({ setSelectedChart }) => {
 	return (
 		<View
 			style={{
-				marginTop: 23,
+				marginTop: 25,
 				marginBottom: 11.5,
 				fontSize: 16,
 				paddingLeft: 15,
@@ -39,8 +42,6 @@ const ChartsPicker = ({ setSelectedChart }) => {
 				borderRadius: 9,
 				paddingRight: 28,
 			}}
-			testID="android_touchable_wrapper"
-			activeOpacity={1}
 		>
 			<RNPickerSelect
 				onValueChange={(value) => setSelectedChart(value)}

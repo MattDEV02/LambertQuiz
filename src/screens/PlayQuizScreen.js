@@ -35,8 +35,9 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	const flatListRef = useRef(null);
 
 	const scrollToTop = () => {
-		if (validateObject(flatListRef.current))
+		if (validateObject(flatListRef.current)) {
 			flatListRef.current.scrollToIndex({ index: 0 });
+		}
 	};
 
 	useEffect(() => {
@@ -62,6 +63,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	}, [openedQuiz, tryAgain]);
 
 	navigation.addListener("blur", () => {
+		handleOnModalClose(); //
 		navigation.setParams({ openedQuiz: false });
 		setTryAgain(false);
 		setQuestions([]);

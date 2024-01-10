@@ -94,7 +94,6 @@ export const storeProgress = async (
 		.single();
 	const progress = data;
 	if (!validateObject(progress)) {
-		console.log(2);
 		const { error } = await supabase.rpc("store_progress", {
 			user_id: _user,
 			quiz_id: quiz,

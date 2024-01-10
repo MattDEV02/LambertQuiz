@@ -7,7 +7,7 @@ import {
 	StyleSheet,
 	RefreshControl,
 } from "react-native";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
 import moment from "moment";
 import { supabase } from "../app/lib/supabase-client";
 import StatsTable from "../components/screens/StatsScreen/StatsTable";
@@ -17,6 +17,7 @@ import {
 	StatsBarChart,
 	StatsLineChart,
 	StatsPieChart,
+	StatsHorizontalBarChart,
 } from "../components/screens/StatsScreen/charts/";
 import StatsFooter from "../components/screens/StatsScreen/StatsFooter";
 import {
@@ -40,15 +41,12 @@ const StatsScreen = ({ route }) => {
 	const [userLastSevenDaysQuizzes, setUserLastSevenDaysQuizzes] = useState([]); // array of objects
 	const [userPrefCategory, setUserPrefCategory] = useState("");
 	const [refreshing, setRefreshing] = useState(false);
-	const [rerefreshing, setRerefreshing] = useState(false);
 
 	const [selectedChart, setSelectedChart] = useState(CHARTTYPES.barChart);
 
 	const getBestFiveUsersStats = async () => {
 		setRefreshing(true);
-		const { data, error } = await supabase.rpc(
-			"get_best_five_users_stats",
-		);
+		const { data, error } = await supabase.rpc("get_best_five_users_stats");
 		if (validateObject(error)) {
 			console.error(error);
 		} else if (validateArray(data, 0)) {
@@ -117,7 +115,7 @@ const StatsScreen = ({ route }) => {
 	};
 
 	useEffect(() => {
-		if(isFocused) {
+		if (isFocused) {
 			onRefresh();
 		}
 	}, [isFocused]);
@@ -129,7 +127,8 @@ const StatsScreen = ({ route }) => {
 			const row = [
 				objectsArray[i].username,
 				objectsArray[i].averagescore,
-				objectsArray[i].totalscore,
+				//objectsArray[i].totalscore,
+				objectsArray[i].worstscore,
 				objectsArray[i].betterscore,
 				objectsArray[i].totalquizzes,
 				objectsArray[i].quizzescompletitionpercentage,
@@ -166,16 +165,16 @@ const StatsScreen = ({ route }) => {
 							)}
 						/>
 					) : null}
-					<ChartsPicker
-						setSelectedChart={setSelectedChart}
-					/>
+					<ChartsPicker setSelectedChart={setSelectedChart} />
 					{validateArray(userLastSevenDaysQuizzes, 7) ? (
 						<View>
-							{selectedChart === "BarChart" ? (
+							{selectedChart === CHARTTYPES.barChart ? (
 								<StatsBarChart data={userLastSevenDaysQuizzes} />
-							) : selectedChart === "LineChart" ? (
+							) : selectedChart === CHARTTYPES.lineChart ? (
 								<StatsLineChart data={userLastSevenDaysQuizzes} />
-							) : selectedChart === "PieChart" ? (
+							) : selectedChart === CHARTTYPES.horizontalBarChart ? (
+								<StatsHorizontalBarChart data={userLastSevenDaysQuizzes} />
+							) : selectedChart === CHARTTYPES.pieChart ? (
 								<StatsPieChart data={userLastSevenDaysQuizzes} />
 							) : (
 								<StatsBarChart data={userLastSevenDaysQuizzes} />

@@ -1,7 +1,8 @@
 import { Dimensions } from "react-native";
 import { APP_NAME } from "@env";
 
-export const COLORS = { // JS ENUM
+export const COLORS = {
+	// JS ENUM
 	primary: "#007BFF", // #4630EB
 	secondary: "#000020",
 
@@ -33,20 +34,24 @@ export const headerShown = true;
 
 export const questionsNumber = 5;
 
-export const CHARTTYPES = { // JS ENUM
+export const CHARTTYPES = {
+	// JS ENUM
 	barChart: "BarChart",
 	lineChart: "LineChart",
+	horizontalBarChart: "HorizontalBarChart",
 	pieChart: "PieChart",
 };
 
-export const ACCOUNTOPTIONS = { // JS ENUM
+export const ACCOUNTOPTIONS = {
+	// JS ENUM
 	setUsername: "Set Username",
 	setPassword: "Set Password",
 	statsPage: "Stats Page",
 	deleteAccount: "Delete Account",
 };
 
-export const pointerConfig = { // JS ENUM
+export const pointerConfig = {
+	// JS ENUM
 	pointerStripUptoDataPoint: true,
 	pointerStripColor: COLORS.error,
 	pointerStripWidth: 2,

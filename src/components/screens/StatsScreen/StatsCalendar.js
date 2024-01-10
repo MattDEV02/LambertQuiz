@@ -1,8 +1,10 @@
 import React from "react";
 import { View, Alert as Window } from "react-native";
 import { Calendar } from "react-native-calendars";
+import moment from "moment";
 import { COLORS, appName } from "../../../constants/theme";
 import { validateObject } from "../../../utils/validators";
+
 
 const StatsCalendar = ({ data, userSubDate }) => {
 	const quizTaken = { key: "quizTaken", color: COLORS.black },
@@ -33,7 +35,7 @@ const StatsCalendar = ({ data, userSubDate }) => {
 	}
 
 	const handleOnPlayPress = (stringDay) => {
-		const base = "In day " + stringDay;
+		const base = "In day " + moment(stringDay).format("DD/MM/YYYY");
 		const markDate = markedDates[stringDay];
 		if (!validateObject(markDate)) {
 			Window.alert(base + " you didn't play with " + appName + " !");
@@ -72,6 +74,9 @@ const StatsCalendar = ({ data, userSubDate }) => {
 						},
 					},
 				}}
+				
+				enableSwipeMonths={true}
+				maxDate={moment().format("YYYY-MM-DD")}
 				firstDay={1}
 				showWeekNumbers={true}
 				markingType={"multi-dot"}
