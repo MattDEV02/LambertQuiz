@@ -30,8 +30,15 @@ SELECT
 DROP TYPE
   IF EXISTS categories;
 
-CREATE TYPE
-  categories AS ENUM('France', 'Egypt', 'Math');
+CREATE TYPE 
+  categories AS ENUM(
+    'Egypt',
+    'England',
+    'France',
+    'Geography',
+    'History',
+    'Math'
+  );
 
 DROP EXTENSION
   IF EXISTS PGCRYPTO CASCADE;
@@ -162,7 +169,6 @@ BEGIN
     RETURN _check;
 END;
 $$ LANGUAGE PLPGSQL;
-
 
 INSERT INTO
   public.users (email, password, username)
@@ -630,6 +636,11 @@ ADD
 ALTER TABLE
   public.progresses
 ADD
+  CONSTRAINT check_progresses_now CHECK (public.progresses.quiz_finished_at <= NOW());
+
+ALTER TABLE
+  public.progresses
+ADD
   CONSTRAINT check_progresses_quiz_score CHECK (
     public.progresses.quiz_score >= 0
     AND public.progresses.quiz_score <= 5
@@ -650,6 +661,7 @@ UPDATE
 EXECUTE
   FUNCTION progresses_updated_at_set_timestamp ();
 
+-- TODO: public.progresses.quiz_finished_at <= public.users.inserted_at  TRIGGER
 INSERT INTO
   progresses (
     _user,
@@ -662,29 +674,29 @@ VALUES
   (
     1,
     1,
-    '2024-01-05 10:23:54',
-    '2024-01-05 10:24:32',
+    '2024-01-02 10:23:54',
+    '2024-01-02 10:24:32',
     2
   ),
-    (
+  (
     1,
     1,
-    '2024-01-04 11:23:54',
-    '2024-01-04 11:24:32',
+    '2024-01-07 11:23:54',
+    '2024-01-07 11:24:32',
     2
   ),
   (
     1,
     2,
-    '2024-01-02 09:23:54',
-    '2024-01-02 09:24:32',
+    '2024-01-06 09:23:54',
+    '2024-01-06 09:24:32',
     2
   ),
-    (
+  (
     1,
     3,
-    '2024-01-01 11:33:54',
-    '2024-01-01 11:34:32',
+    '2024-01-05 11:33:54',
+    '2024-01-05 11:34:32',
     2
   );
 
@@ -757,6 +769,7 @@ OR REPLACE FUNCTION get_best_five_users_stats () RETURNS TABLE (
   username VARCHAR,
   totalScore BIGINT,
   averageScore TEXT,
+  worstScore TEXT,
   betterScore TEXT,
   totalQuizzes TEXT,
   quizzesCompletitionPercentage TEXT
@@ -775,6 +788,7 @@ RETURN QUERY
   Users.username,
   SUM(Progresses.quiz_score) AS totalScore,
   ROUND(AVG(Progresses.quiz_score), 2)::VARCHAR || ' / ' || questions_number AS averageScore,
+  MIN(Progresses.quiz_score)::VARCHAR || ' / ' || questions_number AS worstScore,
   MAX(Progresses.quiz_score)::VARCHAR || ' / ' || questions_number AS betterScore,
   COUNT(DISTINCT Quizzes.quiz_id)::VARCHAR || ' / ' || quizzes_number AS totalQuizzes,
   (ROUND(
@@ -800,7 +814,7 @@ END;
 $$ LANGUAGE PLPGSQL;
 
 CREATE
-OR REPLACE FUNCTION get_last_seven_days_quizzes (IN _user_id INTEGER) RETURNS TABLE (day DATE, totalQuizzes BIGINT) AS $$
+OR REPLACE FUNCTION get_last_seven_days_quizzes (IN _user_id INTEGER) RETURNS TABLE (day TEXT, totalQuizzes BIGINT) AS $$
 BEGIN
     RETURN QUERY
 WITH RECURSIVE date_series AS (
@@ -811,10 +825,10 @@ WITH RECURSIVE date_series AS (
   WHERE date_series.date > NOW() - INTERVAL '6 days'
 )
 
-SELECT date_series.date::DATE AS day,
+SELECT TO_CHAR(date_series.date::DATE, 'DD/MM') AS day,
        COALESCE(COUNT(p.progresses_id), 0) AS quizzes_solved
 FROM date_series
-LEFT JOIN public.progresses p ON date_series.date::DATE = p.quiz_started_at::DATE AND p._user = 1
+LEFT JOIN public.progresses p ON date_series.date::DATE = p.quiz_started_at::DATE AND p._user = _user_id
 GROUP BY date_series.date::DATE
 ORDER BY date_series.date::DATE ASC;
 END;
@@ -889,10 +903,38 @@ OR REPLACE FUNCTION store_progress (
   )
 $$;
 
+CREATE
+OR REPLACE FUNCTION get_searched_quizzes (IN quiz_category TEXT) RETURNS SETOF Quizzes LANGUAGE SQL AS $$
+SELECT 
+  DISTINCT
+    *
+FROM
+  Quizzes
+WHERE
+  category::TEXT ILIKE '%' || TRIM(quiz_category) || '%' 
+  ;
+$$;
+
+CREATE
+OR REPLACE FUNCTION get_quizzes_days (IN _user_id INTEGER) RETURNS TABLE (quiz_day TEXT) AS $$ 
+BEGIN
+  RETURN QUERY
+SELECT
+  DISTINCT
+    TO_CHAR(p.quiz_finished_at, 'YYYY-MM-DD') AS quiz_day
+FROM
+  Progresses p
+    JOIN Quizzes q ON p.quiz = q.quiz_id
+    JOIN Users u ON p._user = u.user_id
+WHERE
+  u.user_id = _user_id;
+END;
+$$ LANGUAGE PLPGSQL;
+
+;
 
 -- Example query:
 select
   *
-from
-  check_user_password_function ('Matt', 'Matteo02');
-
+FROM
+  get_quizzes_days (1);

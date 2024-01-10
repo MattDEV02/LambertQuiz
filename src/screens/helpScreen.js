@@ -23,7 +23,7 @@ const HelpScreen = () => {
 		},
 		{
 			question: `How many categories has the App?`,
-			response: `Now the App has 3 categories.`,
+			response: `Now the App has 6 categories.`,
 		},
 		{
 			question: `How many questions has a Quiz?`,
@@ -38,7 +38,11 @@ const HelpScreen = () => {
 			response: `Simple, on the profile page !`,
 		},
 		{
-			question: `Who is the Author of this App?`,
+			question: `What happens if I abandon a quiz in progress?`,
+			response: `Luckily for you, nothing happens!`,
+		},
+		{
+			question: `Who is the Author of this beatiful App?`,
 			response: `He is Lambertucci Matteo !`,
 		},
 	];
@@ -68,7 +72,7 @@ const HelpScreen = () => {
 							center at mattoelambertucci3@gmail.com
 						</Text>
 						<Text style={{ color: COLORS.primary, marginTop: 5 }}>
-							Copyright @ 2024 Lambertucci Matteo.
+						Copyright © 2024 Lambertucci Matteo.
 						</Text>
 					</View>
 				</View>
