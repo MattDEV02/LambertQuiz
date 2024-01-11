@@ -36,17 +36,18 @@ const SignUpScreen = ({ navigation }) => {
 	const [passwordSuccess, setPasswordSuccess] = useState(false);
 	const [confirmPasswordSuccess, setConfirmPasswordSuccess] = useState(false);
 
+	const getUsersEmailAndUsername = async () => {
+		const { data, error } = await supabase
+			.from("users")
+			.select("email, username");
+		if (validateObject(error)) {
+			console.error(error);
+		} else if (validateObject(data)) {
+			setUsers(data);
+		}
+	};
+
 	useEffect(() => {
-		const getUsersEmailAndUsername = async () => {
-			const { data, error } = await supabase
-				.from("users")
-				.select("email, username");
-			if (validateObject(error)) {
-				console.error(error);
-			} else if (validateObject(data)) {
-				setUsers(data);
-			}
-		};
 		getUsersEmailAndUsername();
 	}, []);
 
@@ -155,6 +156,10 @@ const SignUpScreen = ({ navigation }) => {
 			}
 		}
 	};
+
+	navigation.addListener("blur", () => {
+		fieldsReset();
+	});
 
 	return (
 		<SafeAreaView

@@ -4,14 +4,13 @@ import { PieChart } from "react-native-gifted-charts";
 import { COLORS, SIZES } from "../../../../constants/theme";
 
 const StatsPieChart = ({ data }) => {
-	const dataY = data.map((item) => item.value);
 	return (
 		<View
 			style={{
 				flexDirection: "row",
 				alignItems: "center",
 				justifyContent: "center",
-				marginBottom: 4.5,
+				marginBottom: 28,
 				backgroundColor: COLORS.white,
 				borderWidth: 1,
 				borderColor: COLORS.black,

@@ -9,7 +9,7 @@ const StatsBarChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
 	const axisThickness = 1.5;
 	return (
-		<View style={{ marginBottom: 30 }}>
+		<View style={{ marginBottom: 29 }}>
 			<BarChart
 				width={SIZES.width}
 				barWidth={26}

@@ -9,13 +9,13 @@ const Quiz = ({ quiz, handleOnPlayPress }) => {
 			style={{
 				padding: 20.5,
 				borderRadius: 17.5,
-				marginVertical: 5.7,
+				marginVertical: 5.625,
 				marginHorizontal: 10,
 				flexDirection: "row",
 				alignItems: "center",
 				justifyContent: "space-between",
 				backgroundColor: COLORS.white,
-				elevation: 2,
+				elevation: 4,
 			}}
 		>
 			<View style={{ flex: 1, paddingRight: 10 }}>

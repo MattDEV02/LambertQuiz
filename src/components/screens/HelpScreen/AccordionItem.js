@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import { ListItem } from "@rneui/themed";
+import MaterialIcons from "react-native-vector-icons/FontAwesome";
 import { COLORS } from "../../../constants/theme";
 
 const AccordionItem = ({ question, response }) => {
@@ -27,9 +27,7 @@ const AccordionItem = ({ question, response }) => {
 				</>
 			}
 			isExpanded={expanded}
-			onPress={() => {
-				setExpanded(!expanded);
-			}}
+			onPress={() => setExpanded(!expanded)}
 		>
 			<ListItem bottomDivider topDivider>
 				<ListItem.Content>

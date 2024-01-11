@@ -9,7 +9,7 @@ const StatsHorizontalBarChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
 	const axisThickness = 1.5;
 	return (
-		<View style={{ marginTop: -44.5, marginBottom: -11 }}>
+		<View style={{ marginBottom: -55 }}>
 			<BarChart
 				horizontal={true}
 				autoShiftLabels={false}
@@ -23,6 +23,7 @@ const StatsHorizontalBarChart = ({ data }) => {
 				barWidth={24}
 				labelWidth={0}
 				shiftX={-9.5}
+				shiftY={-45}
 				noOfSections={new Set(dataY).size}
 				maxValue={Math.max(...dataY) + 1}
 				backgroundColor={COLORS.white}

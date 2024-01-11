@@ -73,6 +73,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 				delete tempUser.confirmation_sent_at;
 				delete tempUser.aud;
 				delete tempUser.user_metadata;
+				delete tempUser.confirmed_at;
 				setUser(tempUser);
 				setUserReady(true);
 			}

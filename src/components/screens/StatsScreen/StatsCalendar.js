@@ -5,18 +5,21 @@ import moment from "moment";
 import { COLORS, appName } from "../../../constants/theme";
 import { validateObject } from "../../../utils/validators";
 
-
-const StatsCalendar = ({ data, userSubDate }) => {
+const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 	const quizTaken = { key: "quizTaken", color: COLORS.black },
-		userSub = { key: "userSub", color: "#CF13A6" };
+		userSub = { key: "userSub", color: COLORS.white },
+		userUpd = { key: "userUpd", color: "#CF13A6" };
 	let markedDates = {};
+	const markedDateObjProperties = {
+		selected: true,
+		marked: true,
+		selectedColor: COLORS.primary,
+		selectedTextColor: COLORS.white,
+		dotColor: COLORS.white,
+	};
 	data.map((item) => {
 		markedDates[item.quiz_day] = {
-			selected: true,
-			marked: true,
-			selectedColor: COLORS.primary,
-			selectedTextColor: COLORS.white,
-			dotColor: COLORS.white,
+			...markedDateObjProperties,
 			dots: [quizTaken],
 		};
 	});
@@ -25,35 +28,67 @@ const StatsCalendar = ({ data, userSubDate }) => {
 		markedDates[userSubDate].dots.push(userSub);
 	} else {
 		markedDates[userSubDate] = {
-			selected: true,
-			marked: true,
-			selectedColor: COLORS.primary,
-			selectedTextColor: COLORS.white,
-			dotColor: COLORS.white,
-			dots: [quizTaken, userSub],
+			...markedDateObjProperties,
+			dots: [userSub],
 		};
 	}
 
+	if (validateObject(markedDates[userUpdatedDate])) {
+		markedDates[userUpdatedDate].dots.push(userUpd);
+	} 
+
 	const handleOnPlayPress = (stringDay) => {
-		const base = "In day " + moment(stringDay).format("DD/MM/YYYY");
-		const markDate = markedDates[stringDay];
-		if (!validateObject(markDate)) {
-			Window.alert(base + " you didn't play with " + appName + " !");
+		const base = "In " + moment(stringDay).format("DD/MM/YYYY");
+		const markedDate = markedDates[stringDay];
+		let outputString = base;
+		if (!validateObject(markedDate)) {
+			outputString += " you didn't play with us.";
 		} else if (
-			validateObject(markDate.dots[0]) &&
-			!validateObject(markDate.dots[1])
+			markedDate.dots.includes(quizTaken) &&
+			!markedDate.dots.includes(userSub) &&
+			!markedDate.dots.includes(userUpd)
 		) {
-			Window.alert(base + " you played with " + appName + " !");
+			outputString += " you played with us!";
 		} else if (
-			!validateObject(markDate.dots[0]) &&
-			validateObject(markDate.dots[1])
+			!markedDate.dots.includes(quizTaken) &&
+			markedDate.dots.includes(userSub) &&
+			!markedDate.dots.includes(userUpd)
 		) {
-			Window.alert(base + " you signed up for " + appName + " !");
-		} else {
-			Window.alert(
-				base + " you signed up for " + appName + " and played with it !",
-			);
+			outputString += " you signed up for " + appName + "!";
+		} else if (
+			!markedDate.dots.includes(quizTaken) &&
+			!markedDate.dots.includes(userSub) &&
+			markedDate.dots.includes(userUpd)
+		) {
+			outputString += " you updated your Account!";
+		} else if (
+			markedDate.dots.includes(quizTaken) &&
+			markedDate.dots.includes(userSub) &&
+			!markedDate.dots.includes(userUpd)
+		) {
+			outputString +=
+				" you played with us and signed up for " + appName + "!";
+		} else if (
+			markedDate.dots.includes(quizTaken) &&
+			!markedDate.dots.includes(userSub) &&
+			markedDate.dots.includes(userUpd)
+		) {
+			outputString += " you played with us and updated your account!";
+		} else if (
+			!markedDate.dots.includes(quizTaken) &&
+			markedDate.dots.includes(userSub) &&
+			markedDate.dots.includes(userUpd)
+		) {
+			outputString +=
+				" you signed up for " + appName + " and played with it!";
+		} else if (
+			markedDate.dots.includes(quizTaken) &&
+			markedDate.dots.includes(userSub) &&
+			markedDate.dots.includes(userUpd)
+		) {
+			outputString += " you played, signed up and updated your account !";
 		}
+		Window.alert(outputString);
 	};
 
 	return (
@@ -74,7 +109,6 @@ const StatsCalendar = ({ data, userSubDate }) => {
 						},
 					},
 				}}
-				
 				enableSwipeMonths={true}
 				maxDate={moment().format("YYYY-MM-DD")}
 				firstDay={1}

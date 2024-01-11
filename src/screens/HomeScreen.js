@@ -20,6 +20,7 @@ import { playClickSound } from "../utils/sounds";
 
 const HomeScreen = ({ navigation, route }) => {
 	const user = route.params.user;
+	console.log(user);
 	const [quizzes, setQuizzes] = useState([]);
 	const [quiz, setQuiz] = useState("");
 	const [searching, setSearching] = useState(false);
@@ -117,7 +118,7 @@ const HomeScreen = ({ navigation, route }) => {
 								setQuiz(quiz);
 								setSearching(true);
 							}}
-							style={{ width: "89%" }}
+							style={{ width: "89.5%" }}
 							inputStyle={{
 								marginTop: 7.5,
 								marginBottom: 5,
@@ -125,36 +126,38 @@ const HomeScreen = ({ navigation, route }) => {
 								backgroundColor: COLORS.white,
 								borderWidth: 0.35,
 								borderColor: COLORS.secondary,
-								borderRadius: 11,
+								borderRadius: 12,
 								fontSize: 16,
 							}}
 						/>
 					</View>
 					{/* Quiz list */}
-					{validateArray(quizzes, 1) ? (
-						<FlatList
-							data={quizzes}
-							scrollEnabled={false}
-							onRefresh={() => undefined}
-							refreshing={refreshing}
-							showsVerticalScrollIndicator={false}
-							keyExtractor={(item) => item.quiz_id}
-							renderItem={({ item: quiz }) => (
-								<Quiz
-									quiz={quiz}
-									handleOnPlayPress={() =>
-										handleOnPlayPress(quiz.quiz_id)
-									}
-								/>
-							)}
-						/>
-					) : searching ? (
-						<View style={{ ...style.container, marginTop: 47 }}>
-							<Text style={{ ...style.text, color: "#EF0909" }}>
-								NO Quizzes found.
-							</Text>
-						</View>
-					) : null}
+					<View style={{ marginBottom: 20 }}>
+						{validateArray(quizzes, 1) ? (
+							<FlatList
+								data={quizzes}
+								scrollEnabled={false}
+								onRefresh={() => undefined}
+								refreshing={refreshing}
+								showsVerticalScrollIndicator={false}
+								keyExtractor={(item) => item.quiz_id}
+								renderItem={({ item: quiz }) => (
+									<Quiz
+										quiz={quiz}
+										handleOnPlayPress={() =>
+											handleOnPlayPress(quiz.quiz_id)
+										}
+									/>
+								)}
+							/>
+						) : searching ? (
+							<View style={{ ...style.container, marginTop: 47 }}>
+								<Text style={{ ...style.text, color: "#EF0909" }}>
+									NO Quizzes found.
+								</Text>
+							</View>
+						) : null}
+					</View>
 				</View>
 			</ScrollView>
 		</SafeAreaView>

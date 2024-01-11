@@ -31,8 +31,7 @@ const ChartsPicker = ({ setSelectedChart }) => {
 	return (
 		<View
 			style={{
-				marginTop: 25,
-				marginBottom: 11.5,
+				marginBottom: 12,
 				fontSize: 16,
 				paddingLeft: 15,
 				paddingVertical: 4.5,

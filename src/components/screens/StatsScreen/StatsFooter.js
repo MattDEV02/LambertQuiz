@@ -2,18 +2,13 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { validateString } from "../../../utils/validators";
 
-const StatsFooter = ({
-	userSub,
-	userSubDays,
-	userPrefCategory,
-	addingTextStyle,
-}) => {
+const StatsFooter = ({ userSub, userSubDays, userPrefCategory }) => {
 	return (
 		<View style={style.footer}>
-			<Text style={{ ...addingTextStyle, ...style.footerText }}>
+			<Text style={style.footerText}>
 				You are our User since {userSub}, that's {userSubDays} days!
 			</Text>
-			<Text style={{ ...addingTextStyle, ...style.footerText }}>
+			<Text style={style.footerText}>
 				Prefered category:{" "}
 				{validateString(userPrefCategory) ? userPrefCategory : "None"}
 			</Text>
@@ -22,8 +17,13 @@ const StatsFooter = ({
 };
 
 const style = StyleSheet.create({
-	footer: { marginTop: 16, marginBottom: 27.5 },
-	footerText: { fontSize: 16 },
+	footer: { marginTop: 16, marginBottom: 35 },
+	footerText: {
+		fontSize: 16,
+		margin: 4.25,
+		textAlign: "center",
+		fontWeight: "bold",
+	},
 });
 
 export default StatsFooter;

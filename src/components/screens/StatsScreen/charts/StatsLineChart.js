@@ -7,7 +7,7 @@ import { COLORS, SIZES, pointerConfig } from "../../../../constants/theme";
 const StatsLineChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
 	return (
-		<View style={{ marginBottom: 30 }}>
+		<View style={{ marginBottom: 29 }}>
 			<LineChart
 				areaChart={true}
 				startFillColor={COLORS.primary}

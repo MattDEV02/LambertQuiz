@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
 	View,
+	Text,
 	SafeAreaView,
 	ScrollView,
-	ActivityIndicator,
 	StyleSheet,
 	RefreshControl,
 } from "react-native";
@@ -25,23 +25,23 @@ import {
 	validateArray,
 	validateString,
 } from "../utils/validators";
-import { COLORS, CHARTTYPES } from "../constants/theme";
+import { appName, CHARTTYPES } from "../constants/theme";
 
 const StatsScreen = ({ route }) => {
+	const isFocused = useIsFocused();
+
 	const user = route.params.user;
 	const userId = user.user_id;
 
-	const isFocused = useIsFocused();
-
-	const userSub = moment(user.confirmed_at).format("DD/MM/YYYY");
-	const userSubDays = moment().diff(user.confirmed_at, "days") + 1;
+	const userSub = moment(user.email_confirmed_at).format("DD/MM/YYYY"),
+		userUpd = moment(user.updated_at).format("YYYY-MM-DD");
+	const userSubDays = moment().diff(user.email_confirmed_at, "days") + 1;
 
 	const [bestFiveUsersMatrix, setBestFiveUsersMatrix] = useState([]); // array of arrays
 	const [quizzesDays, setQuizzesDays] = useState([]); // array of objects
 	const [userLastSevenDaysQuizzes, setUserLastSevenDaysQuizzes] = useState([]); // array of objects
 	const [userPrefCategory, setUserPrefCategory] = useState("");
 	const [refreshing, setRefreshing] = useState(false);
-
 	const [selectedChart, setSelectedChart] = useState(CHARTTYPES.barChart);
 
 	const getBestFiveUsersStats = async () => {
@@ -149,44 +149,56 @@ const StatsScreen = ({ route }) => {
 						/>
 					}
 				>
-					{validateArray(bestFiveUsersMatrix, 0) ? (
-						<StatsTable matrix={bestFiveUsersMatrix} />
-					) : null}
-					<ActivityIndicator
-						size="large"
-						color={COLORS.black}
-						animating={refreshing}
-					/>
-					{validateArray(quizzesDays, 1) ? (
-						<StatsCalendar
-							data={quizzesDays}
-							userSubDate={moment(user.confirmed_at).format(
-								"YYYY-MM-DD",
-							)}
-						/>
-					) : null}
-					<ChartsPicker setSelectedChart={setSelectedChart} />
-					{validateArray(userLastSevenDaysQuizzes, 7) ? (
-						<View>
-							{selectedChart === CHARTTYPES.barChart ? (
-								<StatsBarChart data={userLastSevenDaysQuizzes} />
-							) : selectedChart === CHARTTYPES.lineChart ? (
-								<StatsLineChart data={userLastSevenDaysQuizzes} />
-							) : selectedChart === CHARTTYPES.horizontalBarChart ? (
-								<StatsHorizontalBarChart data={userLastSevenDaysQuizzes} />
-							) : selectedChart === CHARTTYPES.pieChart ? (
-								<StatsPieChart data={userLastSevenDaysQuizzes} />
-							) : (
-								<StatsBarChart data={userLastSevenDaysQuizzes} />
-							)}
-						</View>
-					) : null}
-					{validateString(userSub) ? (
+					<View>
+						<Text style={{ ...style.text, ...style.title }}>
+							Best 5 {appName} Players
+						</Text>
+						{validateArray(bestFiveUsersMatrix, 0) ? (
+							<StatsTable matrix={bestFiveUsersMatrix} />
+						) : null}
+					</View>
+					<View>
+						<Text style={{ ...style.text, ...style.title }}>
+							Your {appName} activity
+						</Text>
+						{validateArray(quizzesDays, 1) ? (
+							<StatsCalendar
+								data={quizzesDays}
+								userSubDate={moment(user.email_confirmed_at).format(
+									"YYYY-MM-DD",
+								)}
+								userUpdatedDate={userUpd}
+							/>
+						) : null}
+					</View>
+					<View>
+						<Text style={{ ...style.text, ...style.title }}>
+							Last seven days quizzes
+						</Text>
+						<ChartsPicker setSelectedChart={setSelectedChart} />
+						{validateArray(userLastSevenDaysQuizzes, 7) ? (
+							<View>
+								{selectedChart === CHARTTYPES.barChart ? (
+									<StatsBarChart data={userLastSevenDaysQuizzes} />
+								) : selectedChart === CHARTTYPES.lineChart ? (
+									<StatsLineChart data={userLastSevenDaysQuizzes} />
+								) : selectedChart === CHARTTYPES.horizontalBarChart ? (
+									<StatsHorizontalBarChart
+										data={userLastSevenDaysQuizzes}
+									/>
+								) : selectedChart === CHARTTYPES.pieChart ? (
+									<StatsPieChart data={userLastSevenDaysQuizzes} />
+								) : (
+									<StatsBarChart data={userLastSevenDaysQuizzes} />
+								)}
+							</View>
+						) : null}
+					</View>
+					{validateString(userSub) && userSubDays >= 1 ? (
 						<StatsFooter
 							userSub={userSub}
 							userSubDays={userSubDays}
 							userPrefCategory={userPrefCategory}
-							addingTextStyle={style.text}
 						/>
 					) : null}
 				</ScrollView>
@@ -197,6 +209,10 @@ const StatsScreen = ({ route }) => {
 
 const style = StyleSheet.create({
 	text: { margin: 3.5, textAlign: "center", fontWeight: "bold" },
+	title: {
+		fontSize: 24,
+		marginVertical: 27,
+	},
 });
 
 export default StatsScreen;

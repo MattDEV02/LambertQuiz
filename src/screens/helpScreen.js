@@ -6,7 +6,7 @@ import { COLORS, questionsNumber } from "../constants/theme";
 const HelpScreen = () => {
 	const accordionList = [
 		{
-			question: `How to play at LambertQuiz ?`,
+			question: `How to play at LambertQuiz?`,
 			response: `It's very easy to play the LambertQuiz game, in fact as soon as you log in you can choose a quiz category, play, send the result and see your score (and the sounds)!`,
 		},
 		{
@@ -31,19 +31,23 @@ const HelpScreen = () => {
 		},
 		{
 			question: `Where can I read the results and statistics I have made in this game?`,
-			response: `Simple, on the statistics page !`,
+			response: `Simple, on the statistics page!`,
 		},
 		{
 			question: `Where can I see my profile in this App?`,
-			response: `Simple, on the profile page !`,
+			response: `Simple, on the profile page!`,
 		},
 		{
 			question: `What happens if I abandon a quiz in progress?`,
 			response: `Luckily for you, nothing happens!`,
 		},
 		{
+			question: `What can I see on the statistics page?`,
+			response: `First of all, you can look at a table that shows various static data of the top 5 players of this app, a calendar that shows your activity on this app, graphs that show the number of quizzes taken in the last week (day by day), favorite quiz category and much more!`,
+		},
+		{
 			question: `Who is the Author of this beatiful App?`,
-			response: `He is Lambertucci Matteo !`,
+			response: `He is Lambertucci Matteo!`,
 		},
 	];
 	return (
@@ -72,7 +76,7 @@ const HelpScreen = () => {
 							center at mattoelambertucci3@gmail.com
 						</Text>
 						<Text style={{ color: COLORS.primary, marginTop: 5 }}>
-						Copyright © 2024 Lambertucci Matteo.
+						Copyright © Lambertucci Matteo 2024.
 						</Text>
 					</View>
 				</View>
