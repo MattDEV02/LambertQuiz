@@ -131,7 +131,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 					<FormButton
 						labelText="Submit"
 						style={{ margin: 12, borderRadius: 15 }}
-						textStyle={{ color: COLORS.white, fontSize: 22 }}
+						textStyle={{ color: COLORS.white, fontSize: 21 }}
 						handleOnPress={() => handleOnSubmit()}
 					/>
 				)}

@@ -17,7 +17,7 @@ const StatsTable = ({ matrix }) => {
 		"Warning: Failed prop type: Invalid prop `textStyle` of type `array` supplied to `Cell`, expected `object`.",
 	]);
 
-	const widthArr = [85, 105, 100, 107, 105, 110];
+	const widthArr = [100, 105, 100, 107, 105, 110];
 
 	const [tooltipVisible, setTooltipVisible] = useState(false);
 
@@ -79,7 +79,7 @@ const StatsTable = ({ matrix }) => {
 											fontSize: 16,
 										}}
 									>
-										No rows to show
+										No Users to show
 									</Text>
 								</View>
 							)}

@@ -236,7 +236,7 @@ CREATE
 OR REPLACE FUNCTION quiz_question_category () RETURNS TRIGGER AS $$
 BEGIN
   IF ((SELECT COUNT(public.quizzes.quiz_id) FROM public.quizzes JOIN public.questions ON public.quizzes.quiz_id = public.questions.quiz WHERE public.quizzes.category <> public.questions.category) > 0) THEN
- 	RAISE EXCEPTION 'Question and Quiz with different category!';
+ 	RAISE EXCEPTION 'Question and Quiz with different category!' ;
   END IF;
   RETURN NEW;
 END;
@@ -250,18 +250,34 @@ UPDATE
 EXECUTE
   FUNCTION quiz_question_category ();
 
+
 INSERT INTO
   public.quizzes (title, description, category)
 VALUES
+  (
+    'Egypt culture Quiz',
+    'Simple Quiz on the Egypt culture.',
+    'Egypt'
+  ),
+  (
+    'England culture Quiz',
+    'Simple Quiz on the England culture.',
+    'England'
+  ),
   (
     'France culture Quiz',
     'Simple Quiz on the France culture.',
     'France'
   ),
   (
-    'Egypt culture Quiz',
-    'Simple Quiz on the Egypt culture.',
-    'Egypt'
+    'Geography Quiz',
+    'Simple Quiz on Geography.',
+    'Geography'
+  ),
+  (
+    'History Quiz',
+    'Simple Quiz on History.',
+    'History'
   ),
   (
     'Math Quiz',
@@ -427,6 +443,24 @@ EXECUTE
   FUNCTION quiz_question_category ();
 
 CREATE
+OR REPLACE FUNCTION quiz_question_five () RETURNS TRIGGER AS $$
+BEGIN
+  IF ((SELECT COUNT(public.questions.question_id) FROM public.questions WHERE public.questions.quiz = NEW.quiz) >= 5) THEN
+ 	RAISE EXCEPTION 'Maximum 5 questions per Quiz!' ;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE
+OR REPLACE TRIGGER trigger_question_category_five
+BEFORE
+INSERT
+  ON public.questions FOR EACH ROW
+EXECUTE
+  FUNCTION quiz_question_five ();
+
+CREATE
 OR REPLACE FUNCTION get_random_questions (IN quiz_id INTEGER) RETURNS SETOF questions LANGUAGE SQL AS $$
    SELECT * 
    FROM questions
@@ -436,96 +470,217 @@ OR REPLACE FUNCTION get_random_questions (IN quiz_id INTEGER) RETURNS SETOF ques
    LIMIT 5;
 $$;
 
+
 INSERT INTO
   public.questions (text, category, imageURL, options, solution, quiz)
 VALUES
-  (
-    'How much is tall the Eiffel Tower ?',
-    'France',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/France/torre_eiffel.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9GcmFuY2UvdG9ycmVfZWlmZmVsLmpwZyIsImlhdCI6MTcwMjQxNTgxNSwiZXhwIjoxNzMzOTUxODE1fQ.5wYS0MP1lI-aVpscVg3Wv0TVPlWuhifEd2pQAfpTUIc&t=2023-12-12T21%3A16%3A57.369Z',
-    '{"324 m", "72 m", "200 m", "100 m"}',
-    '324 m',
-    1
-  ),
-  (
-    'What is the capital of the France ?',
-    'France',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/France/parigi-orig.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9GcmFuY2UvcGFyaWdpLW9yaWcuanBlZyIsImlhdCI6MTcwMjQxNTkxMywiZXhwIjoxNzMzOTUxOTEzfQ.e6yxVwOxNOHzoKu3AHQ-8A9Hg3HM8RYyOvUvwUERnyg&t=2023-12-12T21%3A18%3A34.638Z',
-    '{"Rome", "Garbatella", "Chicago", "Paris"}',
-    'Paris',
-    1
-  ),
-  (
-    'What is the second city of the France ?',
-    'France',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/France/lione-cattedrale.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9GcmFuY2UvbGlvbmUtY2F0dGVkcmFsZS5qcGciLCJpYXQiOjE3MDI0MTU5NjksImV4cCI6MTczMzk1MTk2OX0.D6ZKWEay8ale7fAski9hsIYpHz3CIWLUoS4QrG6vZJo&t=2023-12-12T21%3A19%3A31.183Z',
-    '{"Paris", "Tolosa", "Lione", "Nizza"}',
-    'Lione',
-    1
-  ),
-  (
-    'In what year was the Eiffel Tower built?',
-    'France',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/France/torre_eiffel.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9GcmFuY2UvdG9ycmVfZWlmZmVsLmpwZyIsImlhdCI6MTcwMjQxNTgxNSwiZXhwIjoxNzMzOTUxODE1fQ.5wYS0MP1lI-aVpscVg3Wv0TVPlWuhifEd2pQAfpTUIc&t=2023-12-12T21%3A16%3A57.369Z',
-    '{"1889", "2024", "0", "1911"}',
-    '1889',
-    1
-  ),
-  (
-    'What is the French surface area?',
-    'France',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/France/_128316432_bbcmp_france.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9GcmFuY2UvXzEyODMxNjQzMl9iYmNtcF9mcmFuY2UucG5nIiwiaWF0IjoxNzAyNDE1OTkzLCJleHAiOjE3MzM5NTE5OTN9.Ee-dGxpJEmblQyf1VZrUkkdogi4mLP6zK8kPtZgLANg&t=2023-12-12T21%3A19%3A54.655Z',
-    '{"851500 km^2", "551500 km^2", "0 km^2", "6001500 km^2"}',
-    '551500 km^2',
-    1
-  ),
-  (
+    (
     'How much is large the Giza Sphinx ?',
     'Egypt',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Egypt/mistero_sfinge-scaled.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9FZ3lwdC9taXN0ZXJvX3NmaW5nZS1zY2FsZWQuanBlZyIsImlhdCI6MTcwMjQxNjI5MCwiZXhwIjoxNzMzOTUyMjkwfQ.xlr4WnV95OWE84Sk3U_UaB4ympVj50MjBZsiRE_zU9o&t=2023-12-12T21%3A24%3A52.090Z',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Egypt/sfinge.jpeg?t=2024-01-11T13%3A48%3A40.330Z',
     '{"10 m", "6 m", "1 m", "324 m"}',
     '6 m',
-    2
+    1
   ),
   (
     'What is the capital of Egypt',
     'Egypt',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Egypt/ll-Cairo-Egitto.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9FZ3lwdC9sbC1DYWlyby1FZ2l0dG8uanBnIiwiaWF0IjoxNzAyNDE2MjQ1LCJleHAiOjE3MzM5NTIyNDV9.GFmljKoy-yd-jUDZwvjhM67YlN2Ln8_qH60aIetaD4M&t=2023-12-12T21%3A24%3A07.374Z',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Egypt/Cairo.jpg?t=2024-01-11T13%3A49%3A34.623Z',
     '{"Il Cairo", "Piramide", "Luxor", "Giza"}',
     'Il Cairo',
-    2
+    1
   ),
   (
     'What is the Egypt surface area?',
     'Egypt',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Egypt/mappa_egitto.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9FZ3lwdC9tYXBwYV9lZ2l0dG8uanBnIiwiaWF0IjoxNzAyNDE2MjY2LCJleHAiOjE3MzM5NTIyNjZ9.xU8f3G_OH55vxKhN53HHypTP-ax_ABxcg3lzUVpMOhA&t=2023-12-12T21%3A24%3A27.749Z',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Egypt/mappa_egitto.jpg?t=2024-01-11T13%3A49%3A15.469Z',
     '{"1002000 km^2", "551500 km^2", "0 km^2", "6001500 km^2"}',
     '1002000 km^2',
-    2
+    1
   ),
   (
     'When did ancient Egypt originate?',
     'Egypt',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Egypt/antico_egitto.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9FZ3lwdC9hbnRpY29fZWdpdHRvLmpwZyIsImlhdCI6MTcwMjQxNjE3MywiZXhwIjoxNzMzOTUyMTczfQ.2rMtK9j8ASy0OCENTtVH2WWKmDWgP-2CWS0BY1b11Is&t=2023-12-12T21%3A22%3A55.243Z',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Egypt/antico_egitto.jpg?t=2024-01-11T13%3A49%3A50.994Z',
     '{"3900 AC", "3942 AC", "0", "342 DC"}',
     '3900 AC',
-    2
+    1
   ),
   (
-    'How many colors does the Egyptian flag have?',
+    'How many colors does the Egyptian flag have ?',
     'Egypt',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Egypt/bandiera_egitto.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9FZ3lwdC9iYW5kaWVyYV9lZ2l0dG8ucG5nIiwiaWF0IjoxNzAyNDE2MjA2LCJleHAiOjE3MzM5NTIyMDZ9.-kg1La3IlUng4EzehoX3SJU9XvHMPizuslOsYs-2rWU&t=2023-12-12T21%3A23%3A27.569Z',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Egypt/bandiera_egitto.png?t=2024-01-11T13%3A49%3A06.781Z',
     '{"1", "2", "3", "4"}',
     '4',
+    1
+  ),
+  (
+    'When did Queen Elizabeth die ?',
+    'England',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/England/Queen_Elizabeth.jpg?t=2024-01-11T11%3A49%3A49.686Z',
+    '{"2024", "yesterday", "2023", "1999"}',
+    '2023',
     2
   ),
   (
-    'How much is 2 plus 3 ?',
-    'Math',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/algebra.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL2FsZ2VicmEuanBnIiwiaWF0IjoxNzAyNDE2MzMxLCJleHAiOjE3MzM5NTIzMzF9.bKJaGd-lO9n_CtZkXiReBedGji3iiEptsEyWoHtdI9U&t=2023-12-12T21%3A25%3A33.008Z',
-    '{"5", "18", "0", "-2"}',
-    '5',
+    'What is the Englanld surface area ?',
+    'England',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/England/england-map.jpg?t=2024-01-11T11%3A51%3A57.771Z',
+    '{"140279 km^2", "130279 km^2", "250898 km^2", "0 km^2"}',
+    '130279 km^2',
+    2
+  ),
+  (
+    'What is drawn on the English flag?',
+    'England',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/England/england_flag.png?t=2024-01-11T11%3A53%3A39.949Z',
+    '{"A ball", "A crown", "An animal", "A cross"}',
+    'A cross',
+    2
+  ),
+  (
+    'What is the capital of England ?',
+    'England',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/England/london.jpeg?t=2024-01-12T08%3A55%3A06.769Z',
+    '{"London", "Frosinone", "Rome", "Liverpool"}',
+    'London',
+    2
+  ),
+  (
+    'How tall is the tower bridge ?',
+    'England',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/England/tower_bridge.jpg?t=2024-01-11T11%3A59%3A59.484Z',
+    '{"65 m", "70 m", "289 m", "0 m"}',
+    '65 m',
+    2
+  ),
+  (
+    'How much is tall the Eiffel Tower ?',
+    'France',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/France/torre_eiffel.jpg?t=2024-01-11T13%3A50%3A23.804Z',
+    '{"324 m", "72 m", "200 m", "100 m"}',
+    '324 m',
     3
+  ),
+  (
+    'What is the capital of the France ?',
+    'France',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/France/torre_eiffel.jpg?t=2024-01-11T13%3A50%3A23.804Z',
+    '{"Rome", "Garbatella", "Chicago", "Paris"}',
+    'Paris',
+    3
+  ),
+  (
+    'What is the second city of the France ?',
+    'France',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/France/lione.jpg',
+    '{"Paris", "Tolosa", "Lione", "Nizza"}',
+    'Lione',
+    3
+  ),
+  (
+    'In what year was the Eiffel Tower built?',
+    'France',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/France/torre_eiffel.jpg?t=2024-01-11T13%3A50%3A23.804Z',
+    '{"1889", "2024", "0", "1911"}',
+    '1889',
+    3
+  ),
+  (
+    'What is the French surface area?',
+    'France',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/France/mappa_francia.png?t=2024-01-11T13%3A52%3A13.480Z',
+    '{"851500 km^2", "551500 km^2", "0 km^2", "6001500 km^2"}',
+    '551500 km^2',
+    3
+  ),
+  (
+    'What is the Germany surface area?',
+    'Geography',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Geography/germania-mappa.jpg?t=2024-01-11T12%3A04%3A16.486Z',
+    '{"851500 km^2", "357592 km^2", "0 km^2", "457592 km^2"}',
+    '357592 km^2',
+    4
+  ),
+  (
+    'How many cultures does India have?',
+    'Geography',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Geography/induismo.jpg?t=2024-01-11T12%3A06%3A59.256Z',
+    '{"4", "1", "0", "-2"}',
+    '4',
+    4
+  ),
+  (
+    'What is the population of Islanda ?',
+    'Geography',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Geography/islanda.jpg?t=2024-01-12T08%3A56%3A56.132Z',
+    '{"472520 people", "0 people", "-100 people", "372520 people"}',
+    '372520 people',
+    4
+  ),
+  (
+    'Who does Morocco NOT border with?',
+    'Geography',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Geography/mappa-marocco.jpg?t=2024-01-11T12%3A11%3A47.736Z',
+    '{"Algeria", "Sahara Desert", "Sweden", "Mediterranean Sea"}',
+    'Sweden',
+    4
+  ),
+  (
+    'What is the Italian PIL?',
+    'Geography',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Geography/pil_italiano.jpg?t=2024-01-12T08%3A56%3A38.433Z',
+    '{"0 trillion USD", "1,108 trillion USD", "2,108 trillion USD", "3,108 trillion USD"}',
+    '2,108 trillion USD',
+    4
+  ), 
+  (
+    'Who invented the famous formula for calculating the sum of the first n natural numbers n * (n + 1) / 2?',
+    'History',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/History/Gauss.jpg',
+    '{"Garibaldi", "Gauss", "Totti", "Kennedy"}',
+    'Gauss',
+    5
+  ),
+  (
+    'In what period of time did the Roman Empire dominate the Mediterranean and Central Europe?',
+    'History',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/History/impero_romano.png?t=2024-01-11T13%3A38%3A24.858Z',
+    '{"1000 AC - 2000 DC", "1453 AC - 0", "753 AC - 1453 DC", "0 - 1453 DC"}',
+    '753 AC - 1453 DC',
+    5
+  ),
+  (
+    'When did the First World War begin?',
+    'History',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/History/prima_guerra_mondiale.jpg',
+    '{"1900", "1939", "1910", "1914"}',
+    '1914',
+    5
+  ),
+  (
+    'When did the Second World War end?',
+    'History',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/History/seconda-guerra-mondiale.jpg?t=2024-01-11T13%3A43%3A06.048Z',
+    '{"1935", "1929", "1945", "1941"}',
+    '1945',
+    5
+  ),
+  (
+    'Who discovered America?',
+    'History',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/History/scoperta_america.jpg?t=2024-01-11T13%3A45%3A20.817Z',
+    '{"Cristoforo Colombo", "Amerigo Vespucci", "Roosevelt", "Giulio Cesare"}',
+    'Cristoforo Colombo',
+    5
+  ),
+  (
+    '2 plus 3 is equals to',
+    'Math',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/simboli.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3NpbWJvbGkuanBnIiwiaWF0IjoxNzAyNDE2MzYyLCJleHAiOjE3MzM5NTIzNjJ9.-a1oeLGZvtVqPhFw6jUKCDmS7Gi3NW3zcDZA1ShaUpg&t=2023-12-12T21%3A26%3A04.180Z',
+    '{"0", "5", "-5", "6"}',
+    '5',
+    6
   ),
   (
     '10 minus 4 is equals to',
@@ -533,7 +688,7 @@ VALUES
     'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/simboli.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3NpbWJvbGkuanBnIiwiaWF0IjoxNzAyNDE2MzYyLCJleHAiOjE3MzM5NTIzNjJ9.-a1oeLGZvtVqPhFw6jUKCDmS7Gi3NW3zcDZA1ShaUpg&t=2023-12-12T21%3A26%3A04.180Z',
     '{"6", "-6", "5", "0"}',
     '6',
-    3
+    6
   ),
   (
     '60 times of 8 equals to',
@@ -541,7 +696,7 @@ VALUES
     'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/simboli2.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3NpbWJvbGkyLnBuZyIsImlhdCI6MTcwMjU3NzQwMCwiZXhwIjoxNzM0MTEzNDAwfQ.-RGeX9w3ZGlR9GNK6wy2Qjce4wUndvGN4ma07DxG6ag&t=2023-12-14T18%3A10%3A00.948Z',
     '{"6", "0", "-3", "480"}',
     '480',
-    3
+    6
   ),
   (
     '121 Divided by 11 is equals to',
@@ -549,7 +704,7 @@ VALUES
     'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/simboli3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3NpbWJvbGkzLmpwZyIsImlhdCI6MTcwMjU3NzQzMSwiZXhwIjoxNzM0MTEzNDMxfQ.62f75RCfrex2s8TJnPCEuI_g-yoUlMCXn_M1XIGyx6Q&t=2023-12-14T18%3A10%3A32.063Z',
     '{"10", "18", "-3", "11"}',
     '11',
-    3
+    6
   ),
   (
     '3 raised to the 3 is equals to',
@@ -557,7 +712,7 @@ VALUES
     'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/potenza.gif?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3BvdGVuemEuZ2lmIiwiaWF0IjoxNzAyNTA0NzkxLCJleHAiOjE3MzQwNDA3OTF9.b0QrIDSLFLqP6boYfGWnzukgDixznsEJZ82SsBkLR00&t=2023-12-13T21%3A59%3A53.286Z',
     '{"3", "1", "27", "0"}',
     '27',
-    3
+    6
   );
 
 SELECT
@@ -661,9 +816,27 @@ UPDATE
 EXECUTE
   FUNCTION progresses_updated_at_set_timestamp ();
 
--- TODO: public.progresses.quiz_finished_at <= public.users.inserted_at  TRIGGER
+CREATE
+OR REPLACE FUNCTION check_user_activity_sub () RETURNS TRIGGER AS $$
+BEGIN
+  IF ((SELECT public.users.inserted_at FROM public.users WHERE public.users.user_id = NEW._user) > NEW.quiz_finished_at) THEN
+ 	RAISE EXCEPTION 'A User cannot take a quiz before signing up for LambertQuiz!' ;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE
+OR REPLACE TRIGGER trigger_check_user_activity_sub
+BEFORE
+INSERT
+  ON public.progresses FOR EACH ROW
+EXECUTE
+  FUNCTION check_user_activity_sub();
+
+/*
 INSERT INTO
-  progresses (
+  public.progresses (
     _user,
     quiz,
     quiz_started_at,
@@ -699,6 +872,7 @@ VALUES
     '2024-01-05 11:34:32',
     2
   );
+*/
 
 SELECT
   *
@@ -911,8 +1085,7 @@ SELECT
 FROM
   Quizzes
 WHERE
-  category::TEXT ILIKE '%' || TRIM(quiz_category) || '%' 
-  ;
+  category::TEXT ILIKE TRIM(quiz_category) || '%' ;
 $$;
 
 CREATE
@@ -937,4 +1110,4 @@ $$ LANGUAGE PLPGSQL;
 select
   *
 FROM
-  get_quizzes_days (1);
+  quizzes;

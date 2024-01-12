@@ -1,7 +1,9 @@
 import React from "react";
-import { View, Text, SafeAreaView, ScrollView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import AccordionItem from "../components/screens/HelpScreen/AccordionItem";
-import { COLORS, questionsNumber } from "../constants/theme";
+import HelpFooter from "../components/screens/HelpScreen/HelpFooter";
+import { appName, questionsNumber } from "../constants/theme";
+import { passwordMaxLength } from "../constants/fieldsConstants";
 
 const HelpScreen = () => {
 	const accordionList = [
@@ -28,6 +30,10 @@ const HelpScreen = () => {
 		{
 			question: `How many questions has a Quiz?`,
 			response: `Any Quiz category has ${questionsNumber} questions.`,
+		},
+		{
+			question: `How should my password be made?`,
+			response: `Your ${appName} password must have ${passwordMaxLength} characters, lowercase, uppercase and numbers.`,
 		},
 		{
 			question: `Where can I read the results and statistics I have made in this game?`,
@@ -60,26 +66,7 @@ const HelpScreen = () => {
 						key={index}
 					/>
 				))}
-				<View
-					style={{
-						paddingHorizontal: 20,
-						paddingBottom: 27,
-						marginTop: 24,
-						flexDirection: "row",
-						alignItems: "center",
-						justifyContent: "center",
-					}}
-				>
-					<View>
-						<Text style={{ fontSize: 15, color: COLORS.primary }}>
-							For any problems encountered, contact the development
-							center at mattoelambertucci3@gmail.com
-						</Text>
-						<Text style={{ color: COLORS.primary, marginTop: 5 }}>
-						Copyright © Lambertucci Matteo 2024.
-						</Text>
-					</View>
-				</View>
+				<HelpFooter />
 			</ScrollView>
 		</SafeAreaView>
 	);

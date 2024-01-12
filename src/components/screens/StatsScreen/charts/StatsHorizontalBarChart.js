@@ -9,7 +9,7 @@ const StatsHorizontalBarChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
 	const axisThickness = 1.5;
 	return (
-		<View style={{ marginBottom: -55 }}>
+		<View style={{ marginBottom: -70 }}>
 			<BarChart
 				horizontal={true}
 				autoShiftLabels={false}
@@ -41,7 +41,6 @@ const StatsHorizontalBarChart = ({ data }) => {
 					stripBehindBars: false,
 					pointerLabelComponent: (items) => (
 						<PointerLabelComponent
-						
 							value={items[0].value}
 							style={{ transform: [{ rotate: "-90deg" }] }}
 						/>

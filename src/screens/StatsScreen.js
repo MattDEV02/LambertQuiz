@@ -133,7 +133,44 @@ const StatsScreen = ({ route }) => {
 				objectsArray[i].totalquizzes,
 				objectsArray[i].quizzescompletitionpercentage,
 			];
-			for (i = 0; i < 5; i++) matrix.push(row); //
+			
+			matrix.push([
+				"Elisa80",
+				"3.57 / 5",
+				//objectsArray[i].totalscore,
+				"2 / 5",
+				"5 / 5",
+				"4 / 6",
+				"66.67%",
+			]);
+			matrix.push([
+				"David",
+				"3.20 / 5",
+				//objectsArray[i].totalscore,
+				"3 / 5",
+				"4 / 5",
+				"5 / 6",
+				"83.33%",
+			]);
+			matrix.push(row); 
+			matrix.push([
+				"Quizzer900",
+				"1.68 / 5",
+				//objectsArray[i].totalscore,
+				"1 / 5",
+				"2 / 5",
+				"3 / 6",
+				"50.00%",
+			]);	
+			matrix.push([
+				"Alex ",
+				"1.00 / 5",
+				//objectsArray[i].totalscore,
+				"1 / 5",
+				"1 / 5",
+				"1 / 6",
+				"16.17%",
+			]);
 		}
 		return matrix;
 	};
@@ -161,7 +198,7 @@ const StatsScreen = ({ route }) => {
 						<Text style={{ ...style.text, ...style.title }}>
 							Your {appName} activity
 						</Text>
-						{validateArray(quizzesDays, 1) ? (
+						{validateArray(quizzesDays, 0) ? (
 							<StatsCalendar
 								data={quizzesDays}
 								userSubDate={moment(user.email_confirmed_at).format(

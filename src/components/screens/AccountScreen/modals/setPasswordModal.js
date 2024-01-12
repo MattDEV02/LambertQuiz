@@ -55,7 +55,7 @@ const SetPasswordModal = ({
 		} else {
 			Window.alert(
 				`Password not valid.`,
-				"Password not valid, use 8 chars with numbers, lowercase and uppercase letters.",
+				`Password not valid, use ${passwordMaxLength} chars with numbers, lowercase and uppercase letters.`,
 			);
 			setNewPasswordError(true);
 			setNewPasswordSuccess(false);
@@ -171,8 +171,8 @@ const SetPasswordModal = ({
 						Set your password
 					</Text>
 					<FormInput
-						labelText="Old password"
-						placeholderText="Enter your old password (8 chars)"
+						labelText={"Old password"}
+						placeholderText={`Enter your old password (${passwordMaxLength} chars)`}
 						value={oldPassword}
 						inputError={oldPasswordError}
 						inputSuccess={oldPasswordSuccess}
@@ -183,8 +183,8 @@ const SetPasswordModal = ({
 						onChangeText={(password) => setOldPassword(password)}
 					/>
 					<FormInput
-						labelText="New password"
-						placeholderText="Enter your new password (8 chars)"
+						labelText={"New password"}
+						placeholderText={`Enter your new password (${passwordMaxLength} chars)`}
 						value={newPassword}
 						inputError={newPasswordError}
 						inputSuccess={newPasswordSuccess}
@@ -195,8 +195,8 @@ const SetPasswordModal = ({
 						onChangeText={(password) => setNewPassword(password)}
 					/>
 					<FormInput
-						labelText="Confirm new password"
-						placeholderText="Confirm your new Password"
+						labelText={"Confirm new password"}
+						placeholderText={"Confirm your new Password"}
 						value={newConfirmPassword}
 						inputError={confirmpasswordError}
 						inputSuccess={confirmpasswordSuccess}
@@ -209,7 +209,7 @@ const SetPasswordModal = ({
 						}
 					/>
 					<FormButton
-						labelText="Submit"
+						labelText={"Submit"}
 						handleOnPress={() => handleOnPress()}
 						style={{
 							...style.centeredContainer,

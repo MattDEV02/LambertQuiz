@@ -39,31 +39,29 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 - **Language:** There is only the English language.
 
   
-
-  
-
 ## Screenshots 📸
 
-  
-
-  
 
 <p align="center">
-<img  title="LambertQuiz LoginScreen screenshoot 1"  alt="LambertQuiz LoginScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/loginscreen1.jpeg"  width="35%">
-<img  title="LambertQuiz LoginScreen screenshoot 2"  alt="LambertQuiz LoginScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/loginscreen2.jpeg"  width="35%">
-<img  title="LambertQuiz RegScreen screenshoot 1"  alt="LambertQuiz RegScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/regscreen1.jpeg"  width="35%"><br />
-<img  title="LambertQuiz RegScreen screenshoot 2"  alt="LambertQuiz RegScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/regscreen2.jpeg"  width="35%">
-<img  title="LambertQuiz RegScreen screenshoot 3"  alt="LambertQuiz RegScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/regscreen3.jpeg"  width="35%">
-<img  title="LambertQuiz HomeScreen screenshoot 1"  alt="LambertQuiz HomeScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/homescreen1.jpeg"  width="35%">
-<img  title="LambertQuiz HomeScreen screenshoot 2"  alt="LambertQuiz HomeScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/homescreen2.jpeg"  width="35%">
-<img  title="LambertQuiz PlayQuizScreen screenshoot"  alt="LambertQuiz PlayQuizScreen screenshoot"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquizscreen1.jpeg"  width="35%">
-<img  title="LambertQuiz PlayQuizScreen screenshoot"  alt="LambertQuiz PlayQuizScreen screenshoot"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquizscreen2.jpeg"  width="35%">
-<img  title="LambertQuiz PlayQuizScreen screenshoot"  alt="LambertQuiz PlayQuizScreen screenshoot"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquizscreen3.jpeg"  width="35%"><br />
-<img  title="LambertQuiz AccountScreen screenshoot 1"  alt="LambertQuiz AccountScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/accountscreen1.jpeg"  width="35%">
-<img  title="LambertQuiz AccountScreen screenshoot 2"  alt="LambertQuiz AccountScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/accountscreen2.jpeg"  width="35%">
-<img  title="LambertQuiz AccountScreen screenshoot 3"  alt="LambertQuiz AccountScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/accountscreen3.jpeg"  width="35%">
-<img  title="LambertQuiz AccountScreen screenshoot 4"  alt="LambertQuiz AccountScreen screenshoot 4"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/accountscreen4.jpeg"  width="35%">
-<img  title="LambertQuiz AccountScreen screenshoot 5"  alt="LambertQuiz AccountScreen screenshoot 5"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/helpscreen.jpeg"  width="35%">
+<img  title="LambertQuiz RegScreen screenshoot 1"  alt="LambertQuiz RegScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen1.jpeg"  width="35%">
+<img  title="LambertQuiz RegScreen screenshoot 2"  alt="LambertQuiz RegScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen2.jpeg"  width="35%">
+<img  title="LambertQuiz RegScreen screenshoot 3"  alt="LambertQuiz RegScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen3.jpeg"  width="35%">
+<img  title="LambertQuiz RegScreen screenshoot 3"  alt="LambertQuiz RegScreen screenshoot 4"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen4.jpeg"  width="35%">
+<img  title="LambertQuiz LoginScreen screenshoot 1"  alt="LambertQuiz LoginScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signin/signinscreen1.jpeg"  width="32.75%">
+<img  title="LambertQuiz LoginScreen screenshoot 2"  alt="LambertQuiz LoginScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signin/signinscreen2.jpeg"  width="32.75%">
+<img  title="LambertQuiz LoginScreen screenshoot 3"  alt="LambertQuiz LoginScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signin/signinscreen3.jpeg"  width="32.75%">
+<img  title="LambertQuiz HomeScreen screenshoot 1"  alt="LambertQuiz HomeScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/home/homescreen1.jpeg"  width="32.75%">
+<img  title="LambertQuiz HomeScreen screenshoot 2"  alt="LambertQuiz HomeScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/home/homescreen2.jpeg"  width="32.75%">
+<img  title="LambertQuiz HomeScreen screenshoot 3"  alt="LambertQuiz HomeScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/home/homescreen3.jpeg"  width="32.75%">
+<img  title="LambertQuiz PlayQuizScreen screenshoot"  alt="LambertQuiz PlayQuizScreen screenshoot"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquiz/playquizscreen1.jpeg"  width="32.75%">
+<img  title="LambertQuiz PlayQuizScreen screenshoot"  alt="LambertQuiz PlayQuizScreen screenshoot"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquiz/playquizscreen2.jpeg"  width="32.75%">
+<img  title="LambertQuiz PlayQuizScreen screenshoot"  alt="LambertQuiz PlayQuizScreen screenshoot"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquiz/playquizscreen3.jpeg"  width="32.75%">
+<img  title="LambertQuiz AccountScreen screenshoot 1"  alt="LambertQuiz AccountScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/account/accountscreen1.jpeg"  width="35%">
+<img  title="LambertQuiz AccountScreen screenshoot 2"  alt="LambertQuiz AccountScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/account/accountscreen2.jpeg"  width="35%">
+<img  title="LambertQuiz AccountScreen screenshoot 3"  alt="LambertQuiz AccountScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/account/accountscreen3.jpeg"  width="35%">
+<img  title="LambertQuiz AccountScreen screenshoot 4"  alt="LambertQuiz AccountScreen screenshoot 4"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/account/accountscreen4.jpeg"  width="35%">
+<img  title="LambertQuiz HelpScreen screenshoot 1"  alt="LambertQuiz HelpScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/help/helpscreen1.jpeg"  width="35%">
+<img  title="LambertQuiz HelpScreen screenshoot 2"  alt="LambertQuiz HelpScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/help/helpscreen2.jpeg"  width="35%">
 </p>
 
   
@@ -95,7 +93,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
   
 
 ```bash
-git  clone  https://github.com/MattDEV02/LambertQuiz.git
+git clone https://github.com/MattDEV02/LambertQuiz.git
 ```
 
   
@@ -109,21 +107,16 @@ git  clone  https://github.com/MattDEV02/LambertQuiz.git
   
 
 ```bash
-cd  LambertQuiz
+cd LambertQuiz
 ```
-
-  
-
   
 
 3. Install dependencies:
 
   
 
-  
-
 ```bash
-npm  install
+npm install
 
 # or using yarn
 
@@ -141,7 +134,7 @@ npm  install
   
 
 ```bash
-npm  start
+npm start
 
 # or using yarn
 
@@ -153,163 +146,56 @@ npm  start
 **P.S. = You can do both third and fourth step with "my comand script":**
 
 ```bash
-npm  run  all
+npm run all
 ```
   
 ## Some code examples
 
-### `SigninScreen.js`
+### `App.js`
 
 ```javascript 
-import React, { useState } from "react";
-import { Text, SafeAreaView, Alert as Window } from "react-native";
-import FormInput from "../components/shared/FormInput";
-import FormButton from "../components/shared/FormButton";
-import FormFooter from "../components/shared/FormFooter";
-import { signIn } from "../utils/auth";
-import { COLORS, appName } from "../constants/theme";
-import {
-	emailMaxLength,
-	passwordMaxLength,
-} from "../constants/fieldsConstants";
-import { validateEmail, validatePassword } from "../utils/validators.js";
+import React, { useState, useEffect } from "react";
+import "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
+import { RootSiblingParent } from "react-native-root-siblings";
+import AuthStackNavigator from "./navigators/AuthStackNavigator";
+import AppStackNavigator from  "./navigators/AppStackNavigator";
+import { supabase } from "./app/lib/supabase-client";
+import { validateObject } from  "./utils/validators";
 
-const SignInScreen = ({ navigation }) => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [emailError, setEmailError] = useState(false);
-	const [passwordError, setPasswordError] = useState(false);
-	const [emailSuccess, setEmailSuccess] = useState(false);
-	const [passwordSuccess, setPasswordSuccess] = useState(false);
+const  App  = () => {
 
-	const fieldsReset = () => {
-		setEmail("");
-		setPassword("");
-		setEmailError(false);
-		setEmailSuccess(false);
-		setPasswordError(false);
-		setPasswordSuccess(false);
-	};
+const [session, setSession] = useState(null);
 
-	const emailFieldError = () => {
-		setEmailError(true);
-		setEmailSuccess(false);
-	};
-
-	const emailFieldSuccess = () => {
-		setEmailError(false);
-		setEmailSuccess(true);
-	};
-
-	const passwordFieldError = () => {
-		setPasswordError(true);
-		setPasswordSuccess(false);
-	};
-
-	const passwordFieldSuccess = () => {
-		setPasswordError(false);
-		setPasswordSuccess(true);
-	};
-
-	const handleOnPress = () => {
-		if (validateEmail(email)) {
-			emailFieldSuccess();
-		} else {
-			emailFieldError();
-			Window.alert("Email not valid", "Please enter a valid email.");
-		}
-		if (validatePassword(password)) {
-			passwordFieldSuccess();
-		} else {
-			passwordFieldError();
-			Window.alert(
-				"Password not valid",
-				"Password not valid, use minimum 8 chars with numbers, lowercase and uppercase letters.",
-			);
-		}
-		if (validateEmail(email) && validatePassword(password)) {
-			if (signIn(email, password)) {
-				emailFieldSuccess();
-				passwordFieldSuccess();
-			} else {
-				emailFieldError();
-				passwordFieldError();
-			}
-			fieldsReset();
-		} 
-	};
-
-	navigation.addListener("blur", () => {
-		fieldsReset();
-	});
+useEffect(()  =>  {
+	supabase.auth
+		.getSession()
+		.then(({  data:  {  session  }  })  =>  {
+			setSession(session);
+		 })
+		.catch((error)  =>  console.error(error));  
+	supabase.auth.onAuthStateChange(async  (_event,  session)  =>  {
+	console.log(_event);  // INITIAL_SESSION / SIGNED_IN / SIGNED_OUT
+	setSession(session);
+});
+}, []);
 
 	return (
-		<SafeAreaView
-			style={{
-				backgroundColor: COLORS.white,
-				flex: 1,
-				alignItems: "center",
-				justifyContent: "flex-start",
-				padding: 20,
-			}}
-		>
-			<Text
-				style={{
-					fontSize: 30,
-					color: COLORS.black,
-					fontWeight: "bold",
-					marginVertical: 25,
-				}}
-			>
-				{appName}
-			</Text>
-			<FormInput
-				labelText="Email"
-				placeholderText="Enter your email"
-				value={email}
-				inputError={emailError}
-				inputSuccess={emailSuccess}
-				keyboardType="email-address"
-				autoComplete={"off"}
-				autoCorrect={false}
-				maxLength={emailMaxLength}
-				autocapitalize={"none"}
-				spellcheck={false}
-				inputMode={"email"}
-				onChangeText={(value) => setEmail(value)}
-				onEndEditing={(event) =>
-					setEmail(event.nativeEvent.text.toLowerCase())
-				}
-			/>
-			<FormInput
-				labelText="Password"
-				placeholderText="Enter your password (8 chars)"
-				value={password}
-				inputError={passwordError}
-				inputSuccess={passwordSuccess}
-				autoComplete={"off"}
-				autoCorrect={false}
-				maxLength={passwordMaxLength}
-				secureTextEntry={true}
-				onChangeText={(password) => setPassword(password)}
-			/>
-			<FormButton
-				labelText="Submit"
-				handleOnPress={() => handleOnPress()}
-				style={{ width: "100%", marginTop: 4, borderRadius: 13 }}
-				textStyle={{color: COLORS.white, fontSize: 21}}
-			/>
-			<FormFooter
-				handleOnPress={() => navigation.navigate("Sign Up page")}
-			/>
-		</SafeAreaView>
-	);
-};
+		<RootSiblingParent>
+			<NavigationContainer>
+			{validateObject(session) &&  validateObject(session.user) ? (
+			<AppStackNavigator  sessionUser={session.user} />
+			) : (
+				<AuthStackNavigator  />
+			)}
+			</NavigationContainer>
+		</RootSiblingParent>
+		);
+	};
 
-export default SignInScreen;
+export  default  App;
 
 ```
-
 
 ### `HomeScreen.js`
 
@@ -495,240 +381,52 @@ export default HomeScreen;
 
 ```
 
-### `StatsScreen.js` 
+### `HelpScreen.js` 
 
 ```javascript  
-import React, { useState, useEffect } from "react";
-import {
-	View,
-	Text,
-	SafeAreaView,
-	ScrollView,
-	StyleSheet,
-	RefreshControl,
-} from "react-native";
-import { useIsFocused } from "@react-navigation/native";
-import moment from "moment";
-import { supabase } from "../app/lib/supabase-client";
-import StatsTable from "../components/screens/StatsScreen/StatsTable";
-import StatsCalendar from "../components/screens/StatsScreen/StatsCalendar";
-import ChartsPicker from "../components/screens/StatsScreen/ChartsPicker";
-import {
-	StatsBarChart,
-	StatsLineChart,
-	StatsPieChart,
-	StatsHorizontalBarChart,
-} from "../components/screens/StatsScreen/charts/";
-import StatsFooter from "../components/screens/StatsScreen/StatsFooter";
-import {
-	validateObject,
-	validateArray,
-	validateString,
-} from "../utils/validators";
-import { appName, CHARTTYPES } from "../constants/theme";
+import React from "react";
+import { SafeAreaView, ScrollView } from "react-native";
+import AccordionItem from "../components/screens/HelpScreen/AccordionItem";
+import HelpFooter from "../components/screens/HelpScreen/HelpFooter";
+import { appName, questionsNumber } from "../constants/theme";
+import { passwordMaxLength } from "../constants/fieldsConstants";
 
-const StatsScreen = ({ route }) => {
-	const isFocused = useIsFocused();
+const HelpScreen = () => {
 
-	const user = route.params.user;
-	const userId = user.user_id;
-
-	const userSub = moment(user.email_confirmed_at).format("DD/MM/YYYY"),
-		userUpd = moment(user.updated_at).format("YYYY-MM-DD");
-	const userSubDays = moment().diff(user.email_confirmed_at, "days") + 1;
-
-	const [bestFiveUsersMatrix, setBestFiveUsersMatrix] = useState([]); // array of arrays
-	const [quizzesDays, setQuizzesDays] = useState([]); // array of objects
-	const [userLastSevenDaysQuizzes, setUserLastSevenDaysQuizzes] = useState([]); // array of objects
-	const [userPrefCategory, setUserPrefCategory] = useState("");
-	const [refreshing, setRefreshing] = useState(false);
-	const [selectedChart, setSelectedChart] = useState(CHARTTYPES.barChart);
-
-	const getBestFiveUsersStats = async () => {
-		setRefreshing(true);
-		const { data, error } = await supabase.rpc("get_best_five_users_stats");
-		if (validateObject(error)) {
-			console.error(error);
-		} else if (validateArray(data, 0)) {
-			setBestFiveUsersMatrix(toMatrix(data));
-		}
-		setRefreshing(false);
-	};
-
-	const getQuizzesDays = async (_user_id) => {
-		setRefreshing(true);
-		const { data, error } = await supabase.rpc("get_quizzes_days", {
-			_user_id,
-		});
-		if (validateObject(error)) {
-			console.error(error);
-		} else if (validateArray(data, 0)) {
-			setQuizzesDays(data);
-		}
-		setRefreshing(false);
-	};
-
-	const getUserLastSevenDaysQuizzes = async (_user_id) => {
-		setRefreshing(true);
-		const { data, error } = await supabase.rpc(
-			"get_last_seven_days_quizzes",
-			{
-				_user_id,
-			},
-		);
-		if (validateObject(error)) {
-			console.error(error);
-		} else if (validateArray(data, 7)) {
-			let tempUserLastSevenDaysQuizzes = [];
-			data.map((item) => {
-				tempUserLastSevenDaysQuizzes.push({
-					label: item.day,
-					value: item.totalquizzes,
-					text: item.day,
-				});
-			});
-			setUserLastSevenDaysQuizzes(tempUserLastSevenDaysQuizzes);
-		}
-		setRefreshing(false);
-	};
-
-	const getUserPrefCategory = async (_user_id) => {
-		setRefreshing(true);
-		const { data, error } = await supabase
-			.rpc("get_user_pref_category", {
-				_user_id: _user_id,
-			})
-			.single();
-		if (validateObject(error) && data !== null) {
-			console.error(error);
-		} else if (validateObject(data) && validateString(data.category)) {
-			setUserPrefCategory(data.category);
-		}
-		setRefreshing(false);
-	};
-
-	const onRefresh = () => {
-		getBestFiveUsersStats();
-		getQuizzesDays(userId);
-		getUserLastSevenDaysQuizzes(userId);
-		getUserPrefCategory(userId);
-	};
-
-	useEffect(() => {
-		if (isFocused) {
-			onRefresh();
-		}
-	}, [isFocused]);
-
-	const toMatrix = (objectsArray) => {
-		const matrix = [];
-		const arrayLength = objectsArray.length;
-		for (let i = 0; i < arrayLength; i++) {
-			const row = [
-				objectsArray[i].username,
-				objectsArray[i].averagescore,
-				//objectsArray[i].totalscore,
-				objectsArray[i].worstscore,
-				objectsArray[i].betterscore,
-				objectsArray[i].totalquizzes,
-				objectsArray[i].quizzescompletitionpercentage,
-			];
-			for (i = 0; i < 5; i++) matrix.push(row); //
-		}
-		return matrix;
-	};
-
+const  accordionList  = [
+	{question, response}
+];
 	return (
 		<SafeAreaView>
-			<View>
-				<ScrollView
-					refreshControl={
-						<RefreshControl
-							refreshing={refreshing}
-							onRefresh={onRefresh}
-						/>
-					}
-				>
-					<View>
-						<Text style={{ ...style.text, ...style.title }}>
-							Best 5 {appName} Players
-						</Text>
-						{validateArray(bestFiveUsersMatrix, 0) ? (
-							<StatsTable matrix={bestFiveUsersMatrix} />
-						) : null}
-					</View>
-					<View>
-						<Text style={{ ...style.text, ...style.title }}>
-							Your {appName} activity
-						</Text>
-						{validateArray(quizzesDays, 1) ? (
-							<StatsCalendar
-								data={quizzesDays}
-								userSubDate={moment(user.email_confirmed_at).format(
-									"YYYY-MM-DD",
-								)}
-								userUpdatedDate={userUpd}
-							/>
-						) : null}
-					</View>
-					<View>
-						<Text style={{ ...style.text, ...style.title }}>
-							Last seven days quizzes
-						</Text>
-						<ChartsPicker setSelectedChart={setSelectedChart} />
-						{validateArray(userLastSevenDaysQuizzes, 7) ? (
-							<View>
-								{selectedChart === CHARTTYPES.barChart ? (
-									<StatsBarChart data={userLastSevenDaysQuizzes} />
-								) : selectedChart === CHARTTYPES.lineChart ? (
-									<StatsLineChart data={userLastSevenDaysQuizzes} />
-								) : selectedChart === CHARTTYPES.horizontalBarChart ? (
-									<StatsHorizontalBarChart
-										data={userLastSevenDaysQuizzes}
-									/>
-								) : selectedChart === CHARTTYPES.pieChart ? (
-									<StatsPieChart data={userLastSevenDaysQuizzes} />
-								) : (
-									<StatsBarChart data={userLastSevenDaysQuizzes} />
-								)}
-							</View>
-						) : null}
-					</View>
-					{validateString(userSub) && userSubDays >= 1 ? (
-						<StatsFooter
-							userSub={userSub}
-							userSubDays={userSubDays}
-							userPrefCategory={userPrefCategory}
-						/>
-					) : null}
-				</ScrollView>
-			</View>
+			<ScrollView>
+				{accordionList.map((item,  index)  => (
+					<AccordionItem
+						question={item.question}
+						response={item.response}
+						key={index}
+					/>
+				))}
+				<HelpFooter />
+			</ScrollView>
 		</SafeAreaView>
 	);
-};
+};  
 
-const style = StyleSheet.create({
-	text: { margin: 3.5, textAlign: "center", fontWeight: "bold" },
-	title: {
-		fontSize: 24,
-		marginVertical: 27,
-	},
-});
-
-export default StatsScreen;
-
+export  default  HelpScreen;
 ```
 
 ## Author  ©️
 
 Made with ❤️ by:
 
-- **Matteo Lambertucci (MattDEV02)**  
+- **Matteo Lambertucci (matricola 578219, Roma TRE)**  
 	
 	- [GitHub Profile](https://github.com/MattDEV02) 
 	- [Linkedin Profile](https://www.linkedin.com/in/matteo-lambertucci-134073211)
 	- [Instagram Profile](https://www.instagram.com/_matte.02_/)
 	- [Moodle Profile](https://ingegneriacivileinformaticatecnologieaeronautiche.el.uniroma3.it/user/profile.php?id=5522)
+	- [mat.lambertucci@stud.uniroma3.it](mat.lambertucci@stud.uniroma3.it)
+	- [matteolambertucci3@gmail.com](matteolambertucci3@gmail.com)
 
 I am the only author of this beatiful app 😉
   

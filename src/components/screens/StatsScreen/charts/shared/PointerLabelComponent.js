@@ -7,7 +7,7 @@ const PointerLabelComponent = ({ value, style = null }) => {
 		<View
 			style={{
 				width: 100,
-				paddingVertical: 6,
+				padding: 6,
 				borderWidth: 1,
 				borderColor: COLORS.secondary,
 				borderRadius: 19,

@@ -105,7 +105,7 @@ const HomeScreen = ({ navigation, route }) => {
 					{/* Quiz search form */}
 					<View style={style.container}>
 						<FormInput
-							placeholderText="Search for a Quiz"
+							placeholderText={"Search for a Quiz"}
 							value={quiz}
 							maxLength={15}
 							autoComplete={"name"}

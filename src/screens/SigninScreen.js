@@ -61,7 +61,7 @@ const SignInScreen = ({ navigation }) => {
 			passwordFieldError();
 			Window.alert(
 				"Password not valid",
-				"Password not valid, use minimum 8 chars with numbers, lowercase and uppercase letters.",
+				`Password not valid, use minimum ${passwordMaxLength} chars with numbers, lowercase and uppercase letters.`,
 			);
 		}
 		if (validateEmail(email) && validatePassword(password)) {
@@ -101,12 +101,12 @@ const SignInScreen = ({ navigation }) => {
 				{appName}
 			</Text>
 			<FormInput
-				labelText="Email"
-				placeholderText="Enter your email"
+				labelText={"Email"}
+				placeholderText={"Enter your email"}
 				value={email}
 				inputError={emailError}
 				inputSuccess={emailSuccess}
-				keyboardType="email-address"
+				keyboardType={"email-address"}
 				autoComplete={"off"}
 				autoCorrect={false}
 				maxLength={emailMaxLength}
@@ -119,8 +119,8 @@ const SignInScreen = ({ navigation }) => {
 				}
 			/>
 			<FormInput
-				labelText="Password"
-				placeholderText="Enter your password (8 chars)"
+				labelText={"Password"}
+				placeholderText={`Enter your password (${passwordMaxLength} chars)`}
 				value={password}
 				inputError={passwordError}
 				inputSuccess={passwordSuccess}
@@ -131,7 +131,7 @@ const SignInScreen = ({ navigation }) => {
 				onChangeText={(password) => setPassword(password)}
 			/>
 			<FormButton
-				labelText="Submit"
+				labelText={"Submit"}
 				handleOnPress={() => handleOnPress()}
 				style={{ width: "100%", marginTop: 4, borderRadius: 13 }}
 				textStyle={{color: COLORS.white, fontSize: 21}}
