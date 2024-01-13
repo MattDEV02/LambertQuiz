@@ -62,9 +62,10 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers an
 <img  title="LambertQuiz AccountScreen screenshoot 4"  alt="LambertQuiz AccountScreen screenshoot 4"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/account/accountscreen4.jpeg"  width="35%">
 <img  title="LambertQuiz HelpScreen screenshoot 1"  alt="LambertQuiz HelpScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/help/helpscreen1.jpeg"  width="35%">
 <img  title="LambertQuiz HelpScreen screenshoot 2"  alt="LambertQuiz HelpScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/help/helpscreen2.jpeg"  width="35%">
-<img  title="LambertQuiz StatsScreen screenshoot 1"  alt="LambertQuiz StatsScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statsscreen11.gif"  width="32.75%">
-<img  title="LambertQuiz StatsScreen screenshoot 2"  alt="LambertQuiz StatsScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statsscreen2.gif"  width="32.75%">
-<img  title="LambertQuiz StatsScreen screenshoot 3"  alt="LambertQuiz StatsScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statsscreen3.gif"  width="32.75%">
+<img  title="LambertQuiz StatsScreen screenshoot 1"  alt="LambertQuiz StatsScreen screenshoot 1"  src="./assets/images/gifs/statsscreen/statsscreen1.gif"  width="35%">
+<img  title="LambertQuiz StatsScreen screenshoot 2"  alt="LambertQuiz StatsScreen screenshoot 2"  src="./assets/images/gifs/statsscreen/statsscreen2.gif"  width="35%">
+<img  title="LambertQuiz StatsScreen screenshoot 3"  alt="LambertQuiz StatsScreen screenshoot 3"  src="./assets/images/gifs/statsscreen/statsscreen3.gif"  width="35%">
+<img  title="LambertQuiz StatsScreen screenshoot 4"  alt="LambertQuiz StatsScreen screenshoot 4"  src="./assets/images/gifs/statsscreen/statsscreen4.gif"  width="35%">
 </p>
 
   
