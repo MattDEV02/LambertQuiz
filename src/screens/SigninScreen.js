@@ -124,10 +124,10 @@ const SignInScreen = ({ navigation }) => {
 				value={password}
 				inputError={passwordError}
 				inputSuccess={passwordSuccess}
+				isPassword={true}
 				autoComplete={"off"}
 				autoCorrect={false}
 				maxLength={passwordMaxLength}
-				secureTextEntry={true}
 				onChangeText={(password) => setPassword(password)}
 			/>
 			<FormButton

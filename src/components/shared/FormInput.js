@@ -1,6 +1,7 @@
-import React from "react";
-import { View, Text, TextInput } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { COLORS } from "../../constants/theme";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const FormInput = ({
 	labelText = "",
@@ -9,10 +10,13 @@ const FormInput = ({
 	value = null,
 	inputError = false,
 	inputSuccess = false,
+	isPassword = false,
 	style = null,
 	inputStyle = null,
 	...more
 }) => {
+	const [showPassword, setShowPassword] = useState(false);
+
 	let textErrorStyle = null,
 		textInputErrorStyle = null;
 	let textSuccessStyle = null,
@@ -48,24 +52,35 @@ const FormInput = ({
 			<Text style={{ ...textErrorStyle, ...textSuccessStyle }}>
 				{labelText}
 			</Text>
-			<TextInput
-				style={{
-					...{
-						padding: 10,
-						borderColor: COLORS.black + "20",
-						borderWidth: 1,
-						width: "100%",
-						marginTop: 11,
-					},
-					...inputStyle,
-					...textInputErrorStyle,
-					...textInputSuccessStyle,
-				}}
-				placeholder={placeholderText}
-				onChangeText={onChangeText}
-				value={value}
-				{...more}
-			></TextInput>
+			<View>
+				<TextInput
+					style={{
+						...{
+							padding: 10,
+							borderColor: COLORS.black + "20",
+							borderWidth: 1,
+							width: "100%",
+							marginTop: 11,
+						},
+						...inputStyle,
+						...textInputErrorStyle,
+						...textInputSuccessStyle,
+					}}
+					placeholder={placeholderText}
+					onChangeText={onChangeText}
+					value={value}
+					secureTextEntry={isPassword && !showPassword}
+					{...more}
+				/>
+				{isPassword ? (
+					<TouchableOpacity
+						onPress={() => setShowPassword(!showPassword)}
+						style={{ position: "absolute", top: 25, right: 12.5 }}
+					>
+						<Icon name={showPassword ? "eye-slash" : "eye"} color={COLORS.primary} size={21.5} />
+					</TouchableOpacity>
+				) : null}
+			</View>
 		</View>
 	);
 };

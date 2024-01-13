@@ -45,18 +45,19 @@ export const updateUserUsername = async (oldUsername, newUsername) => {
 	return true;
 };
 
-export const updateUserPassword = async (username, newPassword) => {
+export const updateUserPassword = async (email, newPassword) => {
 	const { error } = await supabase
 		.from("users")
 		.update({ password: newPassword })
-		.eq("username", username);
+		.eq("email", email);
 	if (validateObject(error)) {
 		console.error(error);
 		return false;
 	}
 	console.log(
-		"User usermame " + username + " password uptated in " + newPassword,
+		"User email " + email + " password uptated in " + newPassword,
 	);
+	// TODO: send email, noreply@mail.app.supabase.io , email
 	return true;
 };
 

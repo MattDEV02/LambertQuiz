@@ -34,7 +34,7 @@ const ChartsPicker = ({ setSelectedChart }) => {
 				marginBottom: 12,
 				fontSize: 16,
 				paddingLeft: 15,
-				paddingVertical: 4.5,
+				paddingVertical: 1.5,
 				borderWidth: 0.5,
 				borderColor: COLORS.black,
 				backgroundColor: COLORS.white,

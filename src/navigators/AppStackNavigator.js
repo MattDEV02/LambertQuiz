@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, ActivityIndicator } from "react-native";
+import { Text } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { supabase } from "../app/lib/supabase-client";
 import {
@@ -11,6 +11,7 @@ import {
 	SignoutScreen,
 } from "../screens";
 import DrawerIcon from "../components/navigators/AppStackNavigator/DrawerIcon";
+import User from "../utils/User";
 import { validateObject } from "../utils/validators";
 import { COLORS, headerShown } from "../constants/theme";
 import { signOut } from "../utils/auth";
@@ -53,7 +54,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 		const getUserUsernameFromEmail = async (email) => {
 			const { data, error } = await supabase
 				.from("users")
-				.select("user_id, username, password, inserted_at")
+				.select("user_id, username, password, inserted_at, updated_at")
 				.eq("email", email)
 				.single(); // UNIQUE
 			if (validateObject(error)) {
@@ -74,7 +75,8 @@ const AppStackNavigator = ({ sessionUser }) => {
 				delete tempUser.aud;
 				delete tempUser.user_metadata;
 				delete tempUser.confirmed_at;
-				setUser(tempUser);
+				
+				setUser(new User(tempUser.email, tempUser.password, tempUser.username, tempUser.user_id, tempUser.inserted_at, tempUser.updated_at, tempUser.email_confirmed_at));
 				setUserReady(true);
 			}
 		};

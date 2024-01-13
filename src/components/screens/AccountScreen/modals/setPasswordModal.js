@@ -12,11 +12,12 @@ import {
 	validateBoolean,
 } from "../../../../utils/validators";
 import { updateUserPassword } from "../../../../utils/database";
+import { sendEmailForPasswordChanged } from "../../../../utils/mailers";
 
 const SetPasswordModal = ({
 	isModalVisible = false,
 	setIsModalVisible,
-	username,
+	user,
 }) => {
 	const [oldPassword, setOldPassword] = useState("");
 	const [oldPasswordError, setOldPasswordError] = useState(false);
@@ -79,7 +80,7 @@ const SetPasswordModal = ({
 			const { data, error } = await supabase.rpc(
 				"check_user_password_function",
 				{
-					input_username: username,
+					input_email: user.email,
 					input_password: oldPassword,
 				},
 			);
@@ -95,13 +96,14 @@ const SetPasswordModal = ({
 							{
 								text: "Yes",
 								onPress: () => {
-									if (updateUserPassword(username, newPassword)) {
+									if (updateUserPassword(user.email, newPassword)) {
 										setNewPasswordError(false);
 										setNewPasswordSuccess(true);
 										Window.alert(
 											"Password updated",
 											"Password updated with success.",
 										);
+										sendEmailForPasswordChanged(user);
 									}
 								},
 							},
@@ -131,7 +133,7 @@ const SetPasswordModal = ({
 				setOldPasswordError(true);
 				setOldPasswordSuccess(false);
 				Window.alert(
-					"Old Password does not match.",
+					"Old Password don't match.",
 					"Please, retry with the old password.",
 				);
 			}
@@ -155,7 +157,7 @@ const SetPasswordModal = ({
 				<View
 					style={{
 						backgroundColor: COLORS.white,
-						width: "85%",
+						width: "90%",
 						borderRadius: 5,
 						padding: 40,
 						alignItems: "center",
@@ -176,10 +178,10 @@ const SetPasswordModal = ({
 						value={oldPassword}
 						inputError={oldPasswordError}
 						inputSuccess={oldPasswordSuccess}
+						isPassword={true}
 						autoComplete={"off"}
 						autoCorrect={false}
 						maxLength={passwordMaxLength}
-						secureTextEntry={true}
 						onChangeText={(password) => setOldPassword(password)}
 					/>
 					<FormInput
@@ -188,10 +190,10 @@ const SetPasswordModal = ({
 						value={newPassword}
 						inputError={newPasswordError}
 						inputSuccess={newPasswordSuccess}
+						isPassword={true}
 						autoComplete={"off"}
 						autoCorrect={false}
 						maxLength={passwordMaxLength}
-						secureTextEntry={true}
 						onChangeText={(password) => setNewPassword(password)}
 					/>
 					<FormInput
@@ -201,9 +203,9 @@ const SetPasswordModal = ({
 						inputError={confirmpasswordError}
 						inputSuccess={confirmpasswordSuccess}
 						autoComplete={"off"}
+						isPassword={true}
 						autoCorrect={false}
 						maxLength={passwordMaxLength}
-						secureTextEntry={true}
 						onChangeText={(confirmPassword) =>
 							setNewConfirmPassword(confirmPassword)
 						}

@@ -1,8 +1,9 @@
 import { Alert as Window } from "react-native";
 import Toast from "react-native-root-toast";
 import { supabase } from "../app/lib/supabase-client";
-import { existsUser, storeUser, deleteUser } from "./database";
+import { existsUser, storeUser } from "./database";
 import { validateObject } from "./validators";
+import { sendEmailForAccountDeleted } from "./mailers";
 
 export const signIn = async (email, password) => {
 	const { error } = await supabase.auth.signInWithPassword({
@@ -65,6 +66,7 @@ export const removeUser = async (user) => {
 					);
 					signOut();
 					Toast.show("Account deleted.");
+					sendEmailForAccountDeleted(user);
 				},
 			},
 			{
@@ -79,3 +81,5 @@ export const removeUser = async (user) => {
 		],
 	);
 };
+
+

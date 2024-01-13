@@ -8,9 +8,9 @@ const Logo = () => {
 			resizeMode={"contain"}
 			alt={"Logo"}
 			style={{
-				width: "35%",
-				height: "21.5%",
-				marginTop: 35,
+				width: 200,
+				height: 166,
+				marginTop: 37,
 			}}
 		/>
 	);

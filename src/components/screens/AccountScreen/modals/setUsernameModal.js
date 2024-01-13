@@ -7,6 +7,7 @@ import { COLORS } from "../../../../constants/theme";
 import { usernameMaxLength } from "../../../../constants/fieldsConstants";
 import { updateUserUsername } from "../../../../utils/database";
 import { validateUsername, validateObject } from "../../../../utils/validators";
+import { sendEmailForUsernameChanged } from "../../../../utils/mailers";
 
 const SetUsernameModal = ({
 	isModalVisible = false,
@@ -72,6 +73,7 @@ const SetUsernameModal = ({
 											"Username updated",
 											`Now your username is ${newUsername}.`,
 										);
+										sendEmailForUsernameChanged(user);
 									}
 								},
 							},

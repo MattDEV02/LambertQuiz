@@ -145,11 +145,14 @@ const SignUpScreen = ({ navigation }) => {
 					"This email is already used.",
 					"Please use another email.",
 				);
-			} else if (usernames.includes(username)) {
+				emailFieldError();
+			} 
+			if (usernames.includes(username)) {
 				Window.alert(
 					"This username is already used.",
 					"Please use another email.",
 				);
+				usernameFieldError()
 			} else if (signUp(email, password, username)) {
 				navigation.navigate("Sign In page");
 				fieldsReset();
@@ -227,10 +230,10 @@ const SignUpScreen = ({ navigation }) => {
 					value={password}
 					inputError={passwordError}
 					inputSuccess={passwordSuccess}
+					isPassword={true}
 					autoComplete={"off"}
 					autoCorrect={false}
 					maxLength={passwordMaxLength}
-					secureTextEntry={true}
 					onChangeText={(password) => setPassword(password)}
 				/>
 				<FormInput
@@ -239,10 +242,10 @@ const SignUpScreen = ({ navigation }) => {
 					value={confirmPassword}
 					inputError={confirmPasswordError}
 					inputSuccess={confirmPasswordSuccess}
+					isPassword={true}
 					autoComplete={"off"}
 					autoCorrect={false}
 					maxLength={passwordMaxLength}
-					secureTextEntry={true}
 					onChangeText={(confirmPassword) =>
 						setConfirmPassword(confirmPassword)
 					}

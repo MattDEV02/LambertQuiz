@@ -35,7 +35,12 @@ const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 
 	if (validateObject(markedDates[userUpdatedDate])) {
 		markedDates[userUpdatedDate].dots.push(userUpd);
-	} 
+	} else {
+		markedDates[userUpdatedDate] = {
+			...markedDateObjProperties,
+			dots: [userUpd],
+		};
+	}
 
 	const handleOnPlayPress = (stringDay) => {
 		const base = "In " + moment(stringDay).format("DD/MM/YYYY");
@@ -80,13 +85,13 @@ const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 			markedDate.dots.includes(userUpd)
 		) {
 			outputString +=
-				" you signed up for " + appName + " and played with it!";
+				" you signed up and updated your account!";
 		} else if (
 			markedDate.dots.includes(quizTaken) &&
 			markedDate.dots.includes(userSub) &&
 			markedDate.dots.includes(userUpd)
 		) {
-			outputString += " you played, signed up and updated your account !";
+			outputString += " you played, signed up and updated your account!";
 		}
 		Window.alert(outputString);
 	};
