@@ -19,9 +19,13 @@ const ProgressBar = ({
 	const [count, setCount] = useState(minPercentage);
 	const [color, setColor] = useState(COLORS.success);
 	const [progressBarFinished, setprogressBarFinished] = useState(false);
+	const [
+		tryAgainButNotProgressBarFinished,
+		setTryAgainButNotProgressBarFinished,
+	] = useState(false);
 
 	useEffect(() => {
-		if (openedQuiz) {
+		if (openedQuiz && !gameFinished) {
 			if (!progressBarFinished) {
 				countInterval.current = setInterval(
 					() => setCount((prev) => prev + deltaPercentage),
@@ -31,14 +35,14 @@ const ProgressBar = ({
 				clearInterval(countInterval.current);
 				handleOnSubmit();
 			}
-			return () => {
-				clearInterval(countInterval);
-			};
 		}
-	}, [progressBarFinished, openedQuiz]);
+		return () => {
+			clearInterval(countInterval);
+		};
+	}, [progressBarFinished, openedQuiz, tryAgainButNotProgressBarFinished]);
 
 	useEffect(() => {
-		if (openedQuiz) {
+		if (openedQuiz && !gameFinished) {
 			load(count);
 			getColor();
 			if (count >= maxPercentage) {
@@ -46,25 +50,30 @@ const ProgressBar = ({
 				setprogressBarFinished(true);
 				clearInterval(countInterval.current);
 			}
-			return () => {
-				clearInterval(countInterval);
-			};
+		} else {
+			clearInterval(countInterval.current);
 		}
+		return () => {
+			clearInterval(countInterval);
+		};
 	}, [count]);
 
 	useEffect(() => {
-		if (tryAgain && progressBarFinished) {
+		if (tryAgain && !gameFinished) {
 			reset();
+         if(!progressBarFinished) {
+            setTryAgainButNotProgressBarFinished(true);
+         } else {
+            setTryAgainButNotProgressBarFinished(false);
+         }
 		}
-	}, [tryAgain, openedQuiz]); // TODO: via questo
+	}, [tryAgain, openedQuiz]);
 
 	navigation.addListener("blur", () => {
 		reset();
 	});
 
-	// FUNCTION TO ANIMATE VIEW
 	const load = (value) => {
-		// UPDATE ANIMATABLE VIEW
 		Animated.timing(counter, {
 			toValue: value,
 			duration: oneSecond,

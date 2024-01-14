@@ -44,7 +44,6 @@ const LogoutIcon = () => (
 	/>
 );
 
-// TODO: useEffect with sessionUser
 
 const AppStackNavigator = ({ sessionUser }) => {
 	const [user, setUser] = useState(sessionUser);

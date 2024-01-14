@@ -11,7 +11,7 @@
   
 
 
-LambertQuiz is a React Native-based and cross-platform mobile app that offers an interactive and timez quiz on various topics.  
+LambertQuiz is a React Native-based and cross-platform mobile app that offers interactive and timed quizzes on various topics.  
 
   
 

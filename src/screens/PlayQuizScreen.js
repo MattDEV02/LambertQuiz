@@ -64,7 +64,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	}, [openedQuiz, tryAgain]);
 
 	navigation.addListener("blur", () => {
-		handleOnModalClose(); //
+		handleOnModalClose(); 
 		navigation.setParams({ openedQuiz: false });
 		setTryAgain(false);
 		setQuestions([]);
@@ -99,7 +99,6 @@ const PlayQuizScreen = ({ navigation, route }) => {
 			}}
 		>
 			{/* TOP BAR */}
-
 			{validateArray(questions, questionsNumber) &&
 			validateObject(questions[0]) &&
 			validateString(questions[0].category) ? (
