@@ -20,7 +20,7 @@ import { playClickSound } from "../utils/sounds";
 
 const HomeScreen = ({ navigation, route }) => {
 	const user = route.params.user;
-	console.log(user);
+	
 	const [quizzes, setQuizzes] = useState([]);
 	const [quiz, setQuiz] = useState("");
 	const [searching, setSearching] = useState(false);

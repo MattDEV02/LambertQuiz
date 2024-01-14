@@ -87,7 +87,6 @@ const SetPasswordModal = ({
 			if (validateObject(error)) {
 				console.error(error);
 			} else if (validateBoolean(data) && data === true) {
-				console.log(data);
 				if (oldPassword !== newPassword) {
 					Window.alert(
 						"Are your sure?",

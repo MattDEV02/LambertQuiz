@@ -30,7 +30,7 @@ SELECT
 DROP TYPE
   IF EXISTS categories;
 
-CREATE TYPE 
+CREATE TYPE
   categories AS ENUM(
     'Egypt',
     'England',
@@ -153,7 +153,7 @@ EXECUTE
   FUNCTION crypt_user_password ();
 
 CREATE
-OR REPLACE FUNCTION check_user_password_function (input_username VARCHAR, input_password TEXT) RETURNS BOOLEAN AS $$
+OR REPLACE FUNCTION check_user_password_function (input_email VARCHAR, input_password TEXT) RETURNS BOOLEAN AS $$
 DECLARE
     _check BOOLEAN;
 BEGIN
@@ -163,12 +163,15 @@ BEGIN
         FROM 
             Users
         WHERE 
-            username = input_username AND 
+            email = email AND 
             password = CRYPT(input_password, password)
     ) INTO _check;
     RETURN _check;
 END;
 $$ LANGUAGE PLPGSQL;
+
+CREATE INDEX
+  users_index ON public.users USING btree (user_id);
 
 INSERT INTO
   public.users (email, password, username)
@@ -250,6 +253,8 @@ UPDATE
 EXECUTE
   FUNCTION quiz_question_category ();
 
+CREATE INDEX
+  quizzes_index ON public.quizzes USING btree (quiz_id);
 
 INSERT INTO
   public.quizzes (title, description, category)
@@ -453,10 +458,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE
-OR REPLACE TRIGGER trigger_question_category_five
-BEFORE
-INSERT
-  ON public.questions FOR EACH ROW
+OR REPLACE TRIGGER trigger_question_category_five BEFORE INSERT ON public.questions FOR EACH ROW
 EXECUTE
   FUNCTION quiz_question_five ();
 
@@ -470,11 +472,13 @@ OR REPLACE FUNCTION get_random_questions (IN quiz_id INTEGER) RETURNS SETOF ques
    LIMIT 5;
 $$;
 
+CREATE INDEX
+  questions_index ON public.questions USING btree (question_id);
 
 INSERT INTO
   public.questions (text, category, imageURL, options, solution, quiz)
 VALUES
-    (
+  (
     'How much is large the Giza Sphinx ?',
     'Egypt',
     'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Egypt/sfinge.jpeg?t=2024-01-11T13%3A48%3A40.330Z',
@@ -633,7 +637,7 @@ VALUES
     '{"0 trillion USD", "1,108 trillion USD", "2,108 trillion USD", "3,108 trillion USD"}',
     '2,108 trillion USD',
     4
-  ), 
+  ),
   (
     'Who invented the famous formula for calculating the sum of the first n natural numbers n * (n + 1) / 2?',
     'History',
@@ -776,7 +780,7 @@ ALTER TABLE
   public.progresses
 ADD
   CONSTRAINT check_progresses_finished_at_inserted_at_updated_at CHECK (
-    public.progresses.quiz_finished_at < progresses.inserted_at
+    public.progresses.quiz_finished_at <= progresses.inserted_at
     AND public.progresses.quiz_started_at < progresses.updated_at
     AND public.progresses.quiz_finished_at > public.progresses.quiz_started_at
   );
@@ -817,6 +821,23 @@ EXECUTE
   FUNCTION progresses_updated_at_set_timestamp ();
 
 CREATE
+OR REPLACE FUNCTION progresses_quiz_finished_at_fix () RETURNS TRIGGER AS $$
+BEGIN
+  IF(NEW.quiz_finished_at > NOW()) THEN
+    NEW.quiz_finished_at = NOW();
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE
+OR REPLACE TRIGGER trigger_progresses_quiz_finished_at_fix BEFORE
+INSERT
+  ON public.progresses FOR EACH ROW
+EXECUTE
+  FUNCTION progresses_quiz_finished_at_fix();
+
+CREATE
 OR REPLACE FUNCTION check_user_activity_sub () RETURNS TRIGGER AS $$
 BEGIN
   IF ((SELECT public.users.inserted_at FROM public.users WHERE public.users.user_id = NEW._user) > NEW.quiz_finished_at) THEN
@@ -827,53 +848,52 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE
-OR REPLACE TRIGGER trigger_check_user_activity_sub
-BEFORE
-INSERT
-  ON public.progresses FOR EACH ROW
+OR REPLACE TRIGGER trigger_check_user_activity_sub BEFORE INSERT ON public.progresses FOR EACH ROW
 EXECUTE
-  FUNCTION check_user_activity_sub();
+  FUNCTION check_user_activity_sub ();
+
+CREATE INDEX
+  progresses_index ON public.progresses USING btree (progresses_id);
 
 /*
 INSERT INTO
-  public.progresses (
-    _user,
-    quiz,
-    quiz_started_at,
-    quiz_finished_at,
-    quiz_score
-  )
+public.progresses (
+_user,
+quiz,
+quiz_started_at,
+quiz_finished_at,
+quiz_score
+)
 VALUES
-  (
-    1,
-    1,
-    '2024-01-02 10:23:54',
-    '2024-01-02 10:24:32',
-    2
-  ),
-  (
-    1,
-    1,
-    '2024-01-07 11:23:54',
-    '2024-01-07 11:24:32',
-    2
-  ),
-  (
-    1,
-    2,
-    '2024-01-06 09:23:54',
-    '2024-01-06 09:24:32',
-    2
-  ),
-  (
-    1,
-    3,
-    '2024-01-05 11:33:54',
-    '2024-01-05 11:34:32',
-    2
-  );
-*/
-
+(
+1,
+1,
+'2024-01-02 10:23:54',
+'2024-01-02 10:24:32',
+2
+),
+(
+1,
+1,
+'2024-01-07 11:23:54',
+'2024-01-07 11:24:32',
+2
+),
+(
+1,
+2,
+'2024-01-06 09:23:54',
+'2024-01-06 09:24:32',
+2
+),
+(
+1,
+3,
+'2024-01-05 11:33:54',
+'2024-01-05 11:34:32',
+2
+);
+ */
 SELECT
   *
 FROM
@@ -1107,7 +1127,3 @@ $$ LANGUAGE PLPGSQL;
 ;
 
 -- Example query:
-select
-  *
-FROM
-  quizzes;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { SafeAreaView, FlatList } from "react-native";
 import PlayNavBar from "../components/screens/PlayQuizScreen/PlayNavBar";
+import ProgressBar from "../components/screens/PlayQuizScreen/ProgressBar";
 import Question from "../components/screens/PlayQuizScreen/Question";
 import FormButton from "../components/shared/FormButton";
 import ResultModal from "../components/screens/PlayQuizScreen/ResultModal";
@@ -70,8 +71,8 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	});
 
 	const handleOnSubmit = () => {
-		setGameFinished(true);
 		endDate = new Date();
+		setGameFinished(true);
 		totalSeconds = (Math.abs(endDate - startDate) / 1000).toFixed(2);
 		setIsResultModalVisible(true);
 		setTryAgain(false);
@@ -108,6 +109,13 @@ const PlayQuizScreen = ({ navigation, route }) => {
 					incorrectCount={incorrectCount}
 				/>
 			) : null}
+			<ProgressBar
+				handleOnSubmit={handleOnSubmit}
+				gameFinished={gameFinished}
+				tryAgain={tryAgain}
+				openedQuiz={openedQuiz}
+				navigation={navigation}
+			/>
 			{/* Questions and Options */}
 			<FlatList
 				ref={flatListRef}

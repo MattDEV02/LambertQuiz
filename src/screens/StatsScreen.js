@@ -127,12 +127,12 @@ const StatsScreen = ({ route }) => {
 			const row = [
 				objectsArray[i].username,
 				objectsArray[i].averagescore,
-				//objectsArray[i].totalscore,
 				objectsArray[i].worstscore,
 				objectsArray[i].betterscore,
 				objectsArray[i].totalquizzes,
 				objectsArray[i].quizzescompletitionpercentage,
 			];
+			matrix.push(row); 
 		}
 		return matrix;
 	};

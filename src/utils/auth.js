@@ -1,7 +1,7 @@
 import { Alert as Window } from "react-native";
 import Toast from "react-native-root-toast";
 import { supabase } from "../app/lib/supabase-client";
-import { existsUser, storeUser } from "./database";
+import { existsUser, storeUser, deleteUser } from "./database";
 import { validateObject } from "./validators";
 import { sendEmailForAccountDeleted } from "./mailers";
 
@@ -60,6 +60,7 @@ export const removeUser = async (user) => {
 			{
 				text: "Yes",
 				onPress: async () => {
+					deleteUser(user.user_id);
 					Window.alert(
 						"Account deleted successfully",
 						`Your account is deleted.`,

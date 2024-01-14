@@ -41,7 +41,7 @@ const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 			dots: [userUpd],
 		};
 	}
-
+	
 	const handleOnPlayPress = (stringDay) => {
 		const base = "In " + moment(stringDay).format("DD/MM/YYYY");
 		const markedDate = markedDates[stringDay];

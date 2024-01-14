@@ -50,6 +50,7 @@ export const updateUserPassword = async (email, newPassword) => {
 		.from("users")
 		.update({ password: newPassword })
 		.eq("email", email);
+	await supabase.auth.updateUser({ password: newPassword });
 	if (validateObject(error)) {
 		console.error(error);
 		return false;
@@ -57,7 +58,6 @@ export const updateUserPassword = async (email, newPassword) => {
 	console.log(
 		"User email " + email + " password uptated in " + newPassword,
 	);
-	// TODO: send email, noreply@mail.app.supabase.io , email
 	return true;
 };
 
