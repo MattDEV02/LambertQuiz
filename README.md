@@ -35,37 +35,61 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers in
 ## Screenshots 📸
 
   
+
+## `Sign Up page`
 <p align="center">
 <img  title="LambertQuiz RegScreen screenshoot 1"  alt="LambertQuiz RegScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen11.jpeg"  width="35%">
 <img  title="LambertQuiz RegScreen screenshoot 2"  alt="LambertQuiz RegScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen22.jpeg"  width="35%">
 <img  title="LambertQuiz RegScreen screenshoot 3"  alt="LambertQuiz RegScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen33.jpeg"  width="35%">
 <img  title="LambertQuiz RegScreen screenshoot 3"  alt="LambertQuiz RegScreen screenshoot 4"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen44.jpeg"  width="35%">
-<img  title="LambertQuiz LoginScreen screenshoot 1"  alt="LambertQuiz LoginScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signin/signinscreen11.jpeg"  width="32.75%">
-<img  title="LambertQuiz LoginScreen screenshoot 2"  alt="LambertQuiz LoginScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signin/signinscreen22.jpeg"  width="32.75%">
-<img  title="LambertQuiz LoginScreen screenshoot 3"  alt="LambertQuiz LoginScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signin/signinscreen33.jpeg"  width="32.75%">
-<img  title="LambertQuiz HomeScreen screenshoot 1"  alt="LambertQuiz HomeScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/home/homescreen1.jpeg"  width="32.75%">
-<img  title="LambertQuiz HomeScreen screenshoot 2"  alt="LambertQuiz HomeScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/home/homescreen2.jpeg"  width="32.75%">
-<img  title="LambertQuiz HomeScreen screenshoot 3"  alt="LambertQuiz HomeScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/home/homescreen3.jpeg"  width="32.75%">
-<img  title="LambertQuiz PlayQuizScreen screenshoot 1"  alt="LambertQuiz PlayQuizScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquiz/playquizscreen11.jpeg"  width="32.75%">
-<img  title="LambertQuiz PlayQuizScreen screenshoot 2"  alt="LambertQuiz PlayQuizScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquiz/playquizscreen22.jpeg"  width="32.75%">
-<img  title="LambertQuiz PlayQuizScreen screenshoot 3"  alt="LambertQuiz PlayQuizScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquiz/playquizscreen33.jpeg"  width="32.75%">
+</p>
+
+
+## `Sign In page`
+<p align="center">
+	<img  title="LambertQuiz LoginScreen screenshoot 1"  alt="LambertQuiz LoginScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signin/signinscreen11.jpeg"  width="32.75%">
+	<img  title="LambertQuiz LoginScreen screenshoot 2"  alt="LambertQuiz LoginScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signin/signinscreen22.jpeg"  width="32.75%">
+	<img  title="LambertQuiz LoginScreen screenshoot 3"  alt="LambertQuiz LoginScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signin/signinscreen33.jpeg"  width="32.75%">
+</p>
+
+## `Home page`
+<p align="center">
+	<img  title="LambertQuiz HomeScreen screenshoot 1"  alt="LambertQuiz HomeScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/home/homescreen1.jpeg"  width="32.75%">
+	<img  title="LambertQuiz HomeScreen screenshoot 2"  alt="LambertQuiz HomeScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/home/homescreen2.jpeg"  width="32.75%">
+	<img  title="LambertQuiz HomeScreen screenshoot 3"  alt="LambertQuiz HomeScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/home/homescreen3.jpeg"  width="32.75%">
+</p>
+
+## `Play Quiz page`
+<p align="center">
+	<img  title="LambertQuiz PlayQuizScreen screenshoot 1"  alt="LambertQuiz PlayQuizScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquiz/playquizscreen11.jpeg"  width="32.75%">
+<img  title="LambertQuiz PlayQuizScreen screenshoot 2"  alt="LambertQuiz PlayQuizScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquiz/playquizscreen222.jpeg"  width="32.75%">
+<img  title="LambertQuiz PlayQuizScreen screenshoot 3"  alt="LambertQuiz PlayQuizScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquiz/playquizscreen333.jpeg"  width="32.75%">
+
+</p>
+
+## `Account page`
+<p align="center"> 
 <img  title="LambertQuiz AccountScreen screenshoot 1"  alt="LambertQuiz AccountScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/account/accountscreen1.jpeg"  width="35%">
 <img  title="LambertQuiz AccountScreen screenshoot 2"  alt="LambertQuiz AccountScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/account/accountscreen22.jpeg"  width="35%">
 <img  title="LambertQuiz AccountScreen screenshoot 3"  alt="LambertQuiz AccountScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/account/accountscreen3.jpeg"  width="35%">
 <img  title="LambertQuiz AccountScreen screenshoot 4"  alt="LambertQuiz AccountScreen screenshoot 4"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/account/accountscreen4.jpeg"  width="35%">
-<img  title="LambertQuiz HelpScreen screenshoot 1"  alt="LambertQuiz HelpScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/help/helpscreen1.jpeg"  width="35%">
-<img  title="LambertQuiz HelpScreen screenshoot 2"  alt="LambertQuiz HelpScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/help/helpscreen2.jpeg"  width="35%">
-<img  title="LambertQuiz StatsScreen screenshoot 1"  alt="LambertQuiz StatsScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statsscreen11.gif"  width="35%">
-<img  title="LambertQuiz StatsScreen screenshoot 2"  alt="LambertQuiz StatsScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statsscreen22.jpeg"  width="35%">
-<img  title="LambertQuiz StatsScreen screenshoot 3"  alt="LambertQuiz StatsScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statscreen33.jpeg"  width="35%">
-<img  title="LambertQuiz StatsScreen screenshoot 4"  alt="LambertQuiz StatsScreen screenshoot 4"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statsscreen44.jpeg"  width="35%">
-
 </p>
 
-  
+## `Help page`
 
-  
+<p align="center">
+	<img  title="LambertQuiz HelpScreen screenshoot 1"  alt="LambertQuiz HelpScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/help/helpscreen1.jpeg"  width="35%">
+<img  title="LambertQuiz HelpScreen screenshoot 2"  alt="LambertQuiz HelpScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/help/helpscreen2.jpeg"  width="35%">
+</p>
 
+## `Stats page`
+
+<p align="center"> 
+	<img  title="LambertQuiz StatsScreen screenshoot 1"  alt="LambertQuiz StatsScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statsscreen11.gif"  width="35%">
+	<img  title="LambertQuiz StatsScreen screenshoot 2"  alt="LambertQuiz StatsScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statsscreen22.jpeg"  width="35%">
+	<img  title="LambertQuiz StatsScreen screenshoot 3"  alt="LambertQuiz StatsScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statscreen33.jpeg"  width="35%">
+	<img  title="LambertQuiz StatsScreen screenshoot 4"  alt="LambertQuiz StatsScreen screenshoot 4"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statsscreen44.jpeg"  width="35%">
+</p>
   
 
 ## Installation 🚀 and usage⚡
