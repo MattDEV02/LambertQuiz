@@ -46,3 +46,15 @@ export const validateURL = (URL) =>
 	new RegExp("(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?").test(
 		URL,
 	);
+
+export const validateImageExt = (source) => {
+	const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+	const imageExtensionsLength = imageExtensions.length;
+	let contains = false;
+	for(let i = 0; i < imageExtensionsLength; i++) {
+		if(source.includes("." + imageExtensions[i])) {
+			contains = true;
+		}
+	}
+	return contains;
+};

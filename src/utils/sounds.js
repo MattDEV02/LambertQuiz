@@ -1,6 +1,5 @@
 import { Audio } from "expo-av";
 
-
 const playSound = async (requiredFile) => {
 	const { sound } = await Audio.Sound.createAsync(requiredFile);
 	await sound.playAsync();

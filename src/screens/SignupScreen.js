@@ -42,7 +42,7 @@ const SignUpScreen = ({ navigation }) => {
 			.select("email, username");
 		if (validateObject(error)) {
 			console.error(error);
-		} else if (validateObject(data)) {
+		} else if (validateArray(data, 1)) {
 			setUsers(data);
 		}
 	};

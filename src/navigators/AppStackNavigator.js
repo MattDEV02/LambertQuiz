@@ -44,41 +44,50 @@ const LogoutIcon = () => (
 	/>
 );
 
-
 const AppStackNavigator = ({ sessionUser }) => {
 	const [user, setUser] = useState(sessionUser);
 	const [userReady, setUserReady] = useState(false);
 
+	const getUserUsernameFromEmail = async (email) => {
+		const { data, error } = await supabase
+			.from("users")
+			.select("user_id, username, password, inserted_at, updated_at")
+			.eq("email", email)
+			.single(); // UNIQUE
+		if (validateObject(error)) {
+			console.error(error);
+		} else if (validateObject(data)) {
+			let tempUser = sessionUser;
+			tempUser.user_id = data.user_id;
+			tempUser.username = data.username;
+			tempUser.password = data.password;
+			tempUser.inserted_at = data.inserted_at;
+			tempUser.auth_id = sessionUser.id;
+			delete tempUser.id;
+			delete tempUser.app_metadata;
+			delete tempUser.created_at;
+			delete tempUser.identities;
+			delete tempUser.phone;
+			delete tempUser.confirmation_sent_at;
+			delete tempUser.aud;
+			delete tempUser.user_metadata;
+			delete tempUser.confirmed_at;
+			setUser(
+				new User(
+					tempUser.email,
+					tempUser.password,
+					tempUser.username,
+					tempUser.user_id,
+					tempUser.inserted_at,
+					tempUser.updated_at,
+					tempUser.email_confirmed_at,
+				),
+			);
+			setUserReady(true);
+		}
+	};
+
 	useEffect(() => {
-		const getUserUsernameFromEmail = async (email) => {
-			const { data, error } = await supabase
-				.from("users")
-				.select("user_id, username, password, inserted_at, updated_at")
-				.eq("email", email)
-				.single(); // UNIQUE
-			if (validateObject(error)) {
-				console.error(error);
-			} else if (validateObject(data)) {
-				let tempUser = sessionUser;
-				tempUser.user_id = data.user_id;
-				tempUser.username = data.username;
-				tempUser.password = data.password;
-				tempUser.inserted_at = data.inserted_at;
-				tempUser.auth_id = sessionUser.id;
-				delete tempUser.id;
-				delete tempUser.app_metadata;
-				delete tempUser.created_at;
-				delete tempUser.identities;
-				delete tempUser.phone;
-				delete tempUser.confirmation_sent_at;
-				delete tempUser.aud;
-				delete tempUser.user_metadata;
-				delete tempUser.confirmed_at;
-				
-				setUser(new User(tempUser.email, tempUser.password, tempUser.username, tempUser.user_id, tempUser.inserted_at, tempUser.updated_at, tempUser.email_confirmed_at));
-				setUserReady(true);
-			}
-		};
 		getUserUsernameFromEmail(sessionUser.email);
 	}, []);
 

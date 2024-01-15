@@ -41,25 +41,25 @@ const PlayQuizScreen = ({ navigation, route }) => {
 		}
 	};
 
-	useEffect(() => {
-		const getQuestionsFromQuizId = async (quiz_id) => {
-			if (openedQuiz && !gameFinished) {
-				setRefreshing(true);
-				await playOpenSound();
-				const { data, error } = await supabase.rpc("get_random_questions", {
-					quiz_id,
-				});
-				if (validateObject(error)) {
-					console.error(error);
-				} else if (validateArray(data, questionsNumber)) {
-					startDate = new Date();
-					setQuestions(data);
-					scrollToTop();
-				}
-				setRefreshing(false);
+	const getQuestionsFromQuizId = async (quiz_id) => {
+		if (openedQuiz && !gameFinished) {
+			setRefreshing(true);
+			await playOpenSound();
+			const { data, error } = await supabase.rpc("get_random_questions", {
+				quiz_id,
+			});
+			if (validateObject(error)) {
+				console.error(error);
+			} else if (validateArray(data, questionsNumber)) {
+				startDate = new Date();
+				setQuestions(data);
+				scrollToTop();
 			}
-		};
+			setRefreshing(false);
+		}
+	};
 
+	useEffect(() => {
 		getQuestionsFromQuizId(quiz_id);
 	}, [openedQuiz, tryAgain]);
 

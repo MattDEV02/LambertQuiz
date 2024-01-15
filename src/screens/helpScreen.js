@@ -28,12 +28,12 @@ const HelpScreen = () => {
 			response: `Now the App has 6 categories.`,
 		},
 		{
-			question: `How many questions has a Quiz?`,
+			question: `How long do I have to take a quiz?`,
 			response: `You have 50 seconds, 10 seconds per question!`,
 		},
 		{
-			question: `How long do I have to take a quiz?`,
-			response: `Now the App has 6 categories.`,
+			question: `How many questions has a Quiz?`,
+			response: `There are ${questionsNumber} questions per Quiz.`,
 		},
 		{
 			question: `How should my password be made?`,

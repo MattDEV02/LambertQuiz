@@ -26,39 +26,39 @@ const HomeScreen = ({ navigation, route }) => {
 	const [searching, setSearching] = useState(false);
 	const [refreshing, setRefreshing] = useState(false);
 
+	const getQuizzes = async () => {
+		setRefreshing(true);
+		const { data, error } = await supabase
+			.from("quizzes")
+			.select()
+			.order("category");
+		if (validateObject(error)) {
+			console.error(error);
+			setRefreshing(false);
+		} else if (validateArray(data, 1)) {
+			setQuizzes(data);
+		}
+		setRefreshing(false);
+	};
+
+	const getQuizzesWithSearching = async () => {
+		setRefreshing(true);
+		const { data, error } = await supabase.rpc("get_searched_quizzes", {
+			quiz_category: quiz,
+		});
+		if (validateObject(error)) {
+			console.error(error);
+			setRefreshing(false);
+		} else if (validateArray(data, 0)) {
+			setQuizzes(data);
+		} else if (!validateString(quiz)) {
+			setSearching(false);
+			getQuizzes();
+		}
+		setRefreshing(false);
+	};
+
 	useEffect(() => {
-		const getQuizzes = async () => {
-			setRefreshing(true);
-			const { data, error } = await supabase
-				.from("quizzes")
-				.select()
-				.order("category");
-			if (validateObject(error)) {
-				console.error(error);
-				setRefreshing(false);
-			} else if (validateArray(data, 1)) {
-				setQuizzes(data);
-			}
-			setRefreshing(false);
-		};
-
-		const getQuizzesWithSearching = async () => {
-			setRefreshing(true);
-			const { data, error } = await supabase.rpc("get_searched_quizzes", {
-				quiz_category: quiz,
-			});
-			if (validateObject(error)) {
-				console.error(error);
-				setRefreshing(false);
-			} else if (validateArray(data, 0)) {
-				setQuizzes(data);
-			} else if (!validateString(quiz)) {
-				setSearching(false);
-				getQuizzes();
-			}
-			setRefreshing(false);
-		};
-
 		searching ? getQuizzesWithSearching() : getQuizzes();
 	}, [quiz]);
 

@@ -23,21 +23,22 @@ const SetUsernameModal = ({
 	const [usernameUpdated, setUsernameUpdated] = useState(false);
 	const [usersUsername, setUsersUsername] = useState([]);
 
+	const getUsersUsernames = async () => {
+		const { data, error } = await supabase
+			.from("users")
+			.select("username");
+		if (validateObject(error)) {
+			console.error(error);
+		} else if (validateObject(data)) {
+			let tempUsersUsername = data.map((value) => value.username);
+			tempUsersUsername = tempUsersUsername.filter(
+				(username) => username !== oldUsername,
+			);
+			setUsersUsername(tempUsersUsername);
+		}
+	};
+
 	useEffect(() => {
-		const getUsersUsernames = async () => {
-			const { data, error } = await supabase
-				.from("users")
-				.select("username");
-			if (validateObject(error)) {
-				console.error(error);
-			} else if (validateObject(data)) {
-				let tempUsersUsername = data.map((value) => value.username);
-				tempUsersUsername = tempUsersUsername.filter(
-					(username) => username !== oldUsername,
-				);
-				setUsersUsername(tempUsersUsername);
-			}
-		};
 		getUsersUsernames();
 	}, [usernameUpdated]);
 

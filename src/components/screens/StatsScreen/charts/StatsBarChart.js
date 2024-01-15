@@ -4,7 +4,6 @@ import { BarChart } from "react-native-gifted-charts";
 import PointerLabelComponent from "./shared/PointerLabelComponent";
 import { COLORS, SIZES,pointerConfig } from "../../../../constants/theme";
 
-
 const StatsBarChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
 	const axisThickness = 1.5;

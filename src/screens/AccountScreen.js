@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity, Linking } from "react-native";
+import {
+	StyleSheet,
+	SafeAreaView,
+	View,
+	Text,
+	TouchableOpacity,
+	Linking,
+} from "react-native";
 import Logo from "../components/screens/AccountScreen/Logo";
 import AccountOption from "../components/screens/AccountScreen/AccountOption";
 import SetUsernameModal from "../components/screens/AccountScreen/modals/setUsernameModal";
@@ -26,7 +33,13 @@ const AccountScreen = ({ navigation, route }) => {
 		>
 			<View style={style.container}>
 				{/* LOGO */}
-				<TouchableOpacity onPress={() => Linking.openURL("https://matteolambertucci.altervista.org/logo.png")}>
+				<TouchableOpacity
+					onPress={() =>
+						Linking.openURL(
+							"https://matteolambertucci.altervista.org/logo.png",
+						)
+					}
+				>
 					<Logo />
 				</TouchableOpacity>
 				<View

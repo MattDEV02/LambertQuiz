@@ -631,7 +631,7 @@ VALUES
     4
   ),
   (
-    'What is the Italian PIL?',
+    'How much is the Italian PIL worth?',
     'Geography',
     'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Geography/pil_italiano.jpg?t=2024-01-12T08%3A56%3A38.433Z',
     '{"0 trillion USD", "1,108 trillion USD", "2,108 trillion USD", "3,108 trillion USD"}',

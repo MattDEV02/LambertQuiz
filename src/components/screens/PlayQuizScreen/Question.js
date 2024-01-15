@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image } from "react-native";
 import Option from "./Option";
 import NoImage from "./NoImage";
-import { validateURL } from "../../../utils/validators";
+import { validateURL, validateImageExt } from "../../../utils/validators";
 import { COLORS, questionsNumber } from "../../../constants/theme";
 
 const Question = ({
@@ -16,18 +16,18 @@ const Question = ({
 	const [imagesError, setImagesError] = useState([]);
 
 	useEffect(() => {
-		let tempImagesError = null;
+		let tempImagesError = [];
 		for (i = 0; i < questionsNumber; i++) {
-			tempImagesError = [...imagesError];
 			tempImagesError[i] = false;
-			setImagesError([...tempImagesError]);
 		}
+		setImagesError(tempImagesError);
 	}, []);
 
 	const handleImageError = (questionIndex) => {
-		const updatedErrors = [...imagesError];
-		updatedErrors[questionIndex] = true;
-		setImagesError(updatedErrors);
+		let updatedImagesError = [...imagesError];
+		updatedImagesError[questionIndex] = true;
+		console.log(updatedImagesError);
+		setImagesError(updatedImagesError);
 	};
 
 	return (
@@ -44,7 +44,9 @@ const Question = ({
 				<Text style={{ fontSize: 16 }}>
 					{questionIndex + 1}. {question.text}
 				</Text>
-				{validateURL(question.imageurl) && !imagesError[questionIndex] ? (
+				{validateURL(question.imageurl) &&
+				validateImageExt(question.imageurl) &&
+				!imagesError[questionIndex] ? (
 					<Image
 						source={{
 							uri: question.imageurl,

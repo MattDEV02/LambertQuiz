@@ -39,7 +39,7 @@ const ProgressBar = ({
 		return () => {
 			clearInterval(countInterval);
 		};
-	}, [progressBarFinished, openedQuiz, tryAgainButNotProgressBarFinished]);
+	}, [progressBarFinished, openedQuiz, tryAgainButNotProgressBarFinished]); 
 
 	useEffect(() => {
 		if (openedQuiz && !gameFinished) {
@@ -59,13 +59,11 @@ const ProgressBar = ({
 	}, [count]);
 
 	useEffect(() => {
-		if (tryAgain && !gameFinished) {
+		if (tryAgain) {
 			reset();
-         if(!progressBarFinished) {
-            setTryAgainButNotProgressBarFinished(true);
-         } else {
-            setTryAgainButNotProgressBarFinished(false);
-         }
+			if (!progressBarFinished) {
+				setTryAgainButNotProgressBarFinished(!tryAgainButNotProgressBarFinished);
+			}
 		}
 	}, [tryAgain, openedQuiz]);
 
@@ -85,6 +83,7 @@ const ProgressBar = ({
 		setCount(minPercentage);
 		setColor(COLORS.success);
 		setprogressBarFinished(false);
+		setTryAgainButNotProgressBarFinished(false);
 	};
 
 	const getColor = () => {

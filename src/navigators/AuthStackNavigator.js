@@ -5,6 +5,8 @@ import { headerShown } from "../constants/theme";
 
 const Stack = createStackNavigator();
 
+// TODO: SIGNOUT SCREEN PAGE THERE ?
+
 const AuthStackNavigator = () => {
 	return (
 		<Stack.Navigator
