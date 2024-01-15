@@ -567,12 +567,6 @@ I am the only author of this beatiful app 😉
 
   
 
-- **`android/`**: Contains Android-specific files, including configuration files, manifest, etc.
-
-  
-
-- **`ios/`**: Contains iOS-specific files, including configuration files, assets, etc.
-
   
 
 ## Sources 🤝
