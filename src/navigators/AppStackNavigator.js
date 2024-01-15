@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Text } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { supabase } from "../app/lib/supabase-client";
 import {
@@ -105,7 +104,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 			initialRouteName={"Home page"}
 		>
 			<Drawer.Screen
-				name="Home page"
+				name={"Home page"}
 				component={HomeScreen}
 				options={{
 					drawerIcon: HomeIcon,
@@ -118,7 +117,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 				initialParams={{ user }}
 			/>
 			<Drawer.Screen
-				name="Account page"
+				name={"Account page"}
 				component={AccountScreen}
 				options={{
 					drawerIcon: AccountIcon,
@@ -131,7 +130,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 				initialParams={{ user }}
 			/>
 			<Drawer.Screen
-				name="Stats page"
+				name={"Stats page"}
 				component={StatsScreen}
 				options={{
 					drawerIcon: StatsIcon,
@@ -144,7 +143,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 				initialParams={{ user }}
 			/>
 			<Drawer.Screen
-				name="Help page"
+				name={"Help page"}
 				component={HelpScreen}
 				options={{
 					drawerIcon: HelpIcon,
@@ -156,7 +155,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 				}}
 			/>
 			<Drawer.Screen
-				name="Logout"
+				name={"Logout"}
 				component={SignoutScreen}
 				options={{
 					drawerIcon: LogoutIcon,
@@ -175,7 +174,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 				})}
 			/>
 			<Drawer.Screen
-				name="Play Quiz page"
+				name={"Play Quiz page"}
 				component={PlayQuizScreen}
 				options={{
 					drawerLabel: () => null,
@@ -191,9 +190,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 				initialParams={{ user }}
 			/>
 		</Drawer.Navigator>
-	) : (
-		<Text>...</Text>
-	);
+	) : null;
 };
 
 export default AppStackNavigator;

@@ -13,9 +13,9 @@ const AuthStackNavigator = () => {
 			}}
 			initialRouteName={"Sign In page"}
 		>
-			<Stack.Screen name="Sign In page" component={SignInScreen} />
-			<Stack.Screen name="Sign Up page" component={SignUpScreen} />
-			<Stack.Screen name="Sign Out page" component={SignoutScreen} />
+			<Stack.Screen name={"Sign In page"} component={SignInScreen} />
+			<Stack.Screen name={"Sign Up page"} component={SignUpScreen} />
+			<Stack.Screen name={"Sign Out page"} component={SignoutScreen} />
 		</Stack.Navigator>
 	);
 };
