@@ -8,12 +8,10 @@
 <img  title="LambertQuiz Logo"  alt="LambertQuiz Logo"  width="19.5%"  src="./assets/images/logo.png">
 </p>
 
-  
-
 
 LambertQuiz is a React Native-based and cross-platform mobile app that offers interactive and timed quizzes on various topics.  
 
-  
+#### P.S. = Go to Releases sections and download only the 		  latest release (the third one).  
 
 ## Key Features ✨
 
