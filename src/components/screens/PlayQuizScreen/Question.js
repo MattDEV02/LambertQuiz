@@ -26,7 +26,6 @@ const Question = ({
 	const handleImageError = (questionIndex) => {
 		let updatedImagesError = [...imagesError];
 		updatedImagesError[questionIndex] = true;
-		console.log(updatedImagesError);
 		setImagesError(updatedImagesError);
 	};
 

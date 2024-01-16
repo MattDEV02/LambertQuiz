@@ -53,21 +53,31 @@ export const signOut = async () => {
 };
 
 export const removeUser = async (user) => {
+	const email = user.email;
 	Window.alert(
 		"Are your sure?",
-		`Are you sure you want to deleted your account with this email: ${user.email} ?`,
+		`Are you sure you want to deleted your account with this email: ${email} ?`,
 		[
 			{
 				text: "Yes",
 				onPress: async () => {
-					deleteUser(user.user_id);
-					Window.alert(
-						"Account deleted successfully",
-						`Your account is deleted.`,
-					);
-					signOut();
-					Toast.show("Account deleted.");
-					sendEmailForAccountDeleted(user);
+					const user_id = user.user_id;
+					if (deleteUser(user_id)) {
+						const { data, error } = await supabase.rpc("delete_user", {
+							input_email: email
+						});
+						if (validateObject(error)) {
+							console.error(error.message);
+						}
+						console.log("User_id " + user_id + " deleted.");
+						Window.alert(
+							"Account deleted successfully",
+							`Your account is deleted.`,
+						);
+						signOut();
+						Toast.show("Account deleted.");
+						sendEmailForAccountDeleted(user);
+					}
 				},
 			},
 			{
@@ -82,5 +92,3 @@ export const removeUser = async (user) => {
 		],
 	);
 };
-
-

@@ -173,6 +173,7 @@ $$ LANGUAGE PLPGSQL;
 CREATE INDEX
   users_index ON public.users USING btree (user_id);
 
+/*
 INSERT INTO
   public.users (email, password, username)
 VALUES
@@ -181,6 +182,8 @@ VALUES
     'Matteo02',
     'Matt'
   );
+
+*/
 
 SELECT
   *
@@ -952,16 +955,17 @@ SELECT
 Other functions:
 
  */
+ 
 CREATE
-OR REPLACE FUNCTION delete_user () RETURNS VOID LANGUAGE SQL SECURITY DEFINER AS $$
+OR REPLACE FUNCTION delete_user (IN input_email TEXT) RETURNS VOID LANGUAGE SQL SECURITY DEFINER AS $$
   DELETE FROM auth.users
-  WHERE id = auth.UID();
+  WHERE auth.users.email = input_email;
 $$;
 
 CREATE
 OR REPLACE FUNCTION get_best_five_users_stats () RETURNS TABLE (
   username VARCHAR,
-  totalScore BIGINT,
+  _averageScore NUMERIC,
   averageScore TEXT,
   worstScore TEXT,
   betterScore TEXT,
@@ -978,9 +982,10 @@ BEGIN
   FROM public.Quizzes;
   SELECT 5 INTO questions_number;
 RETURN QUERY
-  SELECT DISTINCT
+  SELECT 
+    DISTINCT
   Users.username,
-  SUM(Progresses.quiz_score) AS totalScore,
+  ROUND(AVG(Progresses.quiz_score), 2) AS _averageScore, 
   ROUND(AVG(Progresses.quiz_score), 2)::VARCHAR || ' / ' || questions_number AS averageScore,
   MIN(Progresses.quiz_score)::VARCHAR || ' / ' || questions_number AS worstScore,
   MAX(Progresses.quiz_score)::VARCHAR || ' / ' || questions_number AS betterScore,
@@ -1000,8 +1005,8 @@ FROM
 GROUP BY
   Users.username
 ORDER BY
-  averageScore,
-  Users.username DESC
+ _averageScore DESC,
+ Users.username ASC
 LIMIT
   5;
 END;
@@ -1127,3 +1132,5 @@ $$ LANGUAGE PLPGSQL;
 ;
 
 -- Example query:
+
+select * from get_best_five_users_stats();

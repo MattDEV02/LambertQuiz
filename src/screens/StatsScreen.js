@@ -31,11 +31,10 @@ const StatsScreen = ({ route }) => {
 	const isFocused = useIsFocused();
 
 	const user = route.params.user;
-	console.log(user);
+	
 	const userId = user.user_id;
 
-	const userSub = moment(user.email_confirmed_at).format("DD/MM/YYYY"),
-		userUpd = moment(user.updated_at).format("YYYY-MM-DD");
+	const userSub = moment(user.email_confirmed_at).format("DD/MM/YYYY");
 	const userSubDays = moment().diff(user.email_confirmed_at, "days") + 1;
 
 	const [bestFiveUsersMatrix, setBestFiveUsersMatrix] = useState([]); // array of arrays
@@ -164,8 +163,7 @@ const StatsScreen = ({ route }) => {
 						{validateArray(quizzesDays, 0) ? (
 							<StatsCalendar
 								data={quizzesDays}
-								userSubDate={user.email_confirmed_at}
-								userUpdatedDate={userUpd}
+								user={user}
 							/>
 						) : null}
 					</View>

@@ -5,14 +5,13 @@ import moment from "moment";
 import { COLORS, appName } from "../../../constants/theme";
 import { validateObject } from "../../../utils/validators";
 
-const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
+const StatsCalendar = ({ data, user }) => {
 	const quizTaken = { key: "quizTaken", color: COLORS.black },
 		userSub = { key: "userSub", color: COLORS.white },
 		userUpd = { key: "userUpd", color: "#CF13A6" };
 	const calendarFormat = "YYYY-MM-DD";
-	const
-		_userSubDate = moment(userSubDate).format(calendarFormat),
-		_userUpdatedDate = moment(userUpdatedDate).format(calendarFormat);
+	const _userSubDate = moment(user.email_confirmed_at).format(calendarFormat),
+		_userUpdatedDate = moment(user.updated_at).format(calendarFormat);
 	let markedDates = {};
 	const markedDateObjProperties = {
 		selected: true,
@@ -38,7 +37,7 @@ const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 		};
 	}
 
-	if(userSubDate !== userUpdatedDate) {
+	if (user.inserted_at !== user.updated_at) {
 		if (validateObject(markedDates[_userUpdatedDate])) {
 			markedDates[_userUpdatedDate].dots.push(userUpd);
 		} else {
@@ -48,19 +47,20 @@ const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 			};
 		}
 	}
-	
+
 	const handleOnPlayPress = (stringDay) => {
-		const base = "In " + moment(stringDay).format("DD/MM/YYYY");
+		const formattedStringDay =  moment(stringDay).format("DD/MM/YYYY");
+		const base = "In day " + formattedStringDay;
 		const markedDate = markedDates[stringDay];
 		let outputString = base;
 		if (!validateObject(markedDate)) {
-			outputString += " you didn't play with us.";
+			outputString += " you didn't play with " + appName + ".";
 		} else if (
 			markedDate.dots.includes(quizTaken) &&
 			!markedDate.dots.includes(userSub) &&
 			!markedDate.dots.includes(userUpd)
 		) {
-			outputString += " you played with us!";
+			outputString += " you played with " + appName + "!";
 		} else if (
 			!markedDate.dots.includes(quizTaken) &&
 			markedDate.dots.includes(userSub) &&
@@ -72,7 +72,7 @@ const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 			!markedDate.dots.includes(userSub) &&
 			markedDate.dots.includes(userUpd)
 		) {
-			outputString += " you updated your Account!";
+			outputString += " you updated your " + appName + " Account!";
 		} else if (
 			markedDate.dots.includes(quizTaken) &&
 			markedDate.dots.includes(userSub) &&
@@ -85,22 +85,21 @@ const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 			!markedDate.dots.includes(userSub) &&
 			markedDate.dots.includes(userUpd)
 		) {
-			outputString += " you played with us and updated your account!";
+			outputString += " you played with us and updated your " + appName + " account!";
 		} else if (
 			!markedDate.dots.includes(quizTaken) &&
 			markedDate.dots.includes(userSub) &&
 			markedDate.dots.includes(userUpd)
 		) {
-			outputString +=
-				" you signed up and updated your account!";
+			outputString += " you signed up and updated your " + appName + " account!";
 		} else if (
 			markedDate.dots.includes(quizTaken) &&
 			markedDate.dots.includes(userSub) &&
 			markedDate.dots.includes(userUpd)
 		) {
-			outputString += " you played, signed up and updated your account!";
+			outputString += " you played, signed up and updated your account for " + appName + "!";
 		}
-		Window.alert(outputString);
+		Window.alert(formattedStringDay, outputString);
 	};
 
 	return (
