@@ -31,6 +31,7 @@ const StatsScreen = ({ route }) => {
 	const isFocused = useIsFocused();
 
 	const user = route.params.user;
+	console.log(user);
 	const userId = user.user_id;
 
 	const userSub = moment(user.email_confirmed_at).format("DD/MM/YYYY"),
@@ -132,7 +133,7 @@ const StatsScreen = ({ route }) => {
 				objectsArray[i].totalquizzes,
 				objectsArray[i].quizzescompletitionpercentage,
 			];
-			matrix.push(row); 
+			matrix.push(row);
 		}
 		return matrix;
 	};
@@ -163,9 +164,7 @@ const StatsScreen = ({ route }) => {
 						{validateArray(quizzesDays, 0) ? (
 							<StatsCalendar
 								data={quizzesDays}
-								userSubDate={moment(user.email_confirmed_at).format(
-									"YYYY-MM-DD",
-								)}
+								userSubDate={user.email_confirmed_at}
 								userUpdatedDate={userUpd}
 							/>
 						) : null}

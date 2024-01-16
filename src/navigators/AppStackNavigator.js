@@ -61,6 +61,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 			tempUser.username = data.username;
 			tempUser.password = data.password;
 			tempUser.inserted_at = data.inserted_at;
+			tempUser.updated_at = data.updated_at;
 			tempUser.auth_id = sessionUser.id;
 			delete tempUser.id;
 			delete tempUser.app_metadata;

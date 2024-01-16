@@ -9,6 +9,10 @@ const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 	const quizTaken = { key: "quizTaken", color: COLORS.black },
 		userSub = { key: "userSub", color: COLORS.white },
 		userUpd = { key: "userUpd", color: "#CF13A6" };
+	const calendarFormat = "YYYY-MM-DD";
+	const
+		_userSubDate = moment(userSubDate).format(calendarFormat),
+		_userUpdatedDate = moment(userUpdatedDate).format(calendarFormat);
 	let markedDates = {};
 	const markedDateObjProperties = {
 		selected: true,
@@ -17,6 +21,7 @@ const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 		selectedTextColor: COLORS.white,
 		dotColor: COLORS.white,
 	};
+
 	data.map((item) => {
 		markedDates[item.quiz_day] = {
 			...markedDateObjProperties,
@@ -24,22 +29,24 @@ const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 		};
 	});
 
-	if (validateObject(markedDates[userSubDate])) {
-		markedDates[userSubDate].dots.push(userSub);
+	if (validateObject(markedDates[_userSubDate])) {
+		markedDates[_userSubDate].dots.push(userSub);
 	} else {
-		markedDates[userSubDate] = {
+		markedDates[_userSubDate] = {
 			...markedDateObjProperties,
 			dots: [userSub],
 		};
 	}
 
-	if (validateObject(markedDates[userUpdatedDate])) {
-		markedDates[userUpdatedDate].dots.push(userUpd);
-	} else {
-		markedDates[userUpdatedDate] = {
-			...markedDateObjProperties,
-			dots: [userUpd],
-		};
+	if(userSubDate !== userUpdatedDate) {
+		if (validateObject(markedDates[_userUpdatedDate])) {
+			markedDates[_userUpdatedDate].dots.push(userUpd);
+		} else {
+			markedDates[_userUpdatedDate] = {
+				...markedDateObjProperties,
+				dots: [userUpd],
+			};
+		}
 	}
 	
 	const handleOnPlayPress = (stringDay) => {
@@ -115,7 +122,7 @@ const StatsCalendar = ({ data, userSubDate, userUpdatedDate }) => {
 					},
 				}}
 				enableSwipeMonths={true}
-				maxDate={moment().format("YYYY-MM-DD")}
+				maxDate={moment().format(calendarFormat)}
 				firstDay={1}
 				showWeekNumbers={true}
 				markingType={"multi-dot"}
