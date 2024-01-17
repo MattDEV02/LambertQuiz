@@ -6,7 +6,8 @@ const StatsFooter = ({ userSub, userSubDays, userPrefCategory }) => {
 	return (
 		<View style={style.footer}>
 			<Text style={style.footerText}>
-				You are our User since {userSub}, that's {userSubDays} days!
+				You are our User since {userSub}, that's {userSubDays}{" "}
+				{userSubDays > 1 ? "days" : "day"} !
 			</Text>
 			<Text style={style.footerText}>
 				Prefered category:{" "}

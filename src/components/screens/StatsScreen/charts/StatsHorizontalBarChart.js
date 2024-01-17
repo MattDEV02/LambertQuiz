@@ -13,7 +13,11 @@ const StatsHorizontalBarChart = ({ data }) => {
 			<BarChart
 				horizontal={true}
 				autoShiftLabels={false}
-				//showLine
+				showLine={true}
+				lineConfig={{
+					isAnimated: true,
+					dataPointsRadius: 2.4,
+				}}
 				xAxisLabelsVerticalShift={10}
 				initialSpacing={18}
 				endSpacing={25}
@@ -39,10 +43,15 @@ const StatsHorizontalBarChart = ({ data }) => {
 				pointerConfig={{
 					...pointerConfig,
 					stripBehindBars: false,
+					autoAdjustPointerLabelPosition: true,
 					pointerLabelComponent: (items) => (
 						<PointerLabelComponent
 							value={items[0].value}
-							style={{ transform: [{ rotate: "-90deg" }] }}
+							style={{
+								transform: [{ rotate: "-90deg" }],
+								position: "relative",
+								left: -20,
+							}}
 						/>
 					),
 				}}

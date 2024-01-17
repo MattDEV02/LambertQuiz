@@ -23,6 +23,7 @@ export const COLORS = {
 const { width, height } = Dimensions.get("window");
 
 export const SIZES = {
+	// JS ENUM
 	base: 10,
 	width,
 	height,
@@ -51,7 +52,7 @@ export const ACCOUNTOPTIONS = {
 };
 
 export const pointerConfig = {
-	// JS ENUM
+	// JS Object
 	pointerStripUptoDataPoint: true,
 	pointerStripColor: COLORS.error,
 	pointerStripWidth: 2,
