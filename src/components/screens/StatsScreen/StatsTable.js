@@ -8,11 +8,10 @@ import {
 	LogBox,
 } from "react-native";
 import { Table, Row, Rows } from "react-native-table-component";
-import Tooltip from "react-native-walkthrough-tooltip";
+import TableTooltip from "./table/TableTooltip";
 import { COLORS } from "../../../constants/theme";
 
 const StatsTable = ({ matrix }) => {
-	
 	LogBox.ignoreLogs([
 		"Warning: Failed prop type: Invalid prop `textStyle` of type `array` supplied to `Cell`, expected `object`.",
 	]);
@@ -23,18 +22,10 @@ const StatsTable = ({ matrix }) => {
 
 	return (
 		<View>
-			<Tooltip
-				isVisible={tooltipVisible}
-				content={
-					<Text style={{ fontWeight: "bold", color: COLORS.primary }}>
-						Best 5 LambertQuiz Players
-					</Text>
-				}
-				placement={"top"}
-				useReactNativeModal={false}
-				disableShadow={true}
-				onClose={() => setTooltipVisible(false)}
-			></Tooltip>
+			<TableTooltip
+				tooltipVisible={tooltipVisible}
+				setTooltipVisible={setTooltipVisible}
+			/>
 			<ScrollView horizontal={true}>
 				<TouchableOpacity
 					activeOpacity={1}
