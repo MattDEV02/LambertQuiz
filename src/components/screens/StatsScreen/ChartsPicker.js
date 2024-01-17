@@ -5,7 +5,6 @@ import { COLORS, CHARTTYPES } from "../../../constants/theme";
 
 const ChartsPicker = ({ setSelectedChart }) => {
 	const items = [
-		// TODO: with a loop...
 		{
 			label: CHARTTYPES.barChart.replace("C", " c"),
 			value: CHARTTYPES.barChart,

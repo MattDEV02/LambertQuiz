@@ -27,5 +27,4 @@ const NoImage = () => {
 	);
 };
 
-
 export default NoImage;

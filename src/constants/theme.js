@@ -3,7 +3,7 @@ import { APP_NAME } from "@env";
 
 export const COLORS = {
 	// JS ENUM
-	primary: "#007BFF", // #4630EB
+	primary: "#007BFF", 
 	secondary: "#000020",
 
 	success: "#00C851",

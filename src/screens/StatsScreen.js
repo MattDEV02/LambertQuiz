@@ -31,18 +31,34 @@ const StatsScreen = ({ route }) => {
 	const isFocused = useIsFocused();
 
 	const user = route.params.user;
-	
+
 	const userId = user.user_id;
 
 	const userSub = moment(user.email_confirmed_at).format("DD/MM/YYYY");
 	const userSubDays = moment().diff(user.email_confirmed_at, "days") + 1;
 
+	const [userUpdatedDate, setUserUpdatedDate] = useState("");
 	const [bestFiveUsersMatrix, setBestFiveUsersMatrix] = useState([]); // array of arrays
 	const [quizzesDays, setQuizzesDays] = useState([]); // array of objects
 	const [userLastSevenDaysQuizzes, setUserLastSevenDaysQuizzes] = useState([]); // array of objects
 	const [userPrefCategory, setUserPrefCategory] = useState("");
 	const [refreshing, setRefreshing] = useState(false);
 	const [selectedChart, setSelectedChart] = useState(CHARTTYPES.barChart);
+
+	const getUserUpdateDate = async (user_id) => {
+		setRefreshing(true);
+		const { data, error } = await supabase
+			.from("users")
+			.select("updated_at")
+			.eq("user_id", user_id)
+			.single();
+		if (validateObject(error)) {
+			console.error(error);
+		} else if (validateObject(data) && validateString(data.updated_at)) {
+			setUserUpdatedDate(data.updated_at);
+		}
+		setRefreshing(false);
+	};
 
 	const getBestFiveUsersStats = async () => {
 		setRefreshing(true);
@@ -108,6 +124,7 @@ const StatsScreen = ({ route }) => {
 	};
 
 	const onRefresh = () => {
+		getUserUpdateDate(user.user_id);
 		getBestFiveUsersStats();
 		getQuizzesDays(userId);
 		getUserLastSevenDaysQuizzes(userId);
@@ -160,10 +177,11 @@ const StatsScreen = ({ route }) => {
 						<Text style={{ ...style.text, ...style.title }}>
 							Your {appName} activity
 						</Text>
-						{validateArray(quizzesDays, 0) ? (
+						{validateArray(quizzesDays, 0)  && validateString(userUpdatedDate) ? (
 							<StatsCalendar
 								data={quizzesDays}
 								user={user}
+								userUpdatedDate={userUpdatedDate}
 							/>
 						) : null}
 					</View>

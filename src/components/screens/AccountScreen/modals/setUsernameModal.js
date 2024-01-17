@@ -15,18 +15,17 @@ const SetUsernameModal = ({
 	user,
 	setUserUsername,
 }) => {
-	const oldUsername = user.username;
 
-	const [newUsername, setNewUsername] = useState(oldUsername);
+	const username = user.username;
+	const [oldUsername, setOldUsername] = useState(username);
+	const [newUsername, setNewUsername] = useState(username);
 	const [usernameError, setUsernameError] = useState(false);
 	const [usernameSuccess, setUsernameSuccess] = useState(false);
 	const [usernameUpdated, setUsernameUpdated] = useState(false);
 	const [usersUsername, setUsersUsername] = useState([]);
 
 	const getUsersUsernames = async () => {
-		const { data, error } = await supabase
-			.from("users")
-			.select("username");
+		const { data, error } = await supabase.from("users").select("username");
 		if (validateObject(error)) {
 			console.error(error);
 		} else if (validateObject(data)) {
@@ -62,7 +61,7 @@ const SetUsernameModal = ({
 								text: "Yes",
 								onPress: () => {
 									if (updateUserUsername(oldUsername, newUsername)) {
-										user.username = newUsername;
+										setOldUsername(newUsername);
 										setUserUsername({
 											user: {
 												...user,
@@ -93,16 +92,16 @@ const SetUsernameModal = ({
 					fieldsReset();
 				} else {
 					Window.alert(
-						"Old and new username are equals",
-						"Please, choose a new usermame.",
+						"Please, choose another usermame",
+						`Old and new username (${newUsername}) are equals.`,
 					);
 					setUsernameError(true);
 					setUsernameSuccess(false);
 				}
 			} else {
 				Window.alert(
-					"Username already used",
-					"Please, choose a new usermame.",
+					"Please, choose another usermame",
+					`Username ${newUsername} is already used.`,
 				);
 				setUsernameError(true);
 				setUsernameSuccess(false);

@@ -11,7 +11,7 @@ import {
 export const validateBoolean = (value) => value === false || value === true;
 
 export const validateString = (string) =>
-	string !== undefined && string !== null && string !== ""; // && string !== " "
+	string !== undefined && string !== null && string !== "" && string !== " "; 
 
 export const validateEmail = (email) =>
 	validateString(email) &&
@@ -36,7 +36,7 @@ export const validateUsername = (username) =>
 	username.length <= usernameMaxLength;
 
 export const validateObject = (object) =>
-	object != undefined && object != null && object != {}; // && object != {}
+	object != undefined && object != null && object != {};
 
 export const validateArray = (array, minLength) =>
 	validateObject(array) && Array.isArray(array) && array.length >= minLength;

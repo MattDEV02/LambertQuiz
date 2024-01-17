@@ -5,12 +5,12 @@ import moment from "moment";
 import { COLORS, appName } from "../../../constants/theme";
 import { validateObject } from "../../../utils/validators";
 
-const StatsCalendar = ({ data, user }) => {
+const StatsCalendar = ({ data, user, userUpdatedDate }) => {
 	const quizTaken = { key: "quizTaken", color: COLORS.black },
 		userSub = { key: "userSub", color: COLORS.white },
 		userUpd = { key: "userUpd", color: "#CF13A6" };
 	const calendarFormat = "YYYY-MM-DD";
-	const _userSubDate = moment(user.email_confirmed_at).format(calendarFormat),
+	const _userSubDate = moment(userUpdatedDate).format(calendarFormat),
 		_userUpdatedDate = moment(user.updated_at).format(calendarFormat);
 	let markedDates = {};
 	const markedDateObjProperties = {
@@ -37,7 +37,7 @@ const StatsCalendar = ({ data, user }) => {
 		};
 	}
 
-	if (user.inserted_at !== user.updated_at) {
+	if (user.inserted_at !== userUpdatedDate) {
 		if (validateObject(markedDates[_userUpdatedDate])) {
 			markedDates[_userUpdatedDate].dots.push(userUpd);
 		} else {
