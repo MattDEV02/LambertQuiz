@@ -5,7 +5,6 @@ import PointerLabelComponent from "./shared/PointerLabelComponent";
 import { COLORS, SIZES, pointerConfig } from "../../../../constants/theme";
 
 const StatsHorizontalBarChart = ({ data }) => {
-	data.map((item) => (item.label = item.label));
 	const dataY = data.map((item) => item.value);
 	const axisThickness = 1.5;
 	return (

@@ -125,12 +125,9 @@ const SignUpScreen = ({ navigation }) => {
 		}
 		if (validateConfirmPassword(password, confirmPassword)) {
 			confirmPasswordFieldSuccess();
-		} else {
+		} else if (validatePassword(password)) {
 			confirmPasswordFieldError();
-			Window.alert(
-				"Please, try again",
-				"The passwords did not match or Password not valid.",
-			);
+			Window.alert("Please, try again", "The passwords did not match.");
 		}
 		if (
 			validateEmail(email) &&
@@ -146,13 +143,13 @@ const SignUpScreen = ({ navigation }) => {
 					"Please use another email.",
 				);
 				emailFieldError();
-			} 
+			}
 			if (usernames.includes(username)) {
 				Window.alert(
 					"This username is already used.",
 					"Please use another email.",
 				);
-				usernameFieldError()
+				usernameFieldError();
 			} else if (signUp(email, password, username)) {
 				navigation.navigate("Sign In page");
 				fieldsReset();
