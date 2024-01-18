@@ -40,6 +40,8 @@ CREATE TYPE
     'Math'
   );
 
+COMMENT ON TYPE categories IS 'The LambertQuiz Quizzes categories.';
+
 DROP EXTENSION
   IF EXISTS PGCRYPTO CASCADE;
 
@@ -525,8 +527,8 @@ VALUES
     'When did Queen Elizabeth die ?',
     'England',
     'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/England/Queen_Elizabeth.jpg?t=2024-01-11T11%3A49%3A49.686Z',
-    '{"2024", "yesterday", "2023", "1999"}',
-    '2023',
+    '{"2024", "yesterday", "2022", "1999"}',
+    '2022',
     2
   ),
   (
@@ -1129,8 +1131,7 @@ WHERE
 END;
 $$ LANGUAGE PLPGSQL;
 
-;
 
 -- Example query:
 
-select * from get_best_five_users_stats();
+SELECT * FROM get_last_seven_days_quizzes(1);
