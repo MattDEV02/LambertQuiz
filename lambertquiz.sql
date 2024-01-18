@@ -686,7 +686,7 @@ VALUES
   (
     '2 plus 3 is equals to',
     'Math',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/simboli.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3NpbWJvbGkuanBnIiwiaWF0IjoxNzAyNDE2MzYyLCJleHAiOjE3MzM5NTIzNjJ9.-a1oeLGZvtVqPhFw6jUKCDmS7Gi3NW3zcDZA1ShaUpg&t=2023-12-12T21%3A26%3A04.180Z',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Math/sum.jpg',
     '{"0", "5", "-5", "6"}',
     '5',
     6
@@ -694,7 +694,7 @@ VALUES
   (
     '10 minus 4 is equals to',
     'Math',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/simboli.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3NpbWJvbGkuanBnIiwiaWF0IjoxNzAyNDE2MzYyLCJleHAiOjE3MzM5NTIzNjJ9.-a1oeLGZvtVqPhFw6jUKCDmS7Gi3NW3zcDZA1ShaUpg&t=2023-12-12T21%3A26%3A04.180Z',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Math/sub.png',
     '{"6", "-6", "5", "0"}',
     '6',
     6
@@ -702,7 +702,7 @@ VALUES
   (
     '60 times of 8 equals to',
     'Math',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/simboli2.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3NpbWJvbGkyLnBuZyIsImlhdCI6MTcwMjU3NzQwMCwiZXhwIjoxNzM0MTEzNDAwfQ.-RGeX9w3ZGlR9GNK6wy2Qjce4wUndvGN4ma07DxG6ag&t=2023-12-14T18%3A10%3A00.948Z',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Math/mul.jpg',
     '{"6", "0", "-3", "480"}',
     '480',
     6
@@ -710,7 +710,7 @@ VALUES
   (
     '121 Divided by 11 is equals to',
     'Math',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/simboli3.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3NpbWJvbGkzLmpwZyIsImlhdCI6MTcwMjU3NzQzMSwiZXhwIjoxNzM0MTEzNDMxfQ.62f75RCfrex2s8TJnPCEuI_g-yoUlMCXn_M1XIGyx6Q&t=2023-12-14T18%3A10%3A32.063Z',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Math/div.jpg',
     '{"10", "18", "-3", "11"}',
     '11',
     6
@@ -718,7 +718,7 @@ VALUES
   (
     '3 raised to the 3 is equals to',
     'Math',
-    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/sign/LambertQuiz/Math/potenza.gif?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJMYW1iZXJ0UXVpei9NYXRoL3BvdGVuemEuZ2lmIiwiaWF0IjoxNzAyNTA0NzkxLCJleHAiOjE3MzQwNDA3OTF9.b0QrIDSLFLqP6boYfGWnzukgDixznsEJZ82SsBkLR00&t=2023-12-13T21%3A59%3A53.286Z',
+    'https://fjjbztpzvhrabesuopnj.supabase.co/storage/v1/object/public/LambertQuiz/Math/potenza.gif',
     '{"3", "1", "27", "0"}',
     '27',
     6
@@ -1131,6 +1131,7 @@ WHERE
 END;
 $$ LANGUAGE PLPGSQL;
 
+;
 
 -- Example query:
 
