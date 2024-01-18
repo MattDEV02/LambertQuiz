@@ -38,7 +38,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers in
 <p align="center">
 <img  title="LambertQuiz RegScreen screenshoot 1"  alt="LambertQuiz RegScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen11.jpeg"  width="35%">
 <img  title="LambertQuiz RegScreen screenshoot 2"  alt="LambertQuiz RegScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen22.jpeg"  width="35%">
-<img  title="LambertQuiz RegScreen screenshoot 3"  alt="LambertQuiz RegScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen33.jpeg"  width="35%">
+<img  title="LambertQuiz RegScreen screenshoot 3"  alt="LambertQuiz RegScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen333.jpeg"  width="35%">
 <img  title="LambertQuiz RegScreen screenshoot 3"  alt="LambertQuiz RegScreen screenshoot 4"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen44.jpeg"  width="35%">
 </p>
 
@@ -587,7 +587,7 @@ I am the only author of this beatiful app 😉
 
   
 
-<img title="LambertQuiz ER model" alt="LambertQuiz ER model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/ER_model.jpeg" width="100%">
+<img title="LambertQuiz ER model" alt="LambertQuiz ER model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/ER_model2.jpeg" width="100%">
 
    
 
