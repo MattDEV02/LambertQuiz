@@ -27,7 +27,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers in
 
 -  **Security:** The user's sensitive data, such as their password, are encrypted and stored in a very robust database.
 
--  **Language:** There is only English language.
+-  **Language:** There is only the English language.
 
   
 ## Screenshots 📸
