@@ -20,6 +20,10 @@ const HelpScreen = () => {
 			response: `Unfortunately no, currently it is not possible to play in offlide-mode but don't despair that it will be possible in the future!`,
 		},
 		{
+			question: `Is it possible to have the same account on multiple devices?`,
+			response: `Of course, it's possible!`,
+		},
+		{
 			question: `How can I delete my account?`,
 			response: `First of all, we are sorry that you want to delete your account. To delete your account you need to go to Account -> Delete Account.`,
 		},
@@ -54,6 +58,10 @@ const HelpScreen = () => {
 		{
 			question: `What can I see on the statistics page?`,
 			response: `First of all, you can look at a table that shows various static data of the top 5 players of this app, a calendar that shows your activity on this app, graphs that show the number of quizzes taken in the last week (day by day), favorite quiz category and much more!`,
+		},
+		{
+			question: `Where is the repo of this beatiful App?`,
+			response: `Here it is: https://github.com/MattDEV02/LambertQuiz`,
 		},
 		{
 			question: `Who is the Author of this beatiful App?`,

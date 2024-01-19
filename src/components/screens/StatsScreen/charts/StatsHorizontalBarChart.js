@@ -8,25 +8,24 @@ const StatsHorizontalBarChart = ({ data }) => {
 	const dataY = data.map((item) => item.value);
 	const axisThickness = 1.5;
 	return (
-		<View style={{ marginBottom: -70 }}>
+		<View style={{ marginBottom: -9.5 }}>
 			<BarChart
 				horizontal={true}
-				autoShiftLabels={false}
 				showLine={true}
 				lineConfig={{
 					isAnimated: true,
-					dataPointsRadius: 2.4,
+					dataPointsRadius: 2.15,
 				}}
 				xAxisLabelsVerticalShift={10}
-				initialSpacing={18}
+				initialSpacing={19}
 				endSpacing={25}
 				roundedTop={true}
-				width={SIZES.width}
+				width={SIZES.width * 0.845} // 84.5 %
 				yAxisOffset={0}
 				barWidth={24}
 				labelWidth={0}
-				shiftX={-9.5}
-				shiftY={-45}
+				shiftX={-15.5}
+				shiftY={-46}
 				noOfSections={new Set(dataY).size}
 				maxValue={Math.max(...dataY) + 1}
 				backgroundColor={COLORS.white}
@@ -34,11 +33,11 @@ const StatsHorizontalBarChart = ({ data }) => {
 				showVerticalLines={true}
 				isAnimated={true}
 				data={data}
-				stepValue={1}
 				rulesType={"solid"}
 				showYAxisIndices={true}
 				yAxisThickness={axisThickness}
 				xAxisThickness={axisThickness}
+				hideRules={false}
 				pointerConfig={{
 					...pointerConfig,
 					stripBehindBars: false,
@@ -54,7 +53,6 @@ const StatsHorizontalBarChart = ({ data }) => {
 						/>
 					),
 				}}
-				hideRules={false}
 			/>
 		</View>
 	);

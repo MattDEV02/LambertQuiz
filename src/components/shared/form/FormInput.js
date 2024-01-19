@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import { COLORS } from "../../constants/theme";
+import { COLORS } from "../../../constants/theme";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const FormInput = ({
@@ -77,7 +77,11 @@ const FormInput = ({
 						onPress={() => setShowPassword(!showPassword)}
 						style={{ position: "absolute", top: 25, right: 12.5 }}
 					>
-						<Icon name={showPassword ? "eye-slash" : "eye"} color={COLORS.primary} size={21.5} />
+						<Icon
+							name={showPassword ? "eye-slash" : "eye"}
+							color={COLORS.primary}
+							size={21.5}
+						/>
 					</TouchableOpacity>
 				) : null}
 			</View>

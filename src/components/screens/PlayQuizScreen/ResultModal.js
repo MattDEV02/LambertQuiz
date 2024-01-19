@@ -40,11 +40,11 @@ const ResultModal = ({
 		>
 			<View
 				style={{
-					...style.centeredContainer,
+					...style.container,
 					...{
 						flex: 1,
 						backgroundColor: COLORS.black + "90",
-					}
+					},
 				}}
 			>
 				<View
@@ -61,10 +61,10 @@ const ResultModal = ({
 					</Text>
 					<View
 						style={{
-							...style.centeredContainer,
+							...style.container,
 							...{
 								justifyContent: "space-between",
-							}
+							},
 						}}
 					>
 						<View
@@ -114,14 +114,14 @@ const ResultModal = ({
 					{/* Try again */}
 					<TouchableOpacity
 						style={{
-							...style.centeredContainer,
+							...style.container,
 							...{
 								paddingVertical: buttonsPaddingVertical,
-							width: "100%",
-							backgroundColor: COLORS.primary,
-							marginTop: 20,
-							borderRadius: 50,
-							}
+								width: "100%",
+								backgroundColor: COLORS.primary,
+								marginTop: 20,
+								borderRadius: 50,
+							},
 						}}
 						onPress={() => handleOnRetry()}
 					>
@@ -145,7 +145,7 @@ const ResultModal = ({
 					{/* Go Home */}
 					<TouchableOpacity
 						style={{
-							...style.centeredContainer,
+							...style.container,
 							...{
 								paddingVertical: buttonsPaddingVertical,
 								width: "100%",
@@ -180,7 +180,7 @@ const ResultModal = ({
 };
 
 const style = StyleSheet.create({
-	centeredContainer: {
+	container: {
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",

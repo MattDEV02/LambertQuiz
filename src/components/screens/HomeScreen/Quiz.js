@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import FormButton from "../../shared/FormButton";
+import FormButton from "../../shared/form/FormButton";
 import { COLORS } from "../../../constants/theme";
 
 const Quiz = ({ quiz, handleOnPlayPress }) => {
@@ -9,7 +9,7 @@ const Quiz = ({ quiz, handleOnPlayPress }) => {
 			style={{
 				padding: 20.5,
 				borderRadius: 17.5,
-				marginVertical: 5.625,
+				marginVertical: 5.1,
 				marginHorizontal: 10,
 				flexDirection: "row",
 				alignItems: "center",

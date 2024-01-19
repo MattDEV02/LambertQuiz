@@ -8,10 +8,17 @@ import {
 	usernameMaxLength,
 } from "../constants/fieldsConstants";
 
-export const validateBoolean = (value) => value === false || value === true;
+export const validateBoolean = (value) =>
+	value !== null && value !== undefined && (value === false || value === true);
+
+export const validateInteger = (value, minValue) =>
+	value !== null &&
+	value !== undefined &&
+	Number.isInteger(value) &&
+	value >= minValue;
 
 export const validateString = (string) =>
-	string !== undefined && string !== null && string !== "" && string !== " "; 
+	string !== undefined && string !== null && string !== "" && string !== " ";
 
 export const validateEmail = (email) =>
 	validateString(email) &&
@@ -48,11 +55,11 @@ export const validateURL = (URL) =>
 	);
 
 export const validateImageExt = (source) => {
-	const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+	const imageExtensions = ["jpg", "jpeg", "png", "gif"];
 	const imageExtensionsLength = imageExtensions.length;
 	let contains = false;
-	for(let i = 0; i < imageExtensionsLength; i++) {
-		if(source.includes("." + imageExtensions[i])) {
+	for (let i = 0; i < imageExtensionsLength; i++) {
+		if (source.includes("." + imageExtensions[i])) {
 			contains = true;
 		}
 	}

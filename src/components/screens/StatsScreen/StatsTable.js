@@ -16,7 +16,7 @@ const StatsTable = ({ matrix }) => {
 		"Warning: Failed prop type: Invalid prop `textStyle` of type `array` supplied to `Cell`, expected `object`.",
 	]);
 
-	const widthArr = [100, 105, 100, 107, 105, 110];
+	const widthArr = [35, 100, 105, 100, 107, 105, 110];
 
 	const [tooltipVisible, setTooltipVisible] = useState(false);
 
@@ -36,9 +36,9 @@ const StatsTable = ({ matrix }) => {
 						<Table borderStyle={style.borderStyle}>
 							<Row
 								data={[
+									"n°",
 									"User",
 									"Average score",
-									//	"Total score",
 									"Worst score",
 									"Better score",
 									"Total quizzes",

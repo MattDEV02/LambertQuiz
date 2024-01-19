@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { supabase } from "../app/lib/supabase-client";
 import Quiz from "../components/screens/HomeScreen/Quiz";
-import FormInput from "../components/shared/FormInput";
+import FormInput from "../components/shared/form/FormInput";
 import { COLORS } from "../constants/theme";
 import {
 	validateObject,
@@ -20,7 +20,7 @@ import { playClickSound } from "../utils/sounds";
 
 const HomeScreen = ({ navigation, route }) => {
 	const user = route.params.user;
-	
+
 	const [quizzes, setQuizzes] = useState([]);
 	const [quiz, setQuiz] = useState("");
 	const [searching, setSearching] = useState(false);
@@ -79,7 +79,6 @@ const HomeScreen = ({ navigation, route }) => {
 				position: "relative",
 			}}
 		>
-			{/* TOP BAR */}
 			<ScrollView
 				style={{
 					marginBottom: 6.75,

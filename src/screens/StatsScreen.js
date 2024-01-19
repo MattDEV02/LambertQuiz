@@ -20,17 +20,20 @@ import {
 	StatsHorizontalBarChart,
 } from "../components/screens/StatsScreen/charts/";
 import StatsFooter from "../components/screens/StatsScreen/StatsFooter";
+import Offline from "../components/shared/Offline";
 import {
 	validateObject,
 	validateArray,
 	validateString,
+	validateInteger,
 } from "../utils/validators";
 import { appName, CHARTTYPES } from "../constants/theme";
 
 const StatsScreen = ({ route }) => {
 	const isFocused = useIsFocused();
 
-	const user = route.params.user;
+	const user = route.params.user,
+		offline = route.params.offline;
 
 	const userId = user.user_id;
 
@@ -142,6 +145,7 @@ const StatsScreen = ({ route }) => {
 		const arrayLength = objectsArray.length;
 		for (let i = 0; i < arrayLength; i++) {
 			const row = [
+				i + 1,
 				objectsArray[i].username,
 				objectsArray[i].averagescore,
 				objectsArray[i].worstscore,
@@ -177,7 +181,8 @@ const StatsScreen = ({ route }) => {
 						<Text style={{ ...style.text, ...style.title }}>
 							Your {appName} activity
 						</Text>
-						{validateArray(quizzesDays, 0)  && validateString(userUpdatedDate) ? (
+						{validateArray(quizzesDays, 0) &&
+						validateString(userUpdatedDate) ? (
 							<StatsCalendar
 								data={quizzesDays}
 								user={user}
@@ -208,12 +213,14 @@ const StatsScreen = ({ route }) => {
 							</View>
 						) : null}
 					</View>
-					{validateString(userSub) && userSubDays >= 1 ? (
+					{validateString(userSub) && validateInteger(userSubDays, 1) ? (
 						<StatsFooter
 							userSub={userSub}
 							userSubDays={userSubDays}
 							userPrefCategory={userPrefCategory}
 						/>
+					) : offline ? (
+						<Offline />
 					) : null}
 				</ScrollView>
 			</View>

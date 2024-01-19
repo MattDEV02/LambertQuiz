@@ -20,7 +20,7 @@ const HelpFooter = () => {
 					matteolambertucci3@gmail.com
 				</Text>
 				<Text style={{ color: COLORS.primary, marginTop: 5 }}>
-					Copyright © Lambertucci Matteo 2024.
+					Copyright © {new Date().getUTCFullYear()} Lambertucci Matteo.
 				</Text>
 			</View>
 		</View>

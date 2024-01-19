@@ -40,7 +40,10 @@ CREATE TYPE
     'Math'
   );
 
-COMMENT ON TYPE categories IS 'The LambertQuiz Quizzes categories.';
+COMMENT
+  ON
+TYPE
+  categories IS 'The LambertQuiz Quizzes categories.';
 
 DROP EXTENSION
   IF EXISTS PGCRYPTO CASCADE;
@@ -172,21 +175,38 @@ BEGIN
 END;
 $$ LANGUAGE PLPGSQL;
 
+CREATE
+OR REPLACE FUNCTION check_user_email_username_function (input_email VARCHAR, input_username VARCHAR) RETURNS BOOLEAN AS $$
+DECLARE
+    _check BOOLEAN;
+BEGIN
+    SELECT EXISTS(
+        SELECT 
+            user_id 
+        FROM 
+            Users
+        WHERE 
+            email = input_email OR 
+            username = input_username
+    ) INTO _check;
+    RETURN _check;
+END;
+$$ LANGUAGE PLPGSQL;
+
 CREATE INDEX
   users_index ON public.users USING btree (user_id);
 
 /*
 INSERT INTO
-  public.users (email, password, username)
+public.users (email, password, username)
 VALUES
-  (
-    'matteolambertucci3@gmail.com',
-    'Matteo02',
-    'Matt'
-  );
+(
+'matteolambertucci3@gmail.com',
+'Matteo02',
+'Matt'
+);
 
-*/
-
+ */
 SELECT
   *
 FROM
@@ -836,11 +856,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE
-OR REPLACE TRIGGER trigger_progresses_quiz_finished_at_fix BEFORE
-INSERT
-  ON public.progresses FOR EACH ROW
+OR REPLACE TRIGGER trigger_progresses_quiz_finished_at_fix BEFORE INSERT ON public.progresses FOR EACH ROW
 EXECUTE
-  FUNCTION progresses_quiz_finished_at_fix();
+  FUNCTION progresses_quiz_finished_at_fix ();
 
 CREATE
 OR REPLACE FUNCTION check_user_activity_sub () RETURNS TRIGGER AS $$
@@ -849,6 +867,30 @@ BEGIN
  	RAISE EXCEPTION 'A User cannot take a quiz before signing up for LambertQuiz!' ;
   END IF;
   RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE
+OR REPLACE FUNCTION check_progress_exists_function (
+  IN input_user INTEGER,
+  IN input_quiz INTEGER,
+  IN input_quiz_started_at TIMESTAMP
+) RETURNS BOOLEAN AS $$
+DECLARE
+    _check BOOLEAN;
+BEGIN
+  SELECT EXISTS(
+    SELECT 
+      DISTINCT
+        Progresses.progresses_id
+    FROM
+      Progresses
+    WHERE
+      Progresses._user = input_user AND
+      Progresses.quiz = input_quiz AND
+      Progresses.quiz_started_at = input_quiz_started_at
+  ) INTO _check;
+   RETURN _check;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -957,7 +999,6 @@ SELECT
 Other functions:
 
  */
- 
 CREATE
 OR REPLACE FUNCTION delete_user (IN input_email TEXT) RETURNS VOID LANGUAGE SQL SECURITY DEFINER AS $$
   DELETE FROM auth.users
@@ -1134,5 +1175,7 @@ $$ LANGUAGE PLPGSQL;
 ;
 
 -- Example query:
-
-SELECT * FROM get_last_seven_days_quizzes(1);
+SELECT
+  *
+FROM
+  get_last_seven_days_quizzes (1);

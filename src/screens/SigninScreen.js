@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Text, SafeAreaView, Alert as Window } from "react-native";
-import FormInput from "../components/shared/FormInput";
-import FormButton from "../components/shared/FormButton";
-import FormFooter from "../components/shared/FormFooter";
+import FormInput from "../components/shared/form/FormInput.js";
+import FormButton from "../components/shared/form/FormButton.js";
+import FormFooter from "../components/shared/form/FormFooter.js";
 import { signIn } from "../utils/auth";
 import { COLORS, appName } from "../constants/theme";
 import {
@@ -48,7 +48,7 @@ const SignInScreen = ({ navigation }) => {
 		setPasswordSuccess(true);
 	};
 
-	const handleOnPress = () => {
+	const handleOnPress = async () => {
 		if (validateEmail(email)) {
 			emailFieldSuccess();
 		} else {
@@ -65,7 +65,9 @@ const SignInScreen = ({ navigation }) => {
 			);
 		}
 		if (validateEmail(email) && validatePassword(password)) {
-			if (signIn(email, password)) {
+			const signInResult = await signIn(email, password);
+			console.log("signInResult", signInResult);
+			if (signInResult) {
 				emailFieldSuccess();
 				passwordFieldSuccess();
 			} else {
@@ -73,7 +75,7 @@ const SignInScreen = ({ navigation }) => {
 				passwordFieldError();
 			}
 			fieldsReset();
-		} 
+		}
 	};
 
 	navigation.addListener("blur", () => {
@@ -134,7 +136,7 @@ const SignInScreen = ({ navigation }) => {
 				labelText={"Submit"}
 				handleOnPress={() => handleOnPress()}
 				style={{ width: "100%", marginTop: 4, borderRadius: 13 }}
-				textStyle={{color: COLORS.white, fontSize: 21}}
+				textStyle={{ color: COLORS.white, fontSize: 21 }}
 			/>
 			<FormFooter
 				handleOnPress={() => navigation.navigate("Sign Up page")}

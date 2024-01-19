@@ -3,7 +3,7 @@ import { SafeAreaView, FlatList } from "react-native";
 import PlayNavBar from "../components/screens/PlayQuizScreen/PlayNavBar";
 import ProgressBar from "../components/screens/PlayQuizScreen/ProgressBar";
 import Question from "../components/screens/PlayQuizScreen/Question";
-import FormButton from "../components/shared/FormButton";
+import FormButton from "../components/shared/form/FormButton";
 import ResultModal from "../components/screens/PlayQuizScreen/ResultModal";
 import { supabase } from "../app/lib/supabase-client";
 import {
@@ -64,7 +64,7 @@ const PlayQuizScreen = ({ navigation, route }) => {
 	}, [openedQuiz, tryAgain]);
 
 	navigation.addListener("blur", () => {
-		handleOnModalClose(); 
+		handleOnModalClose();
 		navigation.setParams({ openedQuiz: false });
 		setTryAgain(false);
 		setQuestions([]);

@@ -1,18 +1,21 @@
 import moment from "moment";
 import { supabase } from "../app/lib/supabase-client";
-import { validateObject } from "./validators";
+import { validateObject, validateBoolean } from "./validators";
 
 const usersTableName = "users";
 
 export const storeUser = async (email, password, username) => {
-	const { data } = await supabase
-		.from(usersTableName)
-		.select("email, username")
-		.eq("email", email)
-		.or("username", username)
-		.single();
-	const user = data;
-	if (!existsUser(user)) {
+	const { data, error } = await supabase.rpc(
+		"check_user_email_username_function",
+		{
+			input_email: email,
+			input_username: username,
+		},
+	);
+	if (validateObject(error)) {
+		console.error(error);
+	}
+	if (validateBoolean(data) && !data) {
 		const { error } = await supabase
 			.from(usersTableName)
 			.insert({ email, password, username });
@@ -26,10 +29,6 @@ export const storeUser = async (email, password, username) => {
 		return true;
 	}
 	return false;
-};
-
-export const existsUser = (user) => {
-	return validateObject(user);
 };
 
 export const updateUserUsername = async (oldUsername, newUsername) => {
@@ -55,9 +54,7 @@ export const updateUserPassword = async (email, newPassword) => {
 		console.error(error);
 		return false;
 	}
-	console.log(
-		"User email " + email + " password uptated in " + newPassword,
-	);
+	console.log("User email " + email + " password uptated.");
 	return true;
 };
 
@@ -70,6 +67,7 @@ export const deleteUser = async (user_id) => {
 		console.error(error);
 		return false;
 	}
+	console.log("User user_id " + user_id + " deleted.");
 	return true;
 };
 
@@ -80,15 +78,17 @@ export const storeProgress = async (
 	quiz_finished_at,
 	quiz_score,
 ) => {
-	const { data } = await supabase
-		.rpc("get_progress", {
-			user_id: _user,
-			quiz_id: quiz,
-			_quiz_started_at: quiz_started_at,
-		})
-		.single();
-	const progress = data;
-	if (!validateObject(progress)) {
+	const { data, error } = await supabase.rpc(
+		"check_progress_exists_function",
+		{
+			input_user: _user,
+			input_quiz: quiz,
+			input_quiz_started_at: quiz_started_at,
+		},
+	);
+	if (validateObject(error)) {
+		console.error(error);
+	} else if (validateBoolean(data) && !data) {
 		const { error } = await supabase.rpc("store_progress", {
 			user_id: _user,
 			quiz_id: quiz,

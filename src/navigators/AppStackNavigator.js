@@ -9,43 +9,26 @@ import {
 	HelpScreen,
 	SignoutScreen,
 } from "../screens";
-import DrawerIcon from "../components/navigators/AppStackNavigator/DrawerIcon";
+import {
+	HomeIcon,
+	AccountIcon,
+	StatsIcon,
+	HelpIcon,
+	LogoutIcon,
+} from "../components/navigators/AppStackNavigator/DrawerIcons";
+import Offline from "../components/shared/Offline";
 import User from "../utils/User";
 import { validateObject } from "../utils/validators";
-import { COLORS, headerShown } from "../constants/theme";
 import { signOut } from "../utils/auth";
+import { COLORS, headerShown } from "../constants/theme";
+import { APPROUTES } from "../constants/routeNames";
 
 const Drawer = createDrawerNavigator();
-
-const HomeIcon = () => (
-	<DrawerIcon name="home" deltaIconSize={1.5} color={COLORS.primary} />
-);
-const AccountIcon = () => (
-	<DrawerIcon name="user-circle" deltaIconSize={-1} color={COLORS.primary} />
-);
-const StatsIcon = () => (
-	<DrawerIcon
-		name="bar-chart-o"
-		deltaIconSize={-4.5}
-		color={COLORS.secondary}
-	/>
-);
-
-const HelpIcon = () => (
-	<DrawerIcon name="info-circle" deltaIconSize={3} color={COLORS.primary} />
-);
-
-const LogoutIcon = () => (
-	<DrawerIcon
-		name="arrow-circle-o-left"
-		deltaIconSize={3}
-		color={COLORS.error}
-	/>
-);
 
 const AppStackNavigator = ({ sessionUser }) => {
 	const [user, setUser] = useState(sessionUser);
 	const [userReady, setUserReady] = useState(false);
+	const [offline, setOffline] = useState(false);
 
 	const getUserUsernameFromEmail = async (email) => {
 		const { data, error } = await supabase
@@ -55,34 +38,10 @@ const AppStackNavigator = ({ sessionUser }) => {
 			.single(); // UNIQUE
 		if (validateObject(error)) {
 			console.error(error);
+			setOffline(true);
 		} else if (validateObject(data)) {
-			let tempUser = sessionUser;
-			tempUser.user_id = data.user_id;
-			tempUser.username = data.username;
-			tempUser.password = data.password;
-			tempUser.inserted_at = data.inserted_at;
-			tempUser.updated_at = data.updated_at;
-			tempUser.auth_id = sessionUser.id;
-			delete tempUser.id;
-			delete tempUser.app_metadata;
-			delete tempUser.created_at;
-			delete tempUser.identities;
-			delete tempUser.phone;
-			delete tempUser.confirmation_sent_at;
-			delete tempUser.aud;
-			delete tempUser.user_metadata;
-			delete tempUser.confirmed_at;
-			setUser(
-				new User(
-					tempUser.email,
-					tempUser.password,
-					tempUser.username,
-					tempUser.user_id,
-					tempUser.inserted_at,
-					tempUser.updated_at,
-					tempUser.email_confirmed_at,
-				),
-			);
+			setOffline(false);
+			setUser(User.getUserFromSessionAndData(sessionUser, data));
 			setUserReady(true);
 		}
 	};
@@ -102,14 +61,14 @@ const AppStackNavigator = ({ sessionUser }) => {
 					width: 230,
 				},
 			}}
-			initialRouteName={"Home page"}
+			initialRouteName={APPROUTES.home}
 		>
 			<Drawer.Screen
-				name={"Home page"}
+				name={APPROUTES.home}
 				component={HomeScreen}
 				options={{
 					drawerIcon: HomeIcon,
-					title: "Home",
+					title: APPROUTES.home.replace(" page", ""),
 					drawerLabelStyle: {
 						color: COLORS.primary,
 						fontSize: labelFontSize,
@@ -118,11 +77,11 @@ const AppStackNavigator = ({ sessionUser }) => {
 				initialParams={{ user }}
 			/>
 			<Drawer.Screen
-				name={"Account page"}
+				name={APPROUTES.account}
 				component={AccountScreen}
 				options={{
 					drawerIcon: AccountIcon,
-					title: "Account",
+					title: APPROUTES.account.replace(" page", ""),
 					drawerLabelStyle: {
 						color: COLORS.primary,
 						fontSize: labelFontSize,
@@ -131,24 +90,24 @@ const AppStackNavigator = ({ sessionUser }) => {
 				initialParams={{ user }}
 			/>
 			<Drawer.Screen
-				name={"Stats page"}
+				name={APPROUTES.stats}
 				component={StatsScreen}
 				options={{
 					drawerIcon: StatsIcon,
-					title: "Stats",
+					title: APPROUTES.stats.replace(" page", ""),
 					drawerLabelStyle: {
 						color: COLORS.black,
 						fontSize: labelFontSize,
 					},
 				}}
-				initialParams={{ user }}
+				initialParams={{ user, offline }}
 			/>
 			<Drawer.Screen
-				name={"Help page"}
+				name={APPROUTES.help}
 				component={HelpScreen}
 				options={{
 					drawerIcon: HelpIcon,
-					title: "Help",
+					title: APPROUTES.help.replace(" page", ""),
 					drawerLabelStyle: {
 						color: COLORS.primary,
 						fontSize: labelFontSize,
@@ -156,7 +115,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 				}}
 			/>
 			<Drawer.Screen
-				name={"Logout"}
+				name={APPROUTES.signout}
 				component={SignoutScreen}
 				options={{
 					drawerIcon: LogoutIcon,
@@ -175,7 +134,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 				})}
 			/>
 			<Drawer.Screen
-				name={"Play Quiz page"}
+				name={APPROUTES.playQuiz}
 				component={PlayQuizScreen}
 				options={{
 					drawerLabel: () => null,
@@ -191,6 +150,8 @@ const AppStackNavigator = ({ sessionUser }) => {
 				initialParams={{ user }}
 			/>
 		</Drawer.Navigator>
+	) : offline ? (
+		<Offline />
 	) : null;
 };
 

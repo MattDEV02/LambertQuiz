@@ -10,7 +10,7 @@ const StatsCalendar = ({ data, user, userUpdatedDate }) => {
 		userSub = { key: "userSub", color: COLORS.white },
 		userUpd = { key: "userUpd", color: "#CF13A6" };
 	const calendarFormat = "YYYY-MM-DD";
-	const _userSubDate = moment(userUpdatedDate).format(calendarFormat),
+	const _userSubDate = moment(user.inserted_at).format(calendarFormat),
 		_userUpdatedDate = moment(user.updated_at).format(calendarFormat);
 	let markedDates = {};
 	const markedDateObjProperties = {
@@ -49,7 +49,7 @@ const StatsCalendar = ({ data, user, userUpdatedDate }) => {
 	}
 
 	const handleOnPlayPress = (stringDay) => {
-		const formattedStringDay =  moment(stringDay).format("DD/MM/YYYY");
+		const formattedStringDay = moment(stringDay).format("DD/MM/YYYY");
 		const base = "In day " + formattedStringDay;
 		const markedDate = markedDates[stringDay];
 		let outputString = base;
@@ -85,19 +85,24 @@ const StatsCalendar = ({ data, user, userUpdatedDate }) => {
 			!markedDate.dots.includes(userSub) &&
 			markedDate.dots.includes(userUpd)
 		) {
-			outputString += " you played with us and updated your " + appName + " account!";
+			outputString +=
+				" you played with us and updated your " + appName + " account!";
 		} else if (
 			!markedDate.dots.includes(quizTaken) &&
 			markedDate.dots.includes(userSub) &&
 			markedDate.dots.includes(userUpd)
 		) {
-			outputString += " you signed up and updated your " + appName + " account!";
+			outputString +=
+				" you signed up and updated your " + appName + " account!";
 		} else if (
 			markedDate.dots.includes(quizTaken) &&
 			markedDate.dots.includes(userSub) &&
 			markedDate.dots.includes(userUpd)
 		) {
-			outputString += " you played, signed up and updated your account for " + appName + "!";
+			outputString +=
+				" you played, signed up and updated your account for " +
+				appName +
+				"!";
 		}
 		Window.alert(formattedStringDay, outputString);
 	};

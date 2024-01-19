@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Modal, Alert as Window, StyleSheet } from "react-native";
 import { supabase } from "../../../../app/lib/supabase-client";
-import FormInput from "../../../shared/FormInput";
-import FormButton from "../../../shared/FormButton";
+import FormInput from "../../../shared/form/FormInput";
+import FormButton from "../../../shared/form/FormButton";
 import { COLORS } from "../../../../constants/theme";
 import { usernameMaxLength } from "../../../../constants/fieldsConstants";
 import { updateUserUsername } from "../../../../utils/database";
@@ -15,7 +15,6 @@ const SetUsernameModal = ({
 	user,
 	setUserUsername,
 }) => {
-
 	const username = user.username;
 	const [oldUsername, setOldUsername] = useState(username);
 	const [newUsername, setNewUsername] = useState(username);
@@ -73,7 +72,7 @@ const SetUsernameModal = ({
 											"Username updated",
 											`Now your username is ${newUsername}.`,
 										);
-										sendEmailForUsernameChanged(user);
+										sendEmailForUsernameChanged(user, newUsername);
 									}
 								},
 							},

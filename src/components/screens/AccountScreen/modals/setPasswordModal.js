@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, Modal, Alert as Window, StyleSheet } from "react-native";
 import { supabase } from "../../../../app/lib/supabase-client";
-import FormInput from "../../../shared/FormInput";
-import FormButton from "../../../shared/FormButton";
+import FormInput from "../../../shared/form/FormInput";
+import FormButton from "../../../shared/form/FormButton";
 import { COLORS } from "../../../../constants/theme";
 import { passwordMaxLength } from "../../../../constants/fieldsConstants";
 import {

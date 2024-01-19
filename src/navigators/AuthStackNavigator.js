@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SignInScreen, SignUpScreen, SignoutScreen } from "../screens";
+import { AUTHROUTES } from "../constants/routeNames";
 import { headerShown } from "../constants/theme";
 
 const Stack = createStackNavigator();
@@ -11,11 +12,11 @@ const AuthStackNavigator = () => {
 			screenOptions={{
 				headerShown,
 			}}
-			initialRouteName={"Sign In page"}
+			initialRouteName={AUTHROUTES.signin}
 		>
-			<Stack.Screen name={"Sign In page"} component={SignInScreen} />
-			<Stack.Screen name={"Sign Up page"} component={SignUpScreen} />
-			<Stack.Screen name={"Sign Out page"} component={SignoutScreen} />
+			<Stack.Screen name={AUTHROUTES.signin} component={SignInScreen} />
+			<Stack.Screen name={AUTHROUTES.signup} component={SignUpScreen} />
+			<Stack.Screen name={AUTHROUTES.signout} component={SignoutScreen} />
 		</Stack.Navigator>
 	);
 };

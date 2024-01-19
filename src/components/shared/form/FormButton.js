@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
-import { COLORS } from "../../constants/theme";
+import { COLORS } from "../../../constants/theme";
 
 const FormButton = ({
 	labelText = "",

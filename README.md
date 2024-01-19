@@ -545,10 +545,6 @@ I am the only author of this beatiful app 😉
 
   
 
-- **`tests/`** Contains tests for various components, functionalities, or application logic.
-
-  
-
 - **`index.js`**: The main entry of this project.
 
   
@@ -598,7 +594,7 @@ I am the only author of this beatiful app 😉
   
   
 
-<img title="LambertQuiz ER model" alt="LambertQuiz ER model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/relational_model.jpeg" width="100%">
+<img title="LambertQuiz Relational model" alt="LambertQuiz Relational model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/relational_model2.jpeg" width="100%">
 
   
 

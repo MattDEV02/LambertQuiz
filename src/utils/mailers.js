@@ -7,22 +7,25 @@ import {
 } from "@env";
 import { appName } from "../constants/theme";
 
-export const sendEmailForUsernameChanged = async (user) => {
+export const sendEmailForUsernameChanged = async (user, newUsername) => {
 	emailjs
 		.send(
 			EMAILJS_SERVICE_ID,
 			EMAILJS_TEMPLATE_ID,
 			{
 				to_email: user.email,
-            to_name: user.email,
+				to_name: user.email,
 				from_name: appName,
 				from_email: SUPABASE_NOREPLY,
-            subject: appName + " username changed",
+				subject: appName + " username changed",
 				message:
 					"You have just changed your " +
 					appName +
-					" username in " +
-					user.username + ".",
+					" username from " +
+					user.username +
+					" to " +
+					newUsername +
+					".",
 			},
 			EMAILJS_PUBLIC_KEY,
 		)
@@ -41,15 +44,11 @@ export const sendEmailForPasswordChanged = async (user) => {
 			EMAILJS_TEMPLATE_ID,
 			{
 				to_email: user.email,
-            to_name: user.email,
+				to_name: user.email,
 				from_name: appName,
 				from_email: SUPABASE_NOREPLY,
-            subject: appName + " password changed",
-				message:
-					"You have just changed your " +
-					appName +
-					" password (username = " +
-					user.username + " ).",
+				subject: appName + " password changed",
+				message: "You have just changed your " + appName + " password.",
 			},
 			EMAILJS_PUBLIC_KEY,
 		)
@@ -68,16 +67,15 @@ export const sendEmailForAccountDeleted = async (user) => {
 			EMAILJS_TEMPLATE_ID,
 			{
 				to_email: user.email,
-            to_name: user.email,
+				to_name: user.email,
 				from_name: appName,
 				from_email: SUPABASE_NOREPLY,
-            subject: appName + " account deleted",
+				subject: appName + " account deleted",
 				message:
 					"You have just deleted your " +
 					appName +
 					" account with this email: " +
-					user.email + " and this username: "+
-               user.username + ".",
+					user.email,
 			},
 			EMAILJS_PUBLIC_KEY,
 		)
