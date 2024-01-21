@@ -66,7 +66,6 @@ const SignInScreen = ({ navigation }) => {
 		}
 		if (validateEmail(email) && validatePassword(password)) {
 			const signInResult = await signIn(email, password);
-			console.log("signInResult", signInResult);
 			if (signInResult) {
 				emailFieldSuccess();
 				passwordFieldSuccess();

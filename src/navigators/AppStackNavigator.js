@@ -100,7 +100,7 @@ const AppStackNavigator = ({ sessionUser }) => {
 						fontSize: labelFontSize,
 					},
 				}}
-				initialParams={{ user, offline }}
+				initialParams={{ user }}
 			/>
 			<Drawer.Screen
 				name={APPROUTES.help}

@@ -32,8 +32,7 @@ import { appName, CHARTTYPES } from "../constants/theme";
 const StatsScreen = ({ route }) => {
 	const isFocused = useIsFocused();
 
-	const user = route.params.user,
-		offline = route.params.offline;
+	const user = route.params.user;
 
 	const userId = user.user_id;
 
@@ -47,6 +46,7 @@ const StatsScreen = ({ route }) => {
 	const [userPrefCategory, setUserPrefCategory] = useState("");
 	const [refreshing, setRefreshing] = useState(false);
 	const [selectedChart, setSelectedChart] = useState(CHARTTYPES.barChart);
+	const [offline, setOffline] = useState(false);
 
 	const getUserUpdateDate = async (user_id) => {
 		setRefreshing(true);
@@ -57,8 +57,10 @@ const StatsScreen = ({ route }) => {
 			.single();
 		if (validateObject(error)) {
 			console.error(error);
+			setOffline(true);
 		} else if (validateObject(data) && validateString(data.updated_at)) {
 			setUserUpdatedDate(data.updated_at);
+			setOffline(false);
 		}
 		setRefreshing(false);
 	};
@@ -68,8 +70,10 @@ const StatsScreen = ({ route }) => {
 		const { data, error } = await supabase.rpc("get_best_five_users_stats");
 		if (validateObject(error)) {
 			console.error(error);
+			setOffline(true);
 		} else if (validateArray(data, 0)) {
 			setBestFiveUsersMatrix(toMatrix(data));
+			setOffline(false);
 		}
 		setRefreshing(false);
 	};
@@ -81,8 +85,10 @@ const StatsScreen = ({ route }) => {
 		});
 		if (validateObject(error)) {
 			console.error(error);
+			setOffline(true);
 		} else if (validateArray(data, 0)) {
 			setQuizzesDays(data);
+			setOffline(false);
 		}
 		setRefreshing(false);
 	};
@@ -97,6 +103,7 @@ const StatsScreen = ({ route }) => {
 		);
 		if (validateObject(error)) {
 			console.error(error);
+			setOffline(true);
 		} else if (validateArray(data, 7)) {
 			let tempUserLastSevenDaysQuizzes = [];
 			data.map((item) => {
@@ -107,6 +114,7 @@ const StatsScreen = ({ route }) => {
 				});
 			});
 			setUserLastSevenDaysQuizzes(tempUserLastSevenDaysQuizzes);
+			setOffline(false);
 		}
 		setRefreshing(false);
 	};
@@ -120,8 +128,10 @@ const StatsScreen = ({ route }) => {
 			.single();
 		if (validateObject(error) && data !== null) {
 			console.error(error);
+			setOffline(true);
 		} else if (validateObject(data) && validateString(data.category)) {
 			setUserPrefCategory(data.category);
+			setOffline(false);
 		}
 		setRefreshing(false);
 	};
@@ -141,7 +151,7 @@ const StatsScreen = ({ route }) => {
 	}, [isFocused]);
 
 	const toMatrix = (objectsArray) => {
-		const matrix = [];
+		let matrix = [];
 		const arrayLength = objectsArray.length;
 		for (let i = 0; i < arrayLength; i++) {
 			const row = [
@@ -169,59 +179,73 @@ const StatsScreen = ({ route }) => {
 						/>
 					}
 				>
-					<View>
-						<Text style={{ ...style.text, ...style.title }}>
-							Best 5 {appName} Players
-						</Text>
-						{validateArray(bestFiveUsersMatrix, 0) ? (
-							<StatsTable matrix={bestFiveUsersMatrix} />
-						) : null}
-					</View>
-					<View>
-						<Text style={{ ...style.text, ...style.title }}>
-							Your {appName} activity
-						</Text>
-						{validateArray(quizzesDays, 0) &&
-						validateString(userUpdatedDate) ? (
-							<StatsCalendar
-								data={quizzesDays}
-								user={user}
-								userUpdatedDate={userUpdatedDate}
-							/>
-						) : null}
-					</View>
-					<View>
-						<Text style={{ ...style.text, ...style.title }}>
-							Last seven days quizzes
-						</Text>
-						<ChartsPicker setSelectedChart={setSelectedChart} />
-						{validateArray(userLastSevenDaysQuizzes, 7) ? (
-							<View>
-								{selectedChart === CHARTTYPES.barChart ? (
-									<StatsBarChart data={userLastSevenDaysQuizzes} />
-								) : selectedChart === CHARTTYPES.lineChart ? (
-									<StatsLineChart data={userLastSevenDaysQuizzes} />
-								) : selectedChart === CHARTTYPES.horizontalBarChart ? (
-									<StatsHorizontalBarChart
-										data={userLastSevenDaysQuizzes}
-									/>
-								) : selectedChart === CHARTTYPES.pieChart ? (
-									<StatsPieChart data={userLastSevenDaysQuizzes} />
-								) : (
-									<StatsBarChart data={userLastSevenDaysQuizzes} />
-								)}
-							</View>
-						) : null}
-					</View>
-					{validateString(userSub) && validateInteger(userSubDays, 1) ? (
-						<StatsFooter
-							userSub={userSub}
-							userSubDays={userSubDays}
-							userPrefCategory={userPrefCategory}
-						/>
-					) : offline ? (
+					{offline ? (
 						<Offline />
-					) : null}
+					) : (
+						<View>
+							<View>
+								<Text style={{ ...style.text, ...style.title }}>
+									Best 5 {appName} Players
+								</Text>
+								{validateArray(bestFiveUsersMatrix, 0) ? (
+									<StatsTable matrix={bestFiveUsersMatrix} />
+								) : null}
+							</View>
+							<View>
+								<Text style={{ ...style.text, ...style.title }}>
+									Your {appName} activity
+								</Text>
+								{validateArray(quizzesDays, 0) &&
+								validateString(userUpdatedDate) ? (
+									<StatsCalendar
+										data={quizzesDays}
+										user={user}
+										userUpdatedDate={userUpdatedDate}
+									/>
+								) : null}
+							</View>
+							<View>
+								<Text style={{ ...style.text, ...style.title }}>
+									Last seven days quizzes
+								</Text>
+								<ChartsPicker setSelectedChart={setSelectedChart} />
+								{validateArray(userLastSevenDaysQuizzes, 7) ? (
+									<View>
+										{selectedChart === CHARTTYPES.barChart ? (
+											<StatsBarChart
+												data={userLastSevenDaysQuizzes}
+											/>
+										) : selectedChart === CHARTTYPES.lineChart ? (
+											<StatsLineChart
+												data={userLastSevenDaysQuizzes}
+											/>
+										) : selectedChart ===
+										  CHARTTYPES.horizontalBarChart ? (
+											<StatsHorizontalBarChart
+												data={userLastSevenDaysQuizzes}
+											/>
+										) : selectedChart === CHARTTYPES.pieChart ? (
+											<StatsPieChart
+												data={userLastSevenDaysQuizzes}
+											/>
+										) : (
+											<StatsBarChart
+												data={userLastSevenDaysQuizzes}
+											/>
+										)}
+									</View>
+								) : null}
+							</View>
+							{validateString(userSub) &&
+							validateInteger(userSubDays, 1) ? (
+								<StatsFooter
+									userSub={userSub}
+									userSubDays={userSubDays}
+									userPrefCategory={userPrefCategory}
+								/>
+							) : null}
+						</View>
+					)}
 				</ScrollView>
 			</View>
 		</SafeAreaView>

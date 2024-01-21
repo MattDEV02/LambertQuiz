@@ -19,7 +19,8 @@ const Offline = () => {
 					fontSize: 26,
 				}}
 			>
-				You are offline, you must connect to the Internet first!
+				Connection not established, perhaps you are offline, try connecting
+				to the Internet.
 			</Text>
 		</View>
 	);
