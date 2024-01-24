@@ -583,7 +583,7 @@ I am the only author of this beatiful app 😉
 
   
 
-<img title="LambertQuiz ER model" alt="LambertQuiz ER model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/ER_model2.jpeg" width="100%">
+<img title="LambertQuiz ER model" alt="LambertQuiz ER model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/ER_model3.jpeg" width="100%">
 
    
 
@@ -594,9 +594,13 @@ I am the only author of this beatiful app 😉
   
   
 
-<img title="LambertQuiz Relational model" alt="LambertQuiz Relational model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/relational_model2.jpeg" width="100%">
+<img title="LambertQuiz Relational model" alt="LambertQuiz Relational model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/relational_model3.jpeg" width="100%">
 
   
+## BCNF functional dependencies 👨‍🎓
+
+
+<img title="LambertQuiz Functional dependencies BCNF" alt="LambertQuiz Relational model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/functional_dependencies.jpeg" width="100%">
 
   
 

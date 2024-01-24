@@ -14,6 +14,7 @@ export const storeUser = async (email, password, username) => {
 	);
 	if (validateObject(error)) {
 		console.error(error);
+		return false;
 	}
 	if (validateBoolean(data) && !data) {
 		const { error } = await supabase
