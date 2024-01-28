@@ -133,7 +133,7 @@ npm  start
 npm run all
 ```
 
-## Some code examples
+## Some code examples 🤖
 
 ### `App.js`
 
