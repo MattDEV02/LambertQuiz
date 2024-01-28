@@ -422,29 +422,22 @@ I am the only author of this beatiful app 😉
 
 ## Technologies used 🧑‍💻
 
--  **Javascript ES6**
+| *Name* | *Version* |
+|:-----------:|:---------:|
+| Javascript| ES6  |
+| React native| 0.72.6 |  
+| NodeJS | 20.4.0|
+| NPM | 9.7.2|
+| PostgreSQL |16.0|
+| Visual Studio Code |1.85|
+| Altervista |//|
+|Bootstrap| 5|
+|HTML| 5|
+|CSS| 4.15|
+|Markdown| //|
+|Windows| 11|
 
--  **React native 0.72.6**
 
--  **NodeJS 20.4.0**
-
--  **NPM 9.7.2**
-
--  **PostgreSQL 16.0**
-
--  **Visual Studio Code 1.85**
-
--  **Supabase 1.0**
-
--  **Altervista hosting**
-
--  **Bootstrap 5**
-
--  **HTML 5**
-
--  **CSS 4.15**
-
--  **Windows 11**
 
 ## Project structure 🏠
 
