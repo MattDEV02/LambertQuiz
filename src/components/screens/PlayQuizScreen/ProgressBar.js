@@ -39,7 +39,7 @@ const ProgressBar = ({
 		return () => {
 			clearInterval(countInterval);
 		};
-	}, [progressBarFinished, openedQuiz, tryAgainButNotProgressBarFinished]); 
+	}, [progressBarFinished, openedQuiz, tryAgainButNotProgressBarFinished]);
 
 	useEffect(() => {
 		if (openedQuiz && !gameFinished) {
@@ -62,7 +62,9 @@ const ProgressBar = ({
 		if (tryAgain) {
 			reset();
 			if (!progressBarFinished) {
-				setTryAgainButNotProgressBarFinished(!tryAgainButNotProgressBarFinished);
+				setTryAgainButNotProgressBarFinished(
+					!tryAgainButNotProgressBarFinished,
+				);
 			}
 		}
 	}, [tryAgain, openedQuiz]);
@@ -103,8 +105,8 @@ const ProgressBar = ({
 	});
 
 	return (
-		<View style={style.container}>
-			<View style={style.progressBar}>
+		<View style={styles.container}>
+			<View style={styles.progressBar}>
 				<Animated.View
 					style={{
 						...StyleSheet.absoluteFill,
@@ -118,7 +120,7 @@ const ProgressBar = ({
 	);
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		backgroundColor: COLORS.white,
 	},

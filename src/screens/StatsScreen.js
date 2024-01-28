@@ -33,7 +33,7 @@ const StatsScreen = ({ route }) => {
 	const isFocused = useIsFocused();
 
 	const user = route.params.user;
-
+	
 	const userId = user.user_id;
 
 	const userSub = moment(user.email_confirmed_at).format("DD/MM/YYYY");
@@ -184,7 +184,7 @@ const StatsScreen = ({ route }) => {
 					) : (
 						<View>
 							<View>
-								<Text style={{ ...style.text, ...style.title }}>
+								<Text style={{ ...styles.text, ...styles.title }}>
 									Best 5 {appName} Players
 								</Text>
 								{validateArray(bestFiveUsersMatrix, 0) ? (
@@ -192,7 +192,7 @@ const StatsScreen = ({ route }) => {
 								) : null}
 							</View>
 							<View>
-								<Text style={{ ...style.text, ...style.title }}>
+								<Text style={{ ...styles.text, ...styles.title }}>
 									Your {appName} activity
 								</Text>
 								{validateArray(quizzesDays, 0) &&
@@ -205,7 +205,7 @@ const StatsScreen = ({ route }) => {
 								) : null}
 							</View>
 							<View>
-								<Text style={{ ...style.text, ...style.title }}>
+								<Text style={{ ...styles.text, ...styles.title }}>
 									Last seven days quizzes
 								</Text>
 								<ChartsPicker setSelectedChart={setSelectedChart} />
@@ -252,7 +252,7 @@ const StatsScreen = ({ route }) => {
 	);
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	text: { margin: 3.5, textAlign: "center", fontWeight: "bold" },
 	title: {
 		fontSize: 24,

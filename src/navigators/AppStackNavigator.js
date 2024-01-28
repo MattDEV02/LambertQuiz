@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { LogBox } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { supabase } from "../app/lib/supabase-client";
 import {
@@ -26,6 +27,9 @@ import { APPROUTES } from "../constants/routeNames";
 const Drawer = createDrawerNavigator();
 
 const AppStackNavigator = ({ sessionUser }) => {
+	LogBox.ignoreLogs([
+		"Non-serializable values were found in the navigation state",
+	]);
 	const [user, setUser] = useState(sessionUser);
 	const [userReady, setUserReady] = useState(false);
 	const [offline, setOffline] = useState(false);
@@ -87,7 +91,10 @@ const AppStackNavigator = ({ sessionUser }) => {
 						fontSize: labelFontSize,
 					},
 				}}
-				initialParams={{ user }}
+				initialParams={{
+					user: user,
+					setUser: setUser,
+				}}
 			/>
 			<Drawer.Screen
 				name={APPROUTES.stats}

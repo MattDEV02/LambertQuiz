@@ -71,10 +71,10 @@ const AccountOption = ({
 
 	return (
 		<TouchableOpacity
-			style={style.touchableOpacity}
+			style={styles.touchableOpacity}
 			onPress={() => handleOnPress()}
 		>
-			<Text style={{ ...style.text, color: getOptionColor() }}>
+			<Text style={{ ...styles.text, color: getOptionColor() }}>
 				{accountOption}
 			</Text>
 			<MaterialIcons
@@ -86,7 +86,7 @@ const AccountOption = ({
 	);
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	touchableOpacity: {
 		flexDirection: "row",
 		alignItems: "center",

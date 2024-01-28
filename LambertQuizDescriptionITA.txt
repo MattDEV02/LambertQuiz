@@ -1,0 +1,28 @@
+LambertQuiz
+
+
+LambertQuiz è un'app mobile multipiattaforma basata su React Native che offre quiz interattivi e a tempo su vari argomenti, tra cui matematica, scienze, storia, geografia e altro ancora.
+
+Ogni persona dotata di una email può diventare un Utente LambertQuiz creando un proprio Account su tale App con tanto di username e password. 
+Una volta creato il proprio Account LambertQuiz personale l'Utente potrà effettuare il login ed iniziare a giocare!
+
+N.B. = Sia nella sezione di registrazione che di login tutti i campi sono soggetti a rigidi controlli sia lato frontend (con tanto di colori) che backend,     mentre la password viene salvata nel Database (relazionale) in versione crittografata. 
+
+Post-login l'Utente sarà catapultato nella home dell'app LambertQuiz dove potrà vedrere una lunga lista di quiz ben descritti da scegliere per giocare con essi e un drawer-menu che consenterà di accedere alle altre sezioni (home, account, help, stats e logout). 
+Dopo aver scelto un quiz l'utente potrà rispondere ad esattamente 5 domanfde entro 50 secondi (10 secondi a domanda), tempo dettato da una progress bar dinamica (più il tempo avanza e più la progress bar cambia colore passando da verde, giallo, arancione e infine rosso!); ogni domanda ha esattamente 4 opzioni, peccato che solo una si queste 4 è giusta, infatti se l'utente indovina la risposta LambertQuiz produrrà un bel suono, se la toppa produrrà un suono stridulo e se salra la domanda non succederà un bel niente. Finito il quiz l'Utente darà invio (se non lo fa ci penserà LambertQuiz una volta scaduto il tempo a disposizione) e comparirà un messaggio che riporterà domande corrette, errate, saltate e il tempo in secondi che ci ha messo per completare il quiz, il tutto condito da un suono di vittoria se becca almeno 3 risposte su 5 e di sconfitta altrimenti; in ogni caso l'Utente se vuole potrà subito scegliere se rifare da capo il quiz o se ritornare nella home per sceglierne un altro oppure per girovagare nelle altre sezioni. 
+
+Nella sezione account invece, l'Utente potrà (volendo ovviamente) cambiare il proprio username (ovviamente con i dovuti controlli), cambiare la propria password (anche qui con i dovuti controlli), cancellare il proprio Account su LambertQuiz e andare nella sezione stats.
+
+La sezione stats contiene molte cose: 1 tabella (con tooltip) contenente i migliori 5 giocatori di LambertQuiz accompagnati dalle proprie statistiche di gioco, 1 un calendario dinamico e interattivo che traccia l'attività dell'Utente su LambertQuiz (contiene la data d'iscrizione dell'Utente, l'eventuale data d'aggiornamento Account e le evenutali date in cui l'utente ha giocato con LambertQuiz), ben 4 grafici dinamici e interattivi (a barre 3D, area-lineare, a barre orizzontali con tanto di linee e a torta) selezionabili tramite un simpatico menu a tendina, infine nel footer abbiamo 2 semplici scritte, la prima ci dice da quanti giorni l'Utente è iscritto all'app LambertQuiz e la seconda riporta la categoria di Quiz preferita dall'Utente.
+
+La sezione help è semplice quanto carina, infatti contiene una lista di 15 faq-accordion espandibili e contraibili contenenti domande e relative risposte relative all'app LambertQuiz.
+
+Infine l'Utente dal drawer-menu potrà anche cliccare su logout per abbandonare l'attuale sessione.
+
+N.B. = Sul link Github è possibile andare nella sezione "release" del repo è scaricare l'ultima versione di LambertQuiz (attualmente solo in APK).
+
+N.B. = Il motore dell'app è il servizio SupaBase.
+
+
+Autore: Lambertucci Matteo, matricola 578219.
+Ultima Modifica: 21/01/2024 21:18.

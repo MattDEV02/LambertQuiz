@@ -10,6 +10,7 @@ import {
 import { supabase } from "../app/lib/supabase-client";
 import Quiz from "../components/screens/HomeScreen/Quiz";
 import FormInput from "../components/shared/form/FormInput";
+import Offline from "../components/shared/Offline";
 import { COLORS } from "../constants/theme";
 import {
 	validateObject,
@@ -20,11 +21,11 @@ import { playClickSound } from "../utils/sounds";
 
 const HomeScreen = ({ navigation, route }) => {
 	const user = route.params.user;
-
 	const [quizzes, setQuizzes] = useState([]);
 	const [quiz, setQuiz] = useState("");
 	const [searching, setSearching] = useState(false);
 	const [refreshing, setRefreshing] = useState(false);
+	const [offline, setOffline] = useState(false);
 
 	const getQuizzes = async () => {
 		setRefreshing(true);
@@ -35,8 +36,10 @@ const HomeScreen = ({ navigation, route }) => {
 		if (validateObject(error)) {
 			console.error(error);
 			setRefreshing(false);
+			setOffline(true);
 		} else if (validateArray(data, 1)) {
 			setQuizzes(data);
+			setOffline(false);
 		}
 		setRefreshing(false);
 	};
@@ -49,8 +52,10 @@ const HomeScreen = ({ navigation, route }) => {
 		if (validateObject(error)) {
 			console.error(error);
 			setRefreshing(false);
+			setOffline(true);
 		} else if (validateArray(data, 0)) {
 			setQuizzes(data);
+			setOffline(false);
 		} else if (!validateString(quiz)) {
 			setSearching(false);
 			getQuizzes();
@@ -88,11 +93,11 @@ const HomeScreen = ({ navigation, route }) => {
 					{/* Welcome title */}
 					<View
 						style={{
-							...style.container,
+							...styles.container,
 							marginTop: 27.5,
 						}}
 					>
-						<Text style={{ ...style.text, fontSize: 29 }}>
+						<Text style={{ ...styles.text, fontSize: 29 }}>
 							Welcome{" "}
 							{validateObject(user) && validateString(user.username)
 								? user.username
@@ -100,9 +105,8 @@ const HomeScreen = ({ navigation, route }) => {
 							!
 						</Text>
 					</View>
-
 					{/* Quiz search form */}
-					<View style={style.container}>
+					<View style={styles.container}>
 						<FormInput
 							placeholderText={"Search for a Quiz"}
 							value={quiz}
@@ -150,11 +154,13 @@ const HomeScreen = ({ navigation, route }) => {
 								)}
 							/>
 						) : searching ? (
-							<View style={{ ...style.container, marginTop: 47 }}>
-								<Text style={{ ...style.text, color: "#EF0909" }}>
+							<View style={{ ...styles.container, marginTop: 47 }}>
+								<Text style={{ ...styles.text, color: "#EF0909" }}>
 									NO Quizzes found.
 								</Text>
 							</View>
+						) : offline ? (
+							<Offline />
 						) : null}
 					</View>
 				</View>
@@ -163,7 +169,7 @@ const HomeScreen = ({ navigation, route }) => {
 	);
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		alignItems: "center",

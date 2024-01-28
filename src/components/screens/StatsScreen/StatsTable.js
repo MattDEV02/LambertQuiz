@@ -33,7 +33,7 @@ const StatsTable = ({ matrix }) => {
 					onPressOut={() => setTooltipVisible(false)}
 				>
 					<View>
-						<Table borderStyle={style.borderStyle}>
+						<Table borderStyle={styles.borderStyle}>
 							<Row
 								data={[
 									"n°",
@@ -44,21 +44,21 @@ const StatsTable = ({ matrix }) => {
 									"Total quizzes",
 									"% Completition",
 								]}
-								style={style.head}
+								style={styles.head}
 								textStyle={{
-									...style.text,
+									...styles.text,
 									color: COLORS.white,
 								}}
 								widthArr={widthArr}
 							/>
 						</Table>
-						<ScrollView style={style.dataWrapper}>
+						<ScrollView style={styles.dataWrapper}>
 							{matrix.length > 0 ? (
-								<Table borderStyle={style.borderStyle}>
+								<Table borderStyle={styles.borderStyle}>
 									<Rows
 										data={matrix}
-										style={style.row}
-										textStyle={{ ...style.text, fontSize: 15 }}
+										style={styles.row}
+										textStyle={{ ...styles.text, fontSize: 15 }}
 										widthArr={widthArr}
 									/>
 								</Table>
@@ -66,7 +66,7 @@ const StatsTable = ({ matrix }) => {
 								<View style={{ marginTop: 12.5, width: "70%" }}>
 									<Text
 										style={{
-											...style.text,
+											...styles.text,
 											fontSize: 16,
 										}}
 									>
@@ -82,7 +82,7 @@ const StatsTable = ({ matrix }) => {
 	);
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	borderStyle: { borderWidth: 1, borderColor: COLORS.black },
 	head: { height: 35, backgroundColor: COLORS.primary, color: COLORS.white },
 	dataWrapper: { marginTop: -1 },

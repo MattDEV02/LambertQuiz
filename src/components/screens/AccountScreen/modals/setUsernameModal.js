@@ -13,7 +13,8 @@ const SetUsernameModal = ({
 	isModalVisible = false,
 	setIsModalVisible,
 	user,
-	setUserUsername,
+	setUser,
+	setUsername,
 }) => {
 	const username = user.username;
 	const [oldUsername, setOldUsername] = useState(username);
@@ -58,15 +59,17 @@ const SetUsernameModal = ({
 						[
 							{
 								text: "Yes",
-								onPress: () => {
-									if (updateUserUsername(oldUsername, newUsername)) {
+								onPress: async () => {
+									const updateUserUsernameResult =
+										await updateUserUsername(
+											oldUsername,
+											newUsername,
+										);
+									if (updateUserUsernameResult) {
 										setOldUsername(newUsername);
-										setUserUsername({
-											user: {
-												...user,
-												username: newUsername,
-											},
-										});
+										user.username = newUsername;
+										setUser(user);
+										setUsername(newUsername);
 										setUsernameUpdated(true);
 										Window.alert(
 											"Username updated",
@@ -126,7 +129,7 @@ const SetUsernameModal = ({
 				style={{
 					flex: 1,
 					backgroundColor: COLORS.black + "90",
-					...style.centeredContainer,
+					...styles.centeredContainer,
 				}}
 			>
 				<View
@@ -164,7 +167,7 @@ const SetUsernameModal = ({
 						labelText="Submit"
 						handleOnPress={() => handleOnPress()}
 						style={{
-							...style.centeredContainer,
+							...styles.centeredContainer,
 							paddingVertical: 11,
 							width: "100%",
 							backgroundColor: COLORS.primary,
@@ -182,7 +185,7 @@ const SetUsernameModal = ({
 	);
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	centeredContainer: {
 		flexDirection: "row",
 		alignItems: "center",

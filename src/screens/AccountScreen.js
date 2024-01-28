@@ -9,7 +9,9 @@ import { removeUser } from "../utils/auth";
 import { COLORS, ACCOUNTOPTIONS } from "../constants/theme";
 
 const AccountScreen = ({ navigation, route }) => {
-	const user = route.params.user;
+	const user = route.params.user,
+		setUser = route.params.setUser;
+	const [username, setUsername] = useState(user.username);
 	const [isSetUsernameModalVisible, setIsSetUsernameModalVisible] =
 		useState(false);
 	const [isSetPasswordModalVisible, setIsSetPasswordModalVisible] =
@@ -25,7 +27,7 @@ const AccountScreen = ({ navigation, route }) => {
 			}}
 		>
 			{/* LOGO */}
-			<View style={{ ...style.container, marginTop: 39 }}>
+			<View style={{ ...styles.container, marginTop: 39 }}>
 				<Logo />
 				<Text
 					style={{
@@ -35,7 +37,7 @@ const AccountScreen = ({ navigation, route }) => {
 						marginTop: 35,
 					}}
 				>
-					{user.username}
+					{username}
 				</Text>
 				<Text
 					style={{
@@ -58,7 +60,8 @@ const AccountScreen = ({ navigation, route }) => {
 					isModalVisible={isSetUsernameModalVisible}
 					setIsModalVisible={setIsSetUsernameModalVisible}
 					user={user}
-					setUserUsername={navigation.setParams}
+					setUser={setUser}
+					setUsername={setUsername}
 				/>
 				<AccountOption
 					accountOption={ACCOUNTOPTIONS.setPassword}
@@ -84,7 +87,7 @@ const AccountScreen = ({ navigation, route }) => {
 	) : null;
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		alignItems: "center",
 		justifyContent: "center",

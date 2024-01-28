@@ -5,7 +5,9 @@ const Logo = () => {
 	return (
 		<TouchableOpacity
 			onPress={() =>
-				Linking.openURL("https://matteolambertucci.altervista.org/logo.png")
+				Linking.openURL(
+					"https://matteolambertucci.altervista.org/lambertquiz/logo.png",
+				)
 			}
 		>
 			<Image

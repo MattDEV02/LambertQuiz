@@ -1,26 +1,19 @@
-  
-
 # LambertQuiz
-
-  
 
 <p align="center">
 <img  title="LambertQuiz Logo"  alt="LambertQuiz Logo"  width="19.5%"  src="./assets/images/logo.png">
 </p>
 
+LambertQuiz is a React Native-based and cross-platform mobile app that offers interactive and timed quizzes on various topics.
 
-LambertQuiz is a React Native-based and cross-platform mobile app that offers interactive and timed quizzes on various topics.  
-
-#### P.S. = Go to Releases section and download only the latest release (the fourth one).  
+#### P.S. = Go to Releases section and download only the latest release (the fourth one).
 
 ## Key Features ✨
 
-  
 -  **Quiz on various topics:** Users can choose from a wide range of topics for the quiz, including mathematics, science, history, geographics, and more.
 
 -  **Game Modes:** Timed gameplay with final scoring.
- 
-  
+
 -  **Results Display:** Shows the final score and correct / incorrect answers.
 
 -  **Dynamic sounds:** Quizzes with beatiful sounds!
@@ -29,12 +22,10 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers in
 
 -  **Language:** There is only the English language.
 
-  
 ## Screenshots 📸
 
-  
-
 ## `Sign Up page`
+
 <p align="center">
 <img  title="LambertQuiz RegScreen screenshoot 1"  alt="LambertQuiz RegScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen11.jpeg"  width="35%">
 <img  title="LambertQuiz RegScreen screenshoot 2"  alt="LambertQuiz RegScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen22.jpeg"  width="35%">
@@ -42,8 +33,8 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers in
 <img  title="LambertQuiz RegScreen screenshoot 3"  alt="LambertQuiz RegScreen screenshoot 4"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signup/signupscreen44.jpeg"  width="35%">
 </p>
 
-
 ## `Sign In page`
+
 <p align="center">
 	<img  title="LambertQuiz LoginScreen screenshoot 1"  alt="LambertQuiz LoginScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signin/signinscreen11.jpeg"  width="32.75%">
 	<img  title="LambertQuiz LoginScreen screenshoot 2"  alt="LambertQuiz LoginScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/signin/signinscreen22.jpeg"  width="32.75%">
@@ -51,6 +42,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers in
 </p>
 
 ## `Home page`
+
 <p align="center">
 	<img  title="LambertQuiz HomeScreen screenshoot 1"  alt="LambertQuiz HomeScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/home/homescreen1.jpeg"  width="32.75%">
 	<img  title="LambertQuiz HomeScreen screenshoot 2"  alt="LambertQuiz HomeScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/home/homescreen2.jpeg"  width="32.75%">
@@ -58,6 +50,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers in
 </p>
 
 ## `Play Quiz page`
+
 <p align="center">
 	<img  title="LambertQuiz PlayQuizScreen screenshoot 1"  alt="LambertQuiz PlayQuizScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquiz/playquizscreen11.jpeg"  width="32.75%">
 <img  title="LambertQuiz PlayQuizScreen screenshoot 2"  alt="LambertQuiz PlayQuizScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/playquiz/playquizscreen222.jpeg"  width="32.75%">
@@ -66,6 +59,7 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers in
 </p>
 
 ## `Account page`
+
 <p align="center"> 
 <img  title="LambertQuiz AccountScreen screenshoot 1"  alt="LambertQuiz AccountScreen screenshoot 1"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/account/accountscreen1.jpeg"  width="35%">
 <img  title="LambertQuiz AccountScreen screenshoot 2"  alt="LambertQuiz AccountScreen screenshoot 2"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/account/accountscreen22.jpeg"  width="35%">
@@ -88,44 +82,32 @@ LambertQuiz is a React Native-based and cross-platform mobile app that offers in
 	<img  title="LambertQuiz StatsScreen screenshoot 3"  alt="LambertQuiz StatsScreen screenshoot 3"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statscreen33.jpeg"  width="35%">
 	<img  title="LambertQuiz StatsScreen screenshoot 4"  alt="LambertQuiz StatsScreen screenshoot 4"  src="https://matteolambertucci.altervista.org/lambertquiz/screenshoots/stats/statsscreen44.jpeg"  width="35%">
 </p>
-  
 
 ## Installation 🚀 and usage⚡
 
-  
-
 ### Requirements
 
-  
+-  Node.js
 
-- Node.js
+-  React Native
 
-  
-
-- React Native
-
-  
-
-- NPM or Yarn
+-  NPM or Yarn
 
 ### Installation Instructions
-  
 
 1. Clone the repository:
-  
 
 ```bash
 git clone https://github.com/MattDEV02/LambertQuiz.git
 ```
-  
+
 2. Navigate to the project directory:
-  
 
 ```bash
 cd LambertQuiz
 ```
 
-3. Install dependencies:  
+3. Install dependencies:
 
 ```bash
 npm install
@@ -135,16 +117,15 @@ npm install
 # yarn install
 ```
 
-4. Start the application:  
+4. Start the application:
 
 ```bash
 npm  start
- 
+
 # or using yarn
 
 # yarn start
 ```
-  
 
 **P.S. = You can do both third and fourth step with "my comand script":**
 
@@ -154,14 +135,9 @@ npm run all
 
 ## Some code examples
 
-  
-
 ### `App.js`
 
-  
-
 ```javascript
-
 import React, { useState, useEffect } from "react";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
@@ -201,18 +177,11 @@ const App = () => {
 };
 
 export default App;
-  
-
 ```
-
-  
 
 ### `HomeScreen.js`
 
-  
-
 ```javascript
-
 import React, { useState, useEffect } from "react";
 import {
 	View,
@@ -235,7 +204,7 @@ import { playClickSound } from "../utils/sounds";
 
 const HomeScreen = ({ navigation, route }) => {
 	const user = route.params.user;
-	
+
 	const [quizzes, setQuizzes] = useState([]);
 	const [quiz, setQuiz] = useState("");
 	const [searching, setSearching] = useState(false);
@@ -304,11 +273,11 @@ const HomeScreen = ({ navigation, route }) => {
 					{/* Welcome title */}
 					<View
 						style={{
-							...style.container,
+							...styles.container,
 							marginTop: 27.5,
 						}}
 					>
-						<Text style={{ ...style.text, fontSize: 29 }}>
+						<Text style={{ ...styles.text, fontSize: 29 }}>
 							Welcome{" "}
 							{validateObject(user) && validateString(user.username)
 								? user.username
@@ -318,7 +287,7 @@ const HomeScreen = ({ navigation, route }) => {
 					</View>
 
 					{/* Quiz search form */}
-					<View style={style.container}>
+					<View style={styles.container}>
 						<FormInput
 							placeholderText={"Search for a Quiz"}
 							value={quiz}
@@ -366,8 +335,8 @@ const HomeScreen = ({ navigation, route }) => {
 								)}
 							/>
 						) : searching ? (
-							<View style={{ ...style.container, marginTop: 47 }}>
-								<Text style={{ ...style.text, color: "#EF0909" }}>
+							<View style={{ ...styles.container, marginTop: 47 }}>
+								<Text style={{ ...styles.text, color: "#EF0909" }}>
 									NO Quizzes found.
 								</Text>
 							</View>
@@ -379,7 +348,7 @@ const HomeScreen = ({ navigation, route }) => {
 	);
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		alignItems: "center",
@@ -393,17 +362,11 @@ const style = StyleSheet.create({
 });
 
 export default HomeScreen;
-
 ```
-
-  
 
 ### `HelpScreen.js`
 
- 
-
 ```javascript
-
 import React from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import AccordionItem from "../components/screens/HelpScreen/AccordionItem";
@@ -417,7 +380,7 @@ const HelpScreen = () => {
 			question: "",
 			response: "",
 		},
-			];
+	];
 	return (
 		<SafeAreaView>
 			<ScrollView>
@@ -435,177 +398,104 @@ const HelpScreen = () => {
 };
 
 export default HelpScreen;
-
 ```
-
-  
 
 ## Author ©️
 
- 
-
 Made with ❤️ and a lot of hard work 🏋️‍♂️ by:
 
- 
+-  **Matteo Lambertucci (matricola 578219, Roma TRE)**
 
-- **Matteo Lambertucci (matricola 578219, Roma TRE)**
+   -  [GitHub Profile (MattDEV02)](https://github.com/MattDEV02)
 
-	- [GitHub Profile (MattDEV02)](https://github.com/MattDEV02)
+   -  [Linkedin Profile](https://www.linkedin.com/in/matteo-lambertucci-134073211)
 
-	- [Linkedin Profile](https://www.linkedin.com/in/matteo-lambertucci-134073211)
+   -  [Instagram Profile (_matte.02_)](https://www.instagram.com/_matte.02_/)
 
-	- [Instagram Profile (_matte.02_)](https://www.instagram.com/_matte.02_/)
+   -  [Moodle Profile](https://ingegneriacivileinformaticatecnologieaeronautiche.el.uniroma3.it/user/profile.php?id=5522)
 
-	- [Moodle Profile](https://ingegneriacivileinformaticatecnologieaeronautiche.el.uniroma3.it/user/profile.php?id=5522)
+   -  [mat.lambertucci@stud.uniroma3.it](mat.lambertucci@stud.uniroma3.it)
 
-	- [mat.lambertucci@stud.uniroma3.it](mat.lambertucci@stud.uniroma3.it)
-
-	- [matteolambertucci3@gmail.com](matteolambertucci3@gmail.com)
-
-  
+   -  [matteolambertucci3@gmail.com](matteolambertucci3@gmail.com)
 
 I am the only author of this beatiful app 😉
 
-  
-
 ## Technologies used 🧑‍💻
 
-  
-- **Javascript ES6**
+-  **Javascript ES6**
 
+-  **React native 0.72.6**
 
-- **React native 0.72.6**
-  
+-  **NodeJS 20.4.0**
 
-- **NodeJS 20.4.0**
+-  **NPM 9.7.2**
 
+-  **PostgreSQL 16.0**
 
-- **NPM 9.7.2**
+-  **Visual Studio Code 1.85**
 
+-  **Supabase 1.0**
 
-- **PostgreSQL 16.0**
+-  **Altervista hosting**
 
+-  **Bootstrap 5**
 
-- **Visual Studio Code 1.85**
+-  **HTML 5**
 
+-  **CSS 4.15**
 
-- **Supabase 1.0**
-
-
-- **Altervista hosting**
-
-
-- **Bootstrap 5**
-
-
-- **HTML 5**
-
-
-- **CSS 4.15**
-
- 
-- **Windows 11**
-
-  
-
+-  **Windows 11**
 
 ## Project structure 🏠
 
-  
+-  **`src/`**: The main folder for the application source code.
 
-- **`src/`**: The main folder for the application source code.
+   -  **`src/components/`**: Contains all reusable components of the application.
 
-  
+   -  **`src/screens/`**: Primary screens of the application, each associated with specific functionalities.
 
-	- **`src/components/`**: Contains all reusable components of the application.
+   -  **`src/navigators/`**: Configuration and management of application navigation, using React Navigation or a similar library.
 
-	  
+   -  **`src/utils/`**: Utility functions, or helpers used across multiple parts of the code.
 
-	- **`src/screens/`**: Primary screens of the application, each associated with specific functionalities.
+   -  **`src/constants/`**: Utility constants, or helpers used across multiple parts of the code.
 
-	  
+   -  **`src/App.js`**: The main component of this project, it gets rendered in the index.js file (see below).
 
-	- **`src/navigators/`**: Configuration and management of application navigation, using React Navigation or a similar library.
+-  **`assets/`**: Images, fonts, or other multimedia assets used in the application.
 
-	  
+-  **`index.js`**: The main entry of this project.
 
-	- **`src/utils/`**: Utility functions, or helpers used across multiple parts of the code.
+-  **`lambertquiz.sql`**: A SQL (PostGreSQL) script file that allows to create the database that I used for this App.
 
-	  
+-  **`package.json`**: JSON metadata file that to define various properties and configurations related to the project, including its dependencies, scripts, version information, and other metadata.
 
-	- **`src/constants/`**: Utility constants, or helpers used across multiple parts of the code.
-
-	  
-
-	- **`src/App.js`**: The main component of this project, it gets rendered in the index.js file (see below).
-
-  
-
-- **`assets/`**: Images, fonts, or other multimedia assets used in the application.
-
-  
-
-- **`index.js`**: The main entry of this project.
-
-  
-
-- **`lambertquiz.sql`**: A SQL (PostGreSQL) script file that allows to create the database that I used for this App.
-
-  
-
-- **`package.json`**: JSON metadata file that to define various properties and configurations related to the project, including its dependencies, scripts, version information, and other metadata.
-
-  
-
-- **`README.md`**: Markdown documentation of this project.
-
-  
-
-  
+-  **`README.md`**: Markdown documentation of this project.
 
 ## Sources 🤝
 
-  
+-  [Wikipedia](https://it.wikipedia.org/wiki/Pagina_principale)
 
-- [Wikipedia](https://it.wikipedia.org/wiki/Pagina_principale)
+-  [Il Messaggero](https://www.ilmessaggero.it/)
 
-- [Il Messaggero](https://www.ilmessaggero.it/)
+-  [The New York Times](https://www.nytimes.com/)
 
-- [The New York Times](https://www.nytimes.com/)
+-  [Francia Turismo](www.franciaturismo.net)
 
-- [Francia Turismo](www.franciaturismo.net)
-
-- [The Sun](https://www.thesun.co.uk/)
-
-    
+-  [The Sun](https://www.thesun.co.uk/)
 
 ## ER Model 🔢
 
-  
-
 <img title="LambertQuiz ER model" alt="LambertQuiz ER model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/ER_model3.jpeg" width="100%">
-
-   
-
-  
 
 ## Relational model 🔣
 
-  
-  
-
 <img title="LambertQuiz Relational model" alt="LambertQuiz Relational model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/relational_model3.jpeg" width="100%">
 
-  
 ## BCNF functional dependencies 👨‍🎓
-
 
 <img title="LambertQuiz Functional dependencies BCNF" alt="LambertQuiz Relational model" src="https://matteolambertucci.altervista.org/lambertquiz/planning/functional_dependencies.jpeg" width="100%">
 
-  
-
 ## License 🗒️
-
-
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for more details.

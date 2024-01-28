@@ -11,7 +11,7 @@ import {
 	validateObject,
 	validateBoolean,
 } from "../../../../utils/validators";
-import { updateUserPassword } from "../../../../utils/database";
+import { updateUserAuthPassword } from "../../../../utils/auth";
 import { sendEmailForPasswordChanged } from "../../../../utils/mailers";
 
 const SetPasswordModal = ({
@@ -94,8 +94,13 @@ const SetPasswordModal = ({
 						[
 							{
 								text: "Yes",
-								onPress: () => {
-									if (updateUserPassword(user.email, newPassword)) {
+								onPress: async () => {
+									const updateUserAuthPasswordResult =
+										await updateUserAuthPassword(
+											user.email,
+											newPassword,
+										);
+									if (updateUserAuthPasswordResult) {
 										setNewPasswordError(false);
 										setNewPasswordSuccess(true);
 										Window.alert(
@@ -132,7 +137,7 @@ const SetPasswordModal = ({
 				setOldPasswordError(true);
 				setOldPasswordSuccess(false);
 				Window.alert(
-					"Old Password don't match.",
+					"Old Password doesn't match.",
 					"Please, retry with the old password.",
 				);
 			}
@@ -150,7 +155,7 @@ const SetPasswordModal = ({
 				style={{
 					flex: 1,
 					backgroundColor: COLORS.black + "90",
-					...style.centeredContainer,
+					...styles.centeredContainer,
 				}}
 			>
 				<View
@@ -213,7 +218,7 @@ const SetPasswordModal = ({
 						labelText={"Submit"}
 						handleOnPress={() => handleOnPress()}
 						style={{
-							...style.centeredContainer,
+							...styles.centeredContainer,
 							paddingVertical: 11,
 							width: "100%",
 							backgroundColor: COLORS.primary,
@@ -231,7 +236,7 @@ const SetPasswordModal = ({
 	);
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	centeredContainer: {
 		flexDirection: "row",
 		alignItems: "center",

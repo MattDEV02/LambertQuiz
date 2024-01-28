@@ -45,12 +45,11 @@ export const updateUserUsername = async (oldUsername, newUsername) => {
 	return true;
 };
 
-export const updateUserPassword = async (email, newPassword) => {
+export const updateUserDBPassword = async (email, newPassword) => {
 	const { error } = await supabase
 		.from("users")
 		.update({ password: newPassword })
 		.eq("email", email);
-	await supabase.auth.updateUser({ password: newPassword });
 	if (validateObject(error)) {
 		console.error(error);
 		return false;

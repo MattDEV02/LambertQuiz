@@ -40,7 +40,7 @@ const ResultModal = ({
 		>
 			<View
 				style={{
-					...style.container,
+					...styles.container,
 					...{
 						flex: 1,
 						backgroundColor: COLORS.black + "90",
@@ -61,7 +61,7 @@ const ResultModal = ({
 					</Text>
 					<View
 						style={{
-							...style.container,
+							...styles.container,
 							...{
 								justifyContent: "space-between",
 							},
@@ -114,7 +114,7 @@ const ResultModal = ({
 					{/* Try again */}
 					<TouchableOpacity
 						style={{
-							...style.container,
+							...styles.container,
 							...{
 								paddingVertical: buttonsPaddingVertical,
 								width: "100%",
@@ -145,7 +145,7 @@ const ResultModal = ({
 					{/* Go Home */}
 					<TouchableOpacity
 						style={{
-							...style.container,
+							...styles.container,
 							...{
 								paddingVertical: buttonsPaddingVertical,
 								width: "100%",
@@ -179,7 +179,7 @@ const ResultModal = ({
 	);
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		alignItems: "center",

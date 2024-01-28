@@ -4,12 +4,12 @@ import { validateString } from "../../../utils/validators";
 
 const StatsFooter = ({ userSub, userSubDays, userPrefCategory }) => {
 	return (
-		<View style={style.footer}>
-			<Text style={style.footerText}>
+		<View style={styles.footer}>
+			<Text style={styles.footerText}>
 				You are our User since {userSub}, that's {userSubDays}{" "}
 				{userSubDays > 1 ? "days" : "day"} !
 			</Text>
-			<Text style={style.footerText}>
+			<Text style={styles.footerText}>
 				Prefered category:{" "}
 				{validateString(userPrefCategory) ? userPrefCategory : "None"}
 			</Text>
@@ -17,7 +17,7 @@ const StatsFooter = ({ userSub, userSubDays, userPrefCategory }) => {
 	);
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	footer: { marginTop: 16, marginBottom: 35 },
 	footerText: {
 		fontSize: 16,

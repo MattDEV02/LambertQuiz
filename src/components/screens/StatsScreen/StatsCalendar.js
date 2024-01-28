@@ -10,8 +10,8 @@ const StatsCalendar = ({ data, user, userUpdatedDate }) => {
 		userSub = { key: "userSub", color: COLORS.white },
 		userUpd = { key: "userUpd", color: "#CF13A6" };
 	const calendarFormat = "YYYY-MM-DD";
-	const _userSubDate = moment(user.inserted_at).format(calendarFormat),
-		_userUpdatedDate = moment(user.updated_at).format(calendarFormat);
+	const _userSubDate = moment(user.email_confirmed_at).format(calendarFormat),
+		_userUpdatedDate = moment(userUpdatedDate).format(calendarFormat);
 	let markedDates = {};
 	const markedDateObjProperties = {
 		selected: true,
